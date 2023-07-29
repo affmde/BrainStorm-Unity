@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelsData : MonoBehaviour
+public static class LevelsData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public static string	task;
+	public static string	button1;
+	public static string	button2;
+	public static string	button3;
+	public static string	button4;
+	public static List<int>	validOptions;
+	public static List<Level> levelsList;
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public class Level
+{
+	public string		task;
+	public string		button1;
+	public string		button2;
+	public string		button3;
+	public string		button4;
+	public List<int>	validOptions;
 }

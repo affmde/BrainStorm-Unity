@@ -10,9 +10,12 @@ public class ColourButton : MonoBehaviour
 
 	private void Awake()
 	{
-		manager = GameObject.Find("Manager");
+		manager = GameObject.FindGameObjectWithTag("Manager");
 		if (manager)
+		{
+			Debug.Log("Manager found");
 			gm = manager.GetComponent<GameManager>();
+		}
 	}
 
 	public void	HandleClick()

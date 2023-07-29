@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] List<Image> buttons;
 	[SerializeField] Image timerBar;
 	float timer;
-	float timeLimit = 1.0f;
+	float timeLimit = 1.5f;
 	private List<int> list;
 	public bool gameOver;
 	private void Start()
@@ -20,24 +20,25 @@ public class GameManager : MonoBehaviour
 
 	public void PopulateButtons()
 	{
-		Debug.Log("Populate called");
-		for (int i = 0; i < 4; i++)
-		{
-			int random = Random.Range(0, images.Count - 1);
-			while(isRepeated(random))
-				random = Random.Range(0, images.Count - 1);
-			list.Add(random);
-		}
-		for (int i = 0; i < buttons.Count; i++)
-			buttons[i].sprite = images[list[i]];
+		int random = Random.Range(0, LevelsData.levelsList.Count - 1);
+		buttons[0].sprite = GetSprite(LevelsData.levelsList[random].button1);
+		buttons[1].sprite = GetSprite(LevelsData.levelsList[random].button2);
+		buttons[2].sprite = GetSprite(LevelsData.levelsList[random].button3);
+		buttons[3].sprite = GetSprite(LevelsData.levelsList[random].button4);
 	}
 
-	bool isRepeated(int num)
+	private Sprite GetSprite(string color)
 	{
-		for(int i = 0; i < list.Count; i++)
-			if (list[i] == num)
-				return true;
-		return false;
+		if (color == "Blue")
+			return images[0];
+		else if (color == "Green")
+			return images[1];
+		else if (color == "Red")
+			return images[2];
+		else if (color == "White")
+			return images[3];
+		else
+			return images[4];
 	}
 
 	private void Update()
