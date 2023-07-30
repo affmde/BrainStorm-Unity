@@ -6,9 +6,15 @@ using TMPro;
 
 public class LevelBadge : MonoBehaviour
 {
-	[SerializeField] private Image	completedImage;
-	[SerializeField] private Image	lockImage;
-	[SerializeField] private TextMeshProUGUI levelText;
+	[SerializeField] private Image				completedImage;
+	[SerializeField] private Image				lockImage;
+	[SerializeField] private TextMeshProUGUI	levelText;
+	private GameObject							readyPanel;
+
+	private void Awake()
+	{
+		readyPanel = GameObject.FindGameObjectWithTag("ReadyPanel");
+	}
 
 	private void	Start()
 	{
@@ -42,5 +48,10 @@ public class LevelBadge : MonoBehaviour
 			if (PlayerData.player.levelsCompleted[i] == level)
 				return true;
 		return false;
+	}
+
+	public void OpenReadyPanel()
+	{
+		readyPanel.SetActive(true);
 	}
 }

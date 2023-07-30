@@ -485,6 +485,10 @@ PrefabInstance:
       propertyPath: isValid
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2536610380529737492, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
+      propertyPath: buttonId
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3073147490439296053, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_Name
       value: ColorButton (3)
@@ -809,6 +813,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 112949940}
     m_Modifications:
+    - target: {fileID: 2536610380529737492, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
+      propertyPath: buttonId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3073147490439296053, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_Name
       value: ColorButton (2)
@@ -955,6 +963,7 @@ MonoBehaviour:
   - {fileID: 924379149}
   - {fileID: 721185637}
   timerBar: {fileID: 1202397032}
+  taskDescription: {fileID: 781803979}
   gameOver: 0
 --- !u!4 &931389742
 Transform:
@@ -1047,6 +1056,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 112949940}
     m_Modifications:
+    - target: {fileID: 2536610380529737492, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
+      propertyPath: buttonId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3073147490439296053, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_Name
       value: ColorButton (1)
@@ -1235,6 +1248,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 112949940}
     m_Modifications:
+    - target: {fileID: 2536610380529737492, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
+      propertyPath: buttonId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3073147490439296053, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_Name
       value: ColorButton

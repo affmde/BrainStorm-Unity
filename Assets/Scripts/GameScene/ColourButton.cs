@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ColourButton : MonoBehaviour
 {
-	public bool			isValid = true;
-	private GameObject	manager;
-	private GameManager gm;
+	private GameObject				manager;
+	private GameManager				gm;
+	[SerializeField] private int	buttonId;
 
 	private void Awake()
 	{
@@ -22,10 +22,22 @@ public class ColourButton : MonoBehaviour
 	{
 		if (gm)
 		{
-			if (isValid)
+			if (IsButtonValid())
 				gm.PopulateButtons();
 			else
 				gm.gameOver = true;
 		}
+	}
+
+	private bool IsButtonValid()
+	{
+		for(int i = 0; i < LevelsData.levelsList[gm.GetRandom()].validOptions.Count; i++)
+		{
+			if (LevelsData.levelsList[gm.GetRandom()].validOptions[i] == buttonId)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
