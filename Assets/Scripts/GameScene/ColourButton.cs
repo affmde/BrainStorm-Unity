@@ -22,10 +22,10 @@ public class ColourButton : MonoBehaviour
 	{
 		if (gm)
 		{
-			if (IsButtonValid())
-				gm.UpdateGame();
+			if (gm.GetActiveButton() == buttonId)
+				gm.SetActiveButton(0);
 			else
-				gm.gameOver = true;
+				gm.SetActiveButton(buttonId);
 		}
 	}
 

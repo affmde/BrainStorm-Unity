@@ -489,6 +489,10 @@ PrefabInstance:
       propertyPath: buttonId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2918462499242272194, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
+      propertyPath: m_text
+      value: D
+      objectReference: {fileID: 0}
     - target: {fileID: 3073147490439296053, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_Name
       value: ColorButton (3)
@@ -817,6 +821,10 @@ PrefabInstance:
       propertyPath: buttonId
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2918462499242272194, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
+      propertyPath: m_text
+      value: C
+      objectReference: {fileID: 0}
     - target: {fileID: 3073147490439296053, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_Name
       value: ColorButton (2)
@@ -1060,6 +1068,10 @@ PrefabInstance:
       propertyPath: buttonId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2918462499242272194, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
+      propertyPath: m_text
+      value: B
+      objectReference: {fileID: 0}
     - target: {fileID: 3073147490439296053, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_Name
       value: ColorButton (1)
@@ -1126,7 +1138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5436371813762303110, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -281
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 5436371813762303110, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1318,7 +1330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5436371813762303110, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 288
+      value: -276
       objectReference: {fileID: 0}
     - target: {fileID: 5436371813762303110, guid: 06239ff2832e1c6438e32b30c2d3ed6c, type: 3}
       propertyPath: m_AnchoredPosition.y

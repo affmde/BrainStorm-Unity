@@ -5,7 +5,7 @@
 [BUtton3]Green[-Button3]
 [Button4]Red[-Button4]
 [ValidOptions]4[-ValidOptions]
-[TimeLimit]2.0[-TimeLimit]
+[TimeLimit]2.0f[-TimeLimit]
 [Difficulty]1[-Difficulty]
 [EndItem]
 
@@ -16,7 +16,7 @@
 [BUtton3]White[-Button3]
 [Button4]Green[-Button4]
 [ValidOptions]3[-ValidOptions]
-[TimeLimit]2.0[-TimeLimit]
+[TimeLimit]2.0f[-TimeLimit]
 [Difficulty]1[-Difficulty]
 [EndItem]
 
@@ -27,7 +27,7 @@
 [BUtton3]Yellow[-Button3]
 [Button4]Blue[-Button4]
 [ValidOptions]1[-ValidOptions]
-[TimeLimit]2.0[-TimeLimit]
+[TimeLimit]2.0f[-TimeLimit]
 [Difficulty]1[-Difficulty]
 [EndItem]
 
@@ -38,7 +38,7 @@
 [BUtton3]Red[-Button3]
 [Button4]White[-Button4]
 [ValidOptions]2[-ValidOptions]
-[TimeLimit]2.0[-TimeLimit]
+[TimeLimit]2.0f[-TimeLimit]
 [Difficulty]1[-Difficulty]
 [EndItem]
 
@@ -49,6 +49,6 @@
 [BUtton3]Blue[-Button3]
 [Button4]White[-Button4]
 [ValidOptions]0[-ValidOptions]
-[TimeLimit]2.0[-TimeLimit]
+[TimeLimit]2.0f[-TimeLimit]
 [Difficulty]1[-Difficulty]
 [EndItem]

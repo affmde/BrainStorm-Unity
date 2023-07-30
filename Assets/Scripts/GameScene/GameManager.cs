@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,12 +13,18 @@ public class GameManager : MonoBehaviour
 	[SerializeField] TextMeshProUGUI taskDescription;
 	float timer;
 	float timeLimit = 2.0f;
-	public bool gameOver;
+	public bool gameOver = false;
 	private int random;
+	private int	activeButton;
+
 	private void Start()
 	{
 		UpdateGame();
 	}
+
+	public int GetActiveButton() { return activeButton; }
+	public void SetActiveButton(int num) { activeButton = num; }
+	public int GetRandom() { return random; }
 
 	public void UpdateGame()
 	{
@@ -28,7 +35,7 @@ public class GameManager : MonoBehaviour
 		buttons[2].sprite = GetSprite(LevelsData.levelsList[random].button3);
 		buttons[3].sprite = GetSprite(LevelsData.levelsList[random].button4);
 		taskDescription.text = LevelsData.levelsList[random].task;
-		timeLimit = LevelsData.levelsList[random].time;
+		//timeLimit = LevelsData.levelsList[random].time;
 	}
 
 	private Sprite GetSprite(string color)
@@ -49,14 +56,14 @@ public class GameManager : MonoBehaviour
 	{
 		timer += Time.deltaTime;
 		timerBar.fillAmount = Mathf.Clamp01(timer / timeLimit);
-		if (timer >= 1 && LevelsData.levelsList[random].validOptions[0] != 0)
-			gameOver = true;
-		else if (timer >= 1 && LevelsData.levelsList[random].validOptions[0] == 0)
-			UpdateGame();
-	}
-
-	public int GetRandom()
-	{
-		return random;
+		if (timer >= timeLimit)
+		{
+			if (LevelsData.levelsList[random].validOptions.Contains(activeButton))
+				UpdateGame();
+			else
+				gameOver = true;
+		}
+		if (gameOver)
+			SceneManager.LoadScene("EndGameScene");
 	}
 }
