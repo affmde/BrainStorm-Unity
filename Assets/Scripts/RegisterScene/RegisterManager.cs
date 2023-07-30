@@ -10,7 +10,7 @@ public class RegisterManager : MonoBehaviour
 		string username = PlayerPrefs.GetString("username");
 		if (username.Length > 0)
 		{
-			PlayerData.username = username;
+			PlayerData.player.username = username;
 			SceneManager.LoadScene("StartScene");
 		}
 	}

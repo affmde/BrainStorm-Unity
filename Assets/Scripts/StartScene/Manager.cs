@@ -7,12 +7,14 @@ using System.IO;
 public class Manager : MonoBehaviour
 {
 
-	private void Start()
+	private void Awake()
 	{
 		LoadInfo();
+		LoadPlayerData();
 	}
 	public void Play()
 	{
+		Debug.Log("Detected click on Play");
 		SceneManager.LoadScene("LevelsScene");
 	}
 
@@ -63,5 +65,16 @@ public class Manager : MonoBehaviour
 	{
 		string input = line.Substring(startTag.Length, line.Length - startTag.Length - endTag.Length);
 		return input;
+	}
+
+	void LoadPlayerData()
+	{
+		Player p = new Player();
+		p.username = PlayerPrefs.GetString("username");
+		p.xp = 0; //Load properly from file!!
+		p.level = 1; //Load properly from file!!!
+		p.levelsCompleted = new List<int>(); // Load from file!!
+		p.currentGameLevel = 1;
+		PlayerData.player = p;
 	}
 }

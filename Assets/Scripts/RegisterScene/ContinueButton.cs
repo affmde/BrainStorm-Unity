@@ -7,9 +7,9 @@ public class ContinueButton : MonoBehaviour
 {
 	public void	Continue()
 	{
-		if (PlayerData.username.Length > 0)
+		if (PlayerData.player.username.Length > 0)
 		{
-			PlayerPrefs.SetString("username", PlayerData.username);
+			PlayerPrefs.SetString("username", PlayerData.player.username);
 			SceneManager.LoadScene("StartScene");
 		}
 	}

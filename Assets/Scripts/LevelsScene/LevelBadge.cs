@@ -14,7 +14,7 @@ public class LevelBadge : MonoBehaviour
 	{
 		int badgeLevel = int.Parse(gameObject.name);
 		levelText.text = gameObject.name;
-		if (PlayerData.currentGameLevel == badgeLevel)
+		if (PlayerData.player.currentGameLevel == badgeLevel)
 		{
 			lockImage.gameObject.SetActive(false);
 			completedImage.gameObject.SetActive(false);
@@ -38,8 +38,8 @@ public class LevelBadge : MonoBehaviour
 
 	private bool isLevelCompleted(int level)
 	{
-		for (int i = 0; i < PlayerData.levelsCompleted.Length; i++)
-			if (PlayerData.levelsCompleted[i] == level)
+		for (int i = 0; i < PlayerData.player.levelsCompleted.Count; i++)
+			if (PlayerData.player.levelsCompleted[i] == level)
 				return true;
 		return false;
 	}

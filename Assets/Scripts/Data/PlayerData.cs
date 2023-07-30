@@ -1,10 +1,15 @@
+using System.Collections.Generic;
 
 public static class PlayerData
 {
-	public static string	username;
-	public static int		level;
-	public static float		xp;
-	public static int		currentGameLevel = 1;
-	public static int[]		levelsCompleted;
+	public static Player player;
+}
 
+public class Player
+{
+	public string		username;
+	public int			level;
+	public float		xp;
+	public int			currentGameLevel = 1;
+	public List<int>	levelsCompleted;
 }

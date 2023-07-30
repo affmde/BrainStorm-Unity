@@ -17,14 +17,14 @@ public class XPBar : MonoBehaviour
 
 	void SetFillBar()
 	{
-		float xpLimit = 2000.0f * (PlayerData.level + 1);
-		float xpToShow = xpLimit - 2000 + PlayerData.xp;
+		float xpLimit = 2000.0f * (PlayerData.player.level + 1);
+		float xpToShow = xpLimit - 2000 + PlayerData.player.xp;
 		fillBar.fillAmount = Mathf.Clamp01(xpToShow / 2000);
 	}
 
 	void SetStarLevelText()
 	{
-		levelText.text = PlayerData.level.ToString();
+		levelText.text = PlayerData.player.level.ToString();
 	}
 
 }

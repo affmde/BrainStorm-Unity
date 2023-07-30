@@ -6,7 +6,6 @@ public class ReadInput : MonoBehaviour
 {
 	public void ReadInputString(string str)
 	{
-		PlayerData.username = str;
-		Debug.Log("username: " + PlayerData.username);
+		PlayerData.player.username = str;
 	}
 }
