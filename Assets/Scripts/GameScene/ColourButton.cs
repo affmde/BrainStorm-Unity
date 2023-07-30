@@ -23,7 +23,7 @@ public class ColourButton : MonoBehaviour
 		if (gm)
 		{
 			if (IsButtonValid())
-				gm.PopulateButtons();
+				gm.UpdateGame();
 			else
 				gm.gameOver = true;
 		}

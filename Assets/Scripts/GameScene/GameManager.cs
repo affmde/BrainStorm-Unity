@@ -11,22 +11,24 @@ public class GameManager : MonoBehaviour
 	[SerializeField] Image timerBar;
 	[SerializeField] TextMeshProUGUI taskDescription;
 	float timer;
-	float timeLimit = 1.5f;
+	float timeLimit = 2.0f;
 	public bool gameOver;
 	private int random;
 	private void Start()
 	{
-		PopulateButtons();
+		UpdateGame();
 	}
 
-	public void PopulateButtons()
+	public void UpdateGame()
 	{
+		timer = 0;
 		random = Random.Range(0, LevelsData.levelsList.Count);
 		buttons[0].sprite = GetSprite(LevelsData.levelsList[random].button1);
 		buttons[1].sprite = GetSprite(LevelsData.levelsList[random].button2);
 		buttons[2].sprite = GetSprite(LevelsData.levelsList[random].button3);
 		buttons[3].sprite = GetSprite(LevelsData.levelsList[random].button4);
 		taskDescription.text = LevelsData.levelsList[random].task;
+		timeLimit = LevelsData.levelsList[random].time;
 	}
 
 	private Sprite GetSprite(string color)
@@ -47,8 +49,10 @@ public class GameManager : MonoBehaviour
 	{
 		timer += Time.deltaTime;
 		timerBar.fillAmount = Mathf.Clamp01(timer / timeLimit);
-		if (timer >= 1)
+		if (timer >= 1 && LevelsData.levelsList[random].validOptions[0] != 0)
 			gameOver = true;
+		else if (timer >= 1 && LevelsData.levelsList[random].validOptions[0] == 0)
+			UpdateGame();
 	}
 
 	public int GetRandom()

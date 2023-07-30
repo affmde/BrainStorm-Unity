@@ -1,0 +1,7 @@
+[DataSaved]
+[Timestamp]0[-Timestamp]
+[Username]affmde[-Username]
+[Level]1[-Level]
+[XP]0[-XP]
+[LevelsCompleted]0[-LevelsCompleted]
+[CurrentLevel]1[-CurrentLevel]

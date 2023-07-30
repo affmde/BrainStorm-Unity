@@ -21,4 +21,6 @@ public class Level
 	public string		button3;
 	public string		button4;
 	public List<int>	validOptions;
+	public float		time;
+	public int			difficulty;
 }

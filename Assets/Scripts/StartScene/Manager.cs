@@ -56,6 +56,10 @@ public class Manager : MonoBehaviour
 				for(int i = 0; i < arr.Length; i++)
 					LevelsData.levelsList[currentItem].validOptions.Add(int.Parse(arr[i]));
 			}
+			else if (line.Contains("[TimeLimit]"))
+				LevelsData.levelsList[currentItem].time = float.Parse(ParseInputBetweenTags(line, "[TimeLimit]", "[-TimeLimit]"));
+			else if (line.Contains("[Difficulty]"))
+				LevelsData.levelsList[currentItem].difficulty = int.Parse(ParseInputBetweenTags(line, "[Difficulty]", "[-Difficulty]"));
 			else if (line.Contains("[EndItem]"))
 				currentItem++;
 		}
@@ -70,11 +74,7 @@ public class Manager : MonoBehaviour
 	void LoadPlayerData()
 	{
 		Player p = new Player();
-		p.username = PlayerPrefs.GetString("username");
-		p.xp = 0; //Load properly from file!!
-		p.level = 1; //Load properly from file!!!
-		p.levelsCompleted = new List<int>(); // Load from file!!
-		p.currentGameLevel = 1;
+		LoadData.Load(p);
 		PlayerData.player = p;
 	}
 }
