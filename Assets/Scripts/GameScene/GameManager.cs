@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		totalCorrect = 0;
 		total = 10; //Change this to load from Level file;
 		UpdateGame();
 	}
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour
 
 	public void UpdateGame()
 	{
+		total = StaticLevels.config[PlayerData.player.currentGameLevel - 1].total;
+		activeButton = 0;
 		timer = 0;
 		random = Random.Range(0, LevelsData.levelsList.Count);
 		buttons[0].sprite = GetSprite(LevelsData.levelsList[random].button1);
@@ -42,7 +45,7 @@ public class GameManager : MonoBehaviour
 		buttons[2].sprite = GetSprite(LevelsData.levelsList[random].button3);
 		buttons[3].sprite = GetSprite(LevelsData.levelsList[random].button4);
 		taskDescription.text = LevelsData.levelsList[random].task;
-		//timeLimit = LevelsData.levelsList[random].time;
+		//timeLimit = StaticLevels.config[random].duration;
 	}
 
 	private Sprite GetSprite(string color)

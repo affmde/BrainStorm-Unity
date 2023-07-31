@@ -4,7 +4,7 @@ public static class PlayerData
 {
 	public static Player player;
 	public static bool won;
-
+	public static int difficultyLevel;
 	public static void Reset()
 	{
 		won = false;

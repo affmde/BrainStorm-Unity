@@ -1,8 +1,8 @@
-
+using System.Collections.Generic;
 
 public static class StaticLevels
 {
-	public static LevelsConfig	conf;
+	public static List<LevelsConfig>	config;
 	public static string		startLevel = "[StartLevel]";
 	public static string		levelStart = "[Level]";
 	public static string		levelEnd = "[-Level]";

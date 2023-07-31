@@ -24,7 +24,7 @@ public class XPBar : MonoBehaviour
 		float	before = 2000 * Mathf.Pow(PlayerData.player.level - 1, 1.5f);
 		float	currXP = (PlayerData.player.xp - before);
 		float	targetXP = next - before;
-		float playerLevelProgress = currXP / targetXP;
+		float	playerLevelProgress = currXP / targetXP;
 		fillBar.fillAmount = playerLevelProgress;
 	}
 

@@ -13,7 +13,7 @@ public static class SaveData
 		string username = "[Username]" + PlayerData.player.username + "[-Username]";
 		string level = "[Level]" + PlayerData.player.level + "[-Level]";
 		string xp = "[XP]" + PlayerData.player.xp + "[-XP]";
-		string completedLevels = "[CompletedLevels]";
+		string completedLevels = "[CompletedLevels]0";
 		for (int i = 0; i < PlayerData.player.levelsCompleted.Count; i++)
 			completedLevels += "," + PlayerData.player.levelsCompleted[i];
 		completedLevels += "[-CompletedLevels]";

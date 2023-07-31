@@ -7,9 +7,14 @@ public class Bar : MonoBehaviour
 	[SerializeField] GameObject manager;
 	private GameManager gm;
 	private float fillAmount;
+
+	private void Awake()
+	{
+		gm = manager.GetComponent<GameManager>();
+	}
 	private void Update()
 	{
-		fillAmount = Mathf.Clamp01(gm.GetTotalCorrect() / gm.GetTotal());
+		fillAmount = (float)gm.GetTotalCorrect() / (float)gm.GetTotal();
 		fillBar.fillAmount = fillAmount;
 	}
 }

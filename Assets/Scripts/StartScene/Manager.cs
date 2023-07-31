@@ -11,10 +11,10 @@ public class Manager : MonoBehaviour
 	{
 		LoadInfo();
 		LoadPlayerData();
+		LoadLevels.LoadLevelsConfig();
 	}
 	public void Play()
 	{
-		Debug.Log("Detected click on Play");
 		SceneManager.LoadScene("LevelsScene");
 	}
 
@@ -76,11 +76,5 @@ public class Manager : MonoBehaviour
 		PlayerData.player = new Player();
 		PlayerData.player.levelsCompleted = new List<int>();
 		LoadData.Load(PlayerData.player);
-		//PlayerData.player = p;
-		/*PlayerData.player.level = p.level;
-		PlayerData.player.currentGameLevel = p.currentGameLevel;
-		PlayerData.player.xp = p.xp;
-		PlayerData.player.username = p.username;
-		PlayerData.player.levelsCompleted = p.levelsCompleted;*/
 	}
 }
