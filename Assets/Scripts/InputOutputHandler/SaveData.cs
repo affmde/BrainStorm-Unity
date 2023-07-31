@@ -13,10 +13,18 @@ public static class SaveData
 		string username = "[Username]" + PlayerData.player.username + "[-Username]";
 		string level = "[Level]" + PlayerData.player.level + "[-Level]";
 		string xp = "[XP]" + PlayerData.player.xp + "[-XP]";
-		string completedLevels = "[CompletedLevels]0";
-		for (int i = 0; i < PlayerData.player.levelsCompleted.Count; i++)
-			completedLevels += "," + PlayerData.player.levelsCompleted[i];
-		completedLevels += "[-CompletedLevels]";
+		string completedLevels = "[CompletedLevelsEasy]0";
+		for (int i = 0; i < PlayerData.player.completedLevelsList[0].completedLevels.Count; i++)
+			completedLevels += "," + PlayerData.player.completedLevelsList[0].completedLevels[i];
+		completedLevels += "[-CompletedLevelsEasy]";
+		string completedLevelsMedium = "[CompletedLevelsMedium]0";
+		for (int i = 0; i < PlayerData.player.completedLevelsList[1].completedLevels.Count; i++)
+			completedLevelsMedium += "," + PlayerData.player.completedLevelsList[1].completedLevels[i];
+		completedLevelsMedium += "[-CompletedLevelsMedium]";
+		string completedLevelsHard = "[CompletedLevelsHard]0";
+		for (int i = 0; i < PlayerData.player.completedLevelsList[2].completedLevels.Count; i++)
+			completedLevelsMedium += "," + PlayerData.player.completedLevelsList[2].completedLevels[i];
+		completedLevelsHard += "[-CompletedLevelsHard]";
 		string currentLevel = "[CurrentLevel]" + PlayerData.player.currentGameLevel + "[-CurrentLevel]";
 		
 		file.WriteLine(start);
@@ -25,6 +33,8 @@ public static class SaveData
 		file.WriteLine(level);
 		file.WriteLine(xp);
 		file.WriteLine(completedLevels);
+		file.WriteLine(completedLevelsMedium);
+		file.WriteLine(completedLevelsHard);
 		file.WriteLine(currentLevel);
 
 		file.Close();

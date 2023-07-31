@@ -17,5 +17,11 @@ public class Player
 	public int			level;
 	public float		xp;
 	public int			currentGameLevel = 1;
-	public List<int>	levelsCompleted;
+	public List<Lvl>	completedLevelsList;
+}
+
+public class Lvl
+{
+	public int level;
+	public List<int> completedLevels;
 }

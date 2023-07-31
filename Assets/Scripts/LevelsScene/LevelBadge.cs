@@ -9,17 +9,13 @@ public class LevelBadge : MonoBehaviour
 	[SerializeField] private Image				completedImage;
 	[SerializeField] private Image				lockImage;
 	[SerializeField] private TextMeshProUGUI	levelText;
-	private GameObject							readyPanel;
-
-	private void Awake()
-	{
-		readyPanel = GameObject.FindGameObjectWithTag("ReadyPanel");
-	}
+	[SerializeField ]private GameObject			readyPanel;
 
 	private void	Start()
 	{
 		int badgeLevel = int.Parse(gameObject.name);
 		levelText.text = gameObject.name;
+		readyPanel.SetActive(false);
 		if (PlayerData.player.currentGameLevel == badgeLevel)
 		{
 			lockImage.gameObject.SetActive(false);

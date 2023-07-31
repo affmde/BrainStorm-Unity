@@ -74,7 +74,10 @@ public class Manager : MonoBehaviour
 	void LoadPlayerData()
 	{
 		PlayerData.player = new Player();
-		PlayerData.player.levelsCompleted = new List<int>();
+		PlayerData.player.completedLevelsList = new List<Lvl>();
+		PlayerData.player.completedLevelsList[0].completedLevels = new List<int>();
+		PlayerData.player.completedLevelsList[1].completedLevels = new List<int>();
+		PlayerData.player.completedLevelsList[2].completedLevels = new List<int>();
 		LoadData.Load(PlayerData.player);
 	}
 }
