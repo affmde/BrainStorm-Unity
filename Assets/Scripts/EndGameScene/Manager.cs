@@ -20,8 +20,16 @@ public class EndGameManager : MonoBehaviour
 	}
 	private void Start()
 	{
-		gameOverText.gameObject.SetActive(false);
-		congratsText.gameObject.SetActive(false);
+		if (PlayerData.won)
+		{
+			gameOverText.gameObject.SetActive(false);
+			congratsText.gameObject.SetActive(true);
+		}
+		else
+		{
+			gameOverText.gameObject.SetActive(true);
+			congratsText.gameObject.SetActive(false);
+		}
 		continueButton.gameObject.SetActive(false);
 		xpBar.UpdateXP(300);
 	}

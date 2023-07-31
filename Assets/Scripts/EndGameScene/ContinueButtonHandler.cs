@@ -5,6 +5,7 @@ public class ContinueButtonHandler : MonoBehaviour
 {
 	public void Continue()
 	{
+		PlayerData.Reset();
 		SceneManager.LoadScene("LevelsScene");
 	}
 }

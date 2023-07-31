@@ -16,15 +16,22 @@ public class GameManager : MonoBehaviour
 	public bool gameOver = false;
 	private int random;
 	private int	activeButton;
+	private int totalCorrect;
+	private int total;
 
 	private void Start()
 	{
+		total = 10; //Change this to load from Level file;
 		UpdateGame();
 	}
 
 	public int GetActiveButton() { return activeButton; }
 	public void SetActiveButton(int num) { activeButton = num; }
 	public int GetRandom() { return random; }
+	public int GetTotal() { return total; }
+	public void SetTotal(int val) { total = val; }
+	public int GetTotalCorrect() { return totalCorrect; }
+	public void increaseTotalCorrect() { totalCorrect++; }
 
 	public void UpdateGame()
 	{
@@ -59,11 +66,27 @@ public class GameManager : MonoBehaviour
 		if (timer >= timeLimit)
 		{
 			if (LevelsData.levelsList[random].validOptions.Contains(activeButton))
+			{
+				totalCorrect++;
 				UpdateGame();
+			}
+			else if (LevelsData.levelsList[random].validOptions[0] == 0)
+			{
+				totalCorrect++;
+				UpdateGame();
+			}
 			else
 				gameOver = true;
 		}
-		if (gameOver)
+		if (totalCorrect >= total)
+		{
+			PlayerData.won = true;
 			SceneManager.LoadScene("EndGameScene");
+		}
+		else if (gameOver)
+		{
+			PlayerData.won = false;
+			SceneManager.LoadScene("EndGameScene");
+		}
 	}
 }

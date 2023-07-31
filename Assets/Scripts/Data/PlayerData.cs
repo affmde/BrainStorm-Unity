@@ -3,6 +3,12 @@ using System.Collections.Generic;
 public static class PlayerData
 {
 	public static Player player;
+	public static bool won;
+
+	public static void Reset()
+	{
+		won = false;
+	}
 }
 
 public class Player
