@@ -25,6 +25,9 @@ public static class SaveData
 		for (int i = 0; i < PlayerData.player.completedLevelsList[2].completedLevels.Count; i++)
 			completedLevelsMedium += "," + PlayerData.player.completedLevelsList[2].completedLevels[i];
 		completedLevelsHard += "[-CompletedLevelsHard]";
+		string easyCurrentLevel =  "[EasyCurrentLevel]" + PlayerData.player.completedLevelsList[0].currentLevel + "[-EasyCurrentLevel]";
+		string mediumCurrentLevel =  "[MediumCurrentLevel]" + PlayerData.player.completedLevelsList[1].currentLevel + "[-MediumCurrentLevel]";
+		string hardCurrentLevel =  "[HardCurrentLevel]" + PlayerData.player.completedLevelsList[2].currentLevel + "[-HardCurrentLevel]";
 		string currentLevel = "[CurrentLevel]" + PlayerData.player.currentGameLevel + "[-CurrentLevel]";
 		
 		file.WriteLine(start);
@@ -33,8 +36,11 @@ public static class SaveData
 		file.WriteLine(level);
 		file.WriteLine(xp);
 		file.WriteLine(completedLevels);
+		file.WriteLine(easyCurrentLevel);
 		file.WriteLine(completedLevelsMedium);
+		file.WriteLine(mediumCurrentLevel);
 		file.WriteLine(completedLevelsHard);
+		file.WriteLine(hardCurrentLevel);
 		file.WriteLine(currentLevel);
 
 		file.Close();

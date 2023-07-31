@@ -24,6 +24,8 @@ public static class LoadData
 				for(int i = 0; i < arr.Length; i++)
 					player.completedLevelsList[0].completedLevels.Add(int.Parse(arr[i]));
 			}
+			else if (line.Contains("[EasyCurrentLevel]"))
+				player.completedLevelsList[0].currentLevel = int.Parse(ParseInputBetweenTags(line, "[EasyCurrentLevel]", "[-EasyCurrentLevel]"));
 			else if (line.Contains("[CompletedLevelsMedium]"))
 			{
 				string input = ParseInputBetweenTags(line, "[CompletedLevelsMedium]", "[-CompletedLevelsMedium]");
@@ -31,6 +33,8 @@ public static class LoadData
 				for(int i = 0; i < arr.Length; i++)
 					player.completedLevelsList[1].completedLevels.Add(int.Parse(arr[i]));
 			}
+			else if (line.Contains("[MediumCurrentLevel]"))
+				player.completedLevelsList[1].currentLevel = int.Parse(ParseInputBetweenTags(line, "[MediumCurrentLevel]", "[-MediumCurrentLevel]"));
 			else if (line.Contains("[CompletedLevelsHard]"))
 			{
 				string input = ParseInputBetweenTags(line, "[CompletedLevelsHard]", "[-CompletedLevelsHard]");
@@ -38,6 +42,8 @@ public static class LoadData
 				for(int i = 0; i < arr.Length; i++)
 					player.completedLevelsList[2].completedLevels.Add(int.Parse(arr[i]));
 			}
+			else if (line.Contains("[HardCurrentLevel]"))
+				player.completedLevelsList[2].currentLevel = int.Parse(ParseInputBetweenTags(line, "[HardCurrentLevel]", "[-HardCurrentLevel]"));
 			player.username = PlayerPrefs.GetString("username");
 		}
 

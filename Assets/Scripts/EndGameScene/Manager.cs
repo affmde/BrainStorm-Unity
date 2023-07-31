@@ -24,6 +24,8 @@ public class EndGameManager : MonoBehaviour
 		{
 			gameOverText.gameObject.SetActive(false);
 			congratsText.gameObject.SetActive(true);
+			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels.Add(PlayerData.difficultyLevel);
+			//Continue from here tomorrow!!!!
 		}
 		else
 		{

@@ -13,10 +13,28 @@ public class LevelBadge : MonoBehaviour
 
 	private void	Start()
 	{
+		readyPanel.SetActive(false);
+		UpdateBadgeInfo(0);
+	}
+
+	private bool isLevelCompleted(int level)
+	{
+		for (int i = 0; i < PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels.Count; i++)
+			if (PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels[i] == level)
+				return true;
+		return false;
+	}
+
+	public void OpenReadyPanel()
+	{
+		readyPanel.SetActive(true);
+	}
+
+	public void UpdateBadgeInfo(int choosedDifficulty)
+	{
 		int badgeLevel = int.Parse(gameObject.name);
 		levelText.text = gameObject.name;
-		readyPanel.SetActive(false);
-		if (PlayerData.player.currentGameLevel == badgeLevel)
+		if (PlayerData.player.completedLevelsList[choosedDifficulty].currentLevel == badgeLevel)
 		{
 			lockImage.gameObject.SetActive(false);
 			completedImage.gameObject.SetActive(false);
@@ -27,27 +45,12 @@ public class LevelBadge : MonoBehaviour
 			{
 				lockImage.gameObject.SetActive(false);
 				completedImage.gameObject.SetActive(true);
-				Debug.Log("Level: " + badgeLevel + " - TRUE");
 			}
 			else
 			{
 				lockImage.gameObject.SetActive(true);
 				completedImage.gameObject.SetActive(false);
-				Debug.Log("Level: " + badgeLevel + " - FALSE");
 			}
 		}
-	}
-
-	private bool isLevelCompleted(int level)
-	{
-		for (int i = 0; i < PlayerData.player.levelsCompleted.Count; i++)
-			if (PlayerData.player.levelsCompleted[i] == level)
-				return true;
-		return false;
-	}
-
-	public void OpenReadyPanel()
-	{
-		readyPanel.SetActive(true);
 	}
 }

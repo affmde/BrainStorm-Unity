@@ -23,5 +23,6 @@ public class Player
 public class Lvl
 {
 	public int level;
+	public int currentLevel;
 	public List<int> completedLevels;
 }
