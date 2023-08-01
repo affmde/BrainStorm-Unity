@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 4227747108311317796}
   m_Layer: 5
   m_Name: 1
-  m_TagString: Untagged
+  m_TagString: Badges
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -281,6 +281,7 @@ MonoBehaviour:
   completedImage: {fileID: 8290617907993696495}
   lockImage: {fileID: 5538249151307015580}
   levelText: {fileID: 1303738511643803966}
+  readyPanel: {fileID: 0}
 --- !u!114 &4227747108311317796
 MonoBehaviour:
   m_ObjectHideFlags: 0

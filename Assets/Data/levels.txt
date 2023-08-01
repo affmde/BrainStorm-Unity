@@ -1,15 +1,19 @@
 [StartLevel]
 [Level]1[-Level]
 [Total]10[-Total]
-[XP]100[-XP]
 [Time]2.5[-Time]
 [EndLevel]
 
 [StartLevel]
 [Level]2[-Level]
-[Total]10[-Total]
-[XP]130[-XP]
+[Total]15[-Total]
 [Time]2.5[-Time]
+[EndLevel]
+
+[StartLevel]
+[Level]3[-Level]
+[Total]20[-Total]
+[Time]2.0[-Time]
 [EndLevel]
 
 

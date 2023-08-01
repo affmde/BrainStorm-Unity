@@ -26,15 +26,12 @@ public static class LoadLevels
 				levels[currentItem].level = int.Parse(ParseInputBetweenTags(line, StaticLevels.levelStart, StaticLevels.levelEnd));
 			else if (line.Contains(StaticLevels.totalStart))
 				levels[currentItem].total = int.Parse(ParseInputBetweenTags(line, StaticLevels.totalStart, StaticLevels.totalEnd));
-			else if (line.Contains(StaticLevels.xpStart))
-				levels[currentItem].xp = int.Parse(ParseInputBetweenTags(line, StaticLevels.xpStart, StaticLevels.xpEnd));
 			//else if (line.Contains(StaticLevels.timeStart))
 			//	levels[currentItem].duration = float.Parse(ParseInputBetweenTags(line, StaticLevels.timeStart, StaticLevels.timeEnd));
 			else if (line.Contains(StaticLevels.end))
 			{
 				Debug.Log("Level: " + (currentItem));
 				Debug.Log("level total: " + levels[currentItem].total);
-				Debug.Log("level xp: " + levels[currentItem].xp);
 				currentItem++;
 			}
 

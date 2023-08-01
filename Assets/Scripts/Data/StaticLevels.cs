@@ -20,6 +20,5 @@ public class LevelsConfig
 {
 	public int		level;
 	public int		total;
-	public int		xp;
 	public float	duration;
 }

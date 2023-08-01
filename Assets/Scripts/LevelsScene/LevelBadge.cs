@@ -10,9 +10,12 @@ public class LevelBadge : MonoBehaviour
 	[SerializeField] private Image				lockImage;
 	[SerializeField] private TextMeshProUGUI	levelText;
 	[SerializeField ]private GameObject			readyPanel;
+	int badgeLevel;
+	int currentDifficulty;
 
 	private void	Start()
 	{
+		badgeLevel = int.Parse(gameObject.name);
 		readyPanel.SetActive(false);
 		UpdateBadgeInfo(0);
 	}
@@ -27,12 +30,13 @@ public class LevelBadge : MonoBehaviour
 
 	public void OpenReadyPanel()
 	{
-		readyPanel.SetActive(true);
+		if (PlayerData.player.completedLevelsList[currentDifficulty].currentLevel == badgeLevel)
+			readyPanel.SetActive(true);
 	}
 
 	public void UpdateBadgeInfo(int choosedDifficulty)
 	{
-		int badgeLevel = int.Parse(gameObject.name);
+		currentDifficulty = choosedDifficulty;
 		levelText.text = gameObject.name;
 		if (PlayerData.player.completedLevelsList[choosedDifficulty].currentLevel == badgeLevel)
 		{

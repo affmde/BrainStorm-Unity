@@ -13,6 +13,7 @@ public class EndGameManager : MonoBehaviour
 	private XPBar xpBar;
 	private bool xpIsUpdated;
 	float timer = 0;
+	int xp;
 
 	private void Awake()
 	{
@@ -24,16 +25,19 @@ public class EndGameManager : MonoBehaviour
 		{
 			gameOverText.gameObject.SetActive(false);
 			congratsText.gameObject.SetActive(true);
-			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels.Add(PlayerData.difficultyLevel);
+			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels.Add(PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel);
+			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel++;
+			int xp = 100 * (PlayerData.difficultyLevel + 1) + (PlayerData.difficultyLevel + 1) * 20;
 			//Continue from here tomorrow!!!!
 		}
 		else
 		{
 			gameOverText.gameObject.SetActive(true);
 			congratsText.gameObject.SetActive(false);
+			int xp = 15 * (PlayerData.difficultyLevel + 1);
 		}
 		continueButton.gameObject.SetActive(false);
-		xpBar.UpdateXP(300);
+		xpBar.UpdateXP(xp);
 	}
 
 	private void Update()

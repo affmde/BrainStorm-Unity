@@ -60,6 +60,8 @@ public class Manager : MonoBehaviour
 			//	LevelsData.levelsList[currentItem].time = float.Parse(ParseInputBetweenTags(line, "[TimeLimit]", "[-TimeLimit]"));
 			else if (line.Contains("[Difficulty]"))
 				LevelsData.levelsList[currentItem].difficulty = int.Parse(ParseInputBetweenTags(line, "[Difficulty]", "[-Difficulty]"));
+			else if (line.Contains("[ID]"))
+				LevelsData.levelsList[currentItem].id = int.Parse(ParseInputBetweenTags(line, "[ID]", "[-ID]"));
 			else if (line.Contains("[EndItem]"))
 				currentItem++;
 		}

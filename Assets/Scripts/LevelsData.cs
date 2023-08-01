@@ -23,4 +23,5 @@ public class Level
 	public List<int>	validOptions;
 	public float		time;
 	public int			difficulty;
+	public int			id;
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class BadgesPanelHandler : MonoBehaviour
 {
-    [SerializeField] Image closeButton;
+	[SerializeField] Image closeButton;
 
 
 	public void Close()

@@ -13,17 +13,17 @@ public static class SaveData
 		string username = "[Username]" + PlayerData.player.username + "[-Username]";
 		string level = "[Level]" + PlayerData.player.level + "[-Level]";
 		string xp = "[XP]" + PlayerData.player.xp + "[-XP]";
-		string completedLevels = "[CompletedLevelsEasy]0";
+		string completedLevels = "[CompletedLevelsEasy]";
 		for (int i = 0; i < PlayerData.player.completedLevelsList[0].completedLevels.Count; i++)
-			completedLevels += "," + PlayerData.player.completedLevelsList[0].completedLevels[i];
+			completedLevels += (i == 0 ? "" : ",") + PlayerData.player.completedLevelsList[0].completedLevels[i];
 		completedLevels += "[-CompletedLevelsEasy]";
-		string completedLevelsMedium = "[CompletedLevelsMedium]0";
+		string completedLevelsMedium = "[CompletedLevelsMedium]";
 		for (int i = 0; i < PlayerData.player.completedLevelsList[1].completedLevels.Count; i++)
-			completedLevelsMedium += "," + PlayerData.player.completedLevelsList[1].completedLevels[i];
+			completedLevelsMedium += (i == 0 ? "" : ",") + PlayerData.player.completedLevelsList[1].completedLevels[i];
 		completedLevelsMedium += "[-CompletedLevelsMedium]";
-		string completedLevelsHard = "[CompletedLevelsHard]0";
+		string completedLevelsHard = "[CompletedLevelsHard]";
 		for (int i = 0; i < PlayerData.player.completedLevelsList[2].completedLevels.Count; i++)
-			completedLevelsMedium += "," + PlayerData.player.completedLevelsList[2].completedLevels[i];
+			completedLevelsHard += (i == 0 ? "" : ",") + PlayerData.player.completedLevelsList[2].completedLevels[i];
 		completedLevelsHard += "[-CompletedLevelsHard]";
 		string easyCurrentLevel =  "[EasyCurrentLevel]" + PlayerData.player.completedLevelsList[0].currentLevel + "[-EasyCurrentLevel]";
 		string mediumCurrentLevel =  "[MediumCurrentLevel]" + PlayerData.player.completedLevelsList[1].currentLevel + "[-MediumCurrentLevel]";

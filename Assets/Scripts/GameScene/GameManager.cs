@@ -40,11 +40,18 @@ public class GameManager : MonoBehaviour
 		activeButton = 0;
 		timer = 0;
 		random = Random.Range(0, LevelsData.levelsList.Count);
+		while (IsLevelAcceptableForDifficulty(random))
+			random = Random.Range(0, LevelsData.levelsList.Count);
 		buttons[0].sprite = GetSprite(LevelsData.levelsList[random].button1);
 		buttons[1].sprite = GetSprite(LevelsData.levelsList[random].button2);
 		buttons[2].sprite = GetSprite(LevelsData.levelsList[random].button3);
 		buttons[3].sprite = GetSprite(LevelsData.levelsList[random].button4);
 		taskDescription.text = LevelsData.levelsList[random].task;
+		Debug.Log("id: " + LevelsData.levelsList[random].id);
+		Debug.Log("Button 1: " + LevelsData.levelsList[random].button1);
+		Debug.Log("Button 2: " + LevelsData.levelsList[random].button2);
+		Debug.Log("Button 3: " + LevelsData.levelsList[random].button3);
+		Debug.Log("Button 4: " + LevelsData.levelsList[random].button4);
 		//timeLimit = StaticLevels.config[random].duration;
 	}
 
@@ -92,4 +99,30 @@ public class GameManager : MonoBehaviour
 			SceneManager.LoadScene("EndGameScene");
 		}
 	}
+
+	private bool	IsLevelAcceptableForDifficulty(int num)
+	{
+		if (PlayerData.difficultyLevel == 0)
+		{
+			if (num <= 1)
+				return true;
+			else
+				return false;
+		}
+		else if (PlayerData.difficultyLevel == 1)
+		{
+			if (num >= 1 && num <= 3)
+				return true;
+			else
+				return false;
+		}
+		else
+		{
+			if (num >= 4)
+				return true;
+			else
+				return false;
+		}
+	}
+	
 }
