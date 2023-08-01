@@ -20,6 +20,7 @@ public class ColourButton : MonoBehaviour
 
 	public void	HandleClick()
 	{
+		Debug.Log("total correct: " + gm.GetTotalCorrect() + " - Total: " + gm.GetTotal());
 		if (gm)
 		{
 			if (gm.GetActiveButton() == buttonId)

@@ -28,6 +28,7 @@ public class EndGameManager : MonoBehaviour
 			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels.Add(PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel);
 			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel++;
 			int xp = 100 * (PlayerData.difficultyLevel + 1) + (PlayerData.difficultyLevel + 1) * 20;
+			PlayerData.player.xp += xp;
 			//Continue from here tomorrow!!!!
 		}
 		else
@@ -35,6 +36,7 @@ public class EndGameManager : MonoBehaviour
 			gameOverText.gameObject.SetActive(true);
 			congratsText.gameObject.SetActive(false);
 			int xp = 15 * (PlayerData.difficultyLevel + 1);
+			PlayerData.player.xp += xp;
 		}
 		continueButton.gameObject.SetActive(false);
 		xpBar.UpdateXP(xp);

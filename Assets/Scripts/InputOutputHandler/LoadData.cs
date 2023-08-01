@@ -7,7 +7,22 @@ public static class LoadData
 {
 	public static void Load(Player player)
 	{
-		StreamReader file = new StreamReader("Assets/Data/save.txt");
+		string path = Application.persistentDataPath + "/Data";
+		string fileName = "save.txt";
+		if (!File.Exists(path + "/" + fileName))
+			CreateFile(path, fileName);
+		ReadFile(path, fileName, player);
+	}
+
+	private static string	ParseInputBetweenTags(string line, string startTag, string endTag)
+	{
+		string input = line.Substring(startTag.Length, line.Length - startTag.Length - endTag.Length);
+		return input;
+	}
+
+	private static void ReadFile(string path, string filename, Player player)
+	{
+		StreamReader file = new StreamReader(path + "/" + filename);
 		while (!file.EndOfStream)
 		{
 			string line = file.ReadLine();
@@ -46,13 +61,36 @@ public static class LoadData
 				player.completedLevelsList[2].currentLevel = int.Parse(ParseInputBetweenTags(line, "[HardCurrentLevel]", "[-HardCurrentLevel]"));
 			player.username = PlayerPrefs.GetString("username");
 		}
-
 		file.Close();
 	}
 
-	private static string	ParseInputBetweenTags(string line, string startTag, string endTag)
+	private static void CreateFile(string path, string fileName)
 	{
-		string input = line.Substring(startTag.Length, line.Length - startTag.Length - endTag.Length);
-		return input;
+		System.IO.Directory.CreateDirectory(path);
+		StreamWriter file = File.AppendText(path + "/" + fileName);
+		string dataSave = "[DataSaved]";
+		string timeStamp = "[TimeStamp]" + System.DateTime.Now + "[-Timestamp]";
+		string username = "[Username]" + PlayerPrefs.GetString("username") + "[-Username]";
+		string level = "[Level]1[-Level]";
+		string xp = "[XP]0[-XP]";
+		string completedLevelsEasy = "[CompletedLevelsEasy]0[-CompletedLevelsEasy]";
+		string easyCurrentLevel = "[EasyCurrentLevel]1[-EasyCurrentLevel]";
+		string completedLevelsMedium = "[CompletedLevelsMedium]0[-CompletedLevelsMedium]";
+		string mediumCurrentLevel = "[MediumCurrentLevel]1[-MediumCurrentLevel]";
+		string completedLevelsHard = "[CompletedLevelsHard]0[-CompletedLevelsHard]";
+		string hardCurrentLevel = "[HardCurrentLevel]1[-HardCurrentLevel]";
+		string end = "[EndData]";
+		file.WriteLine(dataSave);
+		file.WriteLine(timeStamp);
+		file.WriteLine(level);
+		file.WriteLine(xp);
+		file.WriteLine(completedLevelsEasy);
+		file.WriteLine(easyCurrentLevel);
+		file.WriteLine(completedLevelsMedium);
+		file.WriteLine(mediumCurrentLevel);
+		file.WriteLine(completedLevelsHard);
+		file.WriteLine(hardCurrentLevel);
+		file.WriteLine(end);
+		file.Close();
 	}
 }

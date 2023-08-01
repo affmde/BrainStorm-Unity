@@ -7,7 +7,8 @@ public static class SaveData
 {
 	public static void Save()
 	{
-		StreamWriter file = new StreamWriter("Assets/Data/save.txt");
+		string path = Application.persistentDataPath + "/Data/save.txt";
+		StreamWriter file = new StreamWriter(path);
 		string start = "[DataSaved]";
 		string timestamp = "[Timestamp]" + System.DateTime.Now + "[-Timestamp]";
 		string username = "[Username]" + PlayerData.player.username + "[-Username]";
@@ -28,7 +29,7 @@ public static class SaveData
 		string easyCurrentLevel =  "[EasyCurrentLevel]" + PlayerData.player.completedLevelsList[0].currentLevel + "[-EasyCurrentLevel]";
 		string mediumCurrentLevel =  "[MediumCurrentLevel]" + PlayerData.player.completedLevelsList[1].currentLevel + "[-MediumCurrentLevel]";
 		string hardCurrentLevel =  "[HardCurrentLevel]" + PlayerData.player.completedLevelsList[2].currentLevel + "[-HardCurrentLevel]";
-		string currentLevel = "[CurrentLevel]" + PlayerData.player.currentGameLevel + "[-CurrentLevel]";
+		string end = "[EndData]";
 		
 		file.WriteLine(start);
 		file.WriteLine(timestamp);
@@ -41,7 +42,7 @@ public static class SaveData
 		file.WriteLine(mediumCurrentLevel);
 		file.WriteLine(completedLevelsHard);
 		file.WriteLine(hardCurrentLevel);
-		file.WriteLine(currentLevel);
+		file.WriteLine(end);
 
 		file.Close();
 	}

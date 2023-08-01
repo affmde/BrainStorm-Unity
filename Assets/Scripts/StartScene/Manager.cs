@@ -9,8 +9,8 @@ public class Manager : MonoBehaviour
 
 	private void Awake()
 	{
-		LoadInfo();
 		LoadPlayerData();
+		LoadInfo();
 		LoadLevels.LoadLevelsConfig();
 	}
 	public void Play()

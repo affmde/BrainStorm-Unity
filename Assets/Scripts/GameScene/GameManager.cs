@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		totalCorrect = 0;
-		total = 10; //Change this to load from Level file;
+		total = 10;
 		UpdateGame();
 	}
 
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
 				totalCorrect++;
 				UpdateGame();
 			}
-			else if (LevelsData.levelsList[random].validOptions[0] == 0)
+			else if (LevelsData.levelsList[random].validOptions[0] == 0 && activeButton == 0)
 			{
 				totalCorrect++;
 				UpdateGame();
@@ -124,5 +124,4 @@ public class GameManager : MonoBehaviour
 				return false;
 		}
 	}
-	
 }
