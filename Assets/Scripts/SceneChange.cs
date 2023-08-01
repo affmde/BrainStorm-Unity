@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneChange : MonoBehaviour
 {
-	[SerializeField] string sceneName;
+	//[SerializeField] string sceneName;
 	public void ChangeScene()
 	{
-		SceneManager.LoadScene(sceneName);
+		Debug.Log("Detected click to change scene");
+		SceneManager.LoadScene("StartScene");
 	}
 }

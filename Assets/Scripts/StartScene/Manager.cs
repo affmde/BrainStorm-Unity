@@ -6,13 +6,19 @@ using System.IO;
 
 public class Manager : MonoBehaviour
 {
-
+	[SerializeField] private GameObject settingsPanel;
 	private void Awake()
 	{
 		LoadPlayerData();
 		LoadInfo();
 		LoadLevels.LoadLevelsConfig();
 	}
+
+	private void Start()
+	{
+		settingsPanel.SetActive(false);
+	}
+
 	public void Play()
 	{
 		SceneManager.LoadScene("LevelsScene");
