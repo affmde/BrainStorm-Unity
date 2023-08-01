@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class ColourButton : MonoBehaviour
 {
 	private GameObject				manager;
 	private GameManager				gm;
 	[SerializeField] private int	buttonId;
+	[SerializeField] private Image	selectImage;
 
 	private void Awake()
 	{
@@ -18,15 +21,27 @@ public class ColourButton : MonoBehaviour
 		}
 	}
 
+	public void UnsetSelectImage() { selectImage.gameObject.SetActive(false); }
+
+	private void Start()
+	{
+		selectImage.gameObject.SetActive(false);
+	}
+
 	public void	HandleClick()
 	{
-		Debug.Log("total correct: " + gm.GetTotalCorrect() + " - Total: " + gm.GetTotal());
 		if (gm)
 		{
 			if (gm.GetActiveButton() == buttonId)
+			{
 				gm.SetActiveButton(0);
+				selectImage.gameObject.SetActive(false);
+			}
 			else
+			{
 				gm.SetActiveButton(buttonId);
+				selectImage.gameObject.SetActive(true);
+			}
 		}
 	}
 

@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 	[SerializeField] List<Sprite> images;
 	[SerializeField] List<Image> buttons;
 	[SerializeField] Image timerBar;
+	[SerializeField] private Image taskImage;
+	private AnimateTask animTask;
 	[SerializeField] TextMeshProUGUI taskDescription;
 	float timer;
 	float timeLimit = 2.0f;
@@ -19,11 +21,19 @@ public class GameManager : MonoBehaviour
 	private int totalCorrect;
 	private int total;
 
+
+	private void Awake()
+	{
+		animTask = taskImage.GetComponentInChildren<AnimateTask>();
+	}
+
 	private void Start()
 	{
 		totalCorrect = 0;
 		total = 10;
-		UpdateGame();
+		animTask.SetIsActive(true);
+		StartCoroutine(TaskTransition());
+		//UpdateGame();
 	}
 
 	public int GetActiveButton() { return activeButton; }
@@ -46,12 +56,9 @@ public class GameManager : MonoBehaviour
 		buttons[1].sprite = GetSprite(LevelsData.levelsList[random].button2);
 		buttons[2].sprite = GetSprite(LevelsData.levelsList[random].button3);
 		buttons[3].sprite = GetSprite(LevelsData.levelsList[random].button4);
+		foreach(Image btn in buttons)
+			btn.GetComponent<ColourButton>().UnsetSelectImage();
 		taskDescription.text = LevelsData.levelsList[random].task;
-		Debug.Log("id: " + LevelsData.levelsList[random].id);
-		Debug.Log("Button 1: " + LevelsData.levelsList[random].button1);
-		Debug.Log("Button 2: " + LevelsData.levelsList[random].button2);
-		Debug.Log("Button 3: " + LevelsData.levelsList[random].button3);
-		Debug.Log("Button 4: " + LevelsData.levelsList[random].button4);
 		//timeLimit = StaticLevels.config[random].duration;
 	}
 
@@ -71,19 +78,26 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		timer += Time.deltaTime;
-		timerBar.fillAmount = Mathf.Clamp01(timer / timeLimit);
+		if (!animTask.GetIsActive())
+		{
+			timer += Time.deltaTime;
+			timerBar.fillAmount = Mathf.Clamp01(timer / timeLimit);
+		}
 		if (timer >= timeLimit)
 		{
 			if (LevelsData.levelsList[random].validOptions.Contains(activeButton))
 			{
 				totalCorrect++;
-				UpdateGame();
+				animTask.SetIsActive(true);
+				StartCoroutine(TaskTransition());
+				//UpdateGame();
 			}
 			else if (LevelsData.levelsList[random].validOptions[0] == 0 && activeButton == 0)
 			{
 				totalCorrect++;
-				UpdateGame();
+				animTask.SetIsActive(true);
+				StartCoroutine(TaskTransition());
+				//UpdateGame();
 			}
 			else
 				gameOver = true;
@@ -123,5 +137,14 @@ public class GameManager : MonoBehaviour
 			else
 				return false;
 		}
+	}
+
+	IEnumerator TaskTransition()
+	{
+		timer = 0;
+		taskDescription.text = "";
+		while (animTask.GetIsActive())
+			yield return null;
+		UpdateGame();
 	}
 }
