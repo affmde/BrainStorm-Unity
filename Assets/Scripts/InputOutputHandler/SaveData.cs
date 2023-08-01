@@ -29,6 +29,7 @@ public static class SaveData
 		string easyCurrentLevel =  "[EasyCurrentLevel]" + PlayerData.player.completedLevelsList[0].currentLevel + "[-EasyCurrentLevel]";
 		string mediumCurrentLevel =  "[MediumCurrentLevel]" + PlayerData.player.completedLevelsList[1].currentLevel + "[-MediumCurrentLevel]";
 		string hardCurrentLevel =  "[HardCurrentLevel]" + PlayerData.player.completedLevelsList[2].currentLevel + "[-HardCurrentLevel]";
+		string soundOn = "[SoundOn]" + (PlayerData.player.isSoundOn ? 1 : 0) + "[-SoundOn]";
 		string end = "[EndData]";
 		
 		file.WriteLine(start);

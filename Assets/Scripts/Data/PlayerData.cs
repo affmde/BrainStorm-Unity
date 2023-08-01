@@ -18,6 +18,7 @@ public class Player
 	public float		xp;
 	public int			currentGameLevel = 1;
 	public List<Lvl>	completedLevelsList;
+	public bool			isSoundOn;
 }
 
 public class Lvl

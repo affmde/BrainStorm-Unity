@@ -59,6 +59,11 @@ public static class LoadData
 			}
 			else if (line.Contains("[HardCurrentLevel]"))
 				player.completedLevelsList[2].currentLevel = int.Parse(ParseInputBetweenTags(line, "[HardCurrentLevel]", "[-HardCurrentLevel]"));
+			else if (line.Contains("[SoundOn]"))
+			{
+				int soundOn = int.Parse(ParseInputBetweenTags(line, "[SoundOn]", "[-SoundOn]"));
+				PlayerData.player.isSoundOn = soundOn == 0 ? false : true;
+			}
 			player.username = PlayerPrefs.GetString("username");
 		}
 		file.Close();
@@ -79,6 +84,7 @@ public static class LoadData
 		string mediumCurrentLevel = "[MediumCurrentLevel]1[-MediumCurrentLevel]";
 		string completedLevelsHard = "[CompletedLevelsHard]0[-CompletedLevelsHard]";
 		string hardCurrentLevel = "[HardCurrentLevel]1[-HardCurrentLevel]";
+		string soundOn = "[SoundOn]1[-SoundOn]";
 		string end = "[EndData]";
 		file.WriteLine(dataSave);
 		file.WriteLine(timeStamp);
@@ -90,6 +96,7 @@ public static class LoadData
 		file.WriteLine(mediumCurrentLevel);
 		file.WriteLine(completedLevelsHard);
 		file.WriteLine(hardCurrentLevel);
+		file.WriteLine(soundOn);
 		file.WriteLine(end);
 		file.Close();
 	}

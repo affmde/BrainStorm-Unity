@@ -10,4 +10,5 @@
 [CompletedLevelsHard]0[-CompletedLevelsHard]
 [HardCurrentLevel]1[-HardCurrentLevel]
 [CurrentLevel]1[-CurrentLevel]
+[SoundOn]1[-SoundOn]
 [EndData]
