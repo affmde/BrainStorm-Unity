@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private Image taskImage;
 	private AnimateTask animTask;
 	[SerializeField] TextMeshProUGUI taskDescription;
+	private GameObject audioManager;
 	float timer;
 	float timeLimit = 2.0f;
 	public bool gameOver = false;
@@ -25,11 +26,14 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		animTask = taskImage.GetComponentInChildren<AnimateTask>();
+		audioManager = GameObject.Find("AudioManager");
 	}
 
 	private void Start()
 	{
 		totalCorrect = 0;
+		if (audioManager)
+			audioManager.GetComponent<AudioManagerScript>().StopSound();
 		total = 10;
 		animTask.SetIsActive(true);
 		StartCoroutine(TaskTransition());

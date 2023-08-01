@@ -6,11 +6,26 @@ using System.IO;
 
 public class Manager : MonoBehaviour
 {
+	private GameObject audioManager;
 	private void Awake()
 	{
+		audioManager = GameObject.Find("AudioManager");
 		LoadPlayerData();
 		LoadLevelItems.LoadInfo();
 		LoadLevels.LoadLevelsConfig();
+	}
+
+	private void Start()
+	{
+		if (PlayerData.player.isSoundOn)
+		{
+			if (audioManager)
+			{
+				AudioManagerScript audio = audioManager.GetComponent<AudioManagerScript>();
+				if (audio && !audio.IsPlaying())
+					audio.PlaySound();
+			}
+		}
 	}
 
 	public void Play()
@@ -21,16 +36,6 @@ public class Manager : MonoBehaviour
 	
 	void LoadPlayerData()
 	{
-		PlayerData.player = new Player();
-		PlayerData.player.completedLevelsList = new List<Lvl>();
-		for(int i = 0; i < 3; i++)
-		{
-			Lvl l = new Lvl();
-			PlayerData.player.completedLevelsList.Add(l);
-		}
-		PlayerData.player.completedLevelsList[0].completedLevels = new List<int>();
-		PlayerData.player.completedLevelsList[1].completedLevels = new List<int>();
-		PlayerData.player.completedLevelsList[2].completedLevels = new List<int>();
 		LoadData.Load(PlayerData.player);
 	}
 }
