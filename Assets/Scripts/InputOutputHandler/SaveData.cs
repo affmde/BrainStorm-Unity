@@ -43,6 +43,7 @@ public static class SaveData
 		file.WriteLine(mediumCurrentLevel);
 		file.WriteLine(completedLevelsHard);
 		file.WriteLine(hardCurrentLevel);
+		file.WriteLine(soundOn);
 		file.WriteLine(end);
 
 		file.Close();

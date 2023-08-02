@@ -7,6 +7,16 @@ public class AnimateTask : MonoBehaviour
 	private bool isActive;
 	private float time;
 	private float rotation;
+	private GameSoundManagerScript transitionSound;
+	private bool transitionSoundOn;
+
+	private void Awake()
+	{
+		transitionSound = GameObject.Find("GameSceneAudioManager").GetComponent<GameSoundManagerScript>();
+	}
+
+	public bool IsTransitionSoundOn() { return transitionSoundOn; }
+	public void SetTransitionSoundOn(bool val) { transitionSoundOn = val; }
 
 	public bool GetIsActive() { return isActive; }
 	public void SetIsActive(bool val) { isActive = val; }
@@ -15,6 +25,11 @@ public class AnimateTask : MonoBehaviour
 	{
 		if (isActive)
 		{
+			if (!transitionSoundOn)
+			{
+				transitionSound.PlayTransitionSound();
+				transitionSoundOn = true;
+			}
 			time += Time.deltaTime;
 			Debug.Log("rotation time: " + time);
 			gameObject.transform.Rotate(Vector3.up, 360f * Time.deltaTime / 1f);

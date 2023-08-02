@@ -149,6 +149,7 @@ public class GameManager : MonoBehaviour
 		taskDescription.text = "";
 		while (animTask.GetIsActive())
 			yield return null;
+		animTask.SetTransitionSoundOn(false);
 		UpdateGame();
 	}
 }

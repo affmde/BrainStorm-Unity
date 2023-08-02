@@ -8,6 +8,10 @@ public class OptionButtons : MonoBehaviour
 	private GameObject panel;
 	private GameObject changeUsernamePanel;
 	private GameObject removeAccountPanel;
+	private GameObject optionsMenuSound;
+	private GameObject clickSound;
+	private GameObject closePanelSound;
+	private GameObject removeAccountSoundButton;
 	private void Awake()
 	{
 		panel = GameObject.Find(panelName);
@@ -16,6 +20,10 @@ public class OptionButtons : MonoBehaviour
 			changeUsernamePanel = GameObject.Find("ChangeUsernamePanel");
 			removeAccountPanel = GameObject.Find("RemoveAccountPanel");
 		}
+		optionsMenuSound = GameObject.Find("OptionsButtonSound");
+		clickSound = GameObject.Find("ClickButtonSound");
+		closePanelSound = GameObject.Find("CloseMenuButtonSound");
+		removeAccountSoundButton = GameObject.Find("RemoveAccountButtonSound");
 	}
 
 	private void Start()
@@ -31,22 +39,30 @@ public class OptionButtons : MonoBehaviour
 	public void OpenPanel()
 	{
 		if (panel)
+		{
 			panel.SetActive(true);
+			optionsMenuSound.GetComponent<HandleAudioButtons>().PlaySound();
+		}
 	}
 
 	public void OpenChangeUsernamePanel()
 	{
 		if (changeUsernamePanel)
+		{
 			changeUsernamePanel.SetActive(true);
+			clickSound.GetComponent<HandleAudioButtons>().PlaySound();
+		}
 	}
 
 	public void CloseChangeUsernamePanel()
 	{
 		changeUsernamePanel.SetActive(false);
+		closePanelSound.GetComponent<HandleAudioButtons>().PlaySound();
 	}
 
 	public void RemoveAccount()
 	{
+		removeAccountSoundButton.GetComponent<HandleAudioButtons>().PlaySound();
 		PlayerPrefs.SetString("username", "");
 		string path = Application.persistentDataPath + "/Data";
 		FileUtil.DeleteFileOrDirectory(path);
@@ -56,12 +72,18 @@ public class OptionButtons : MonoBehaviour
 	public void OpenRemoveAccountPanel()
 	{
 		if (removeAccountPanel)
+		{
 			removeAccountPanel.SetActive(true);
+			clickSound.GetComponent<HandleAudioButtons>().PlaySound();
+		}
 	}
 
 	public void CloseRemoveAccountPanel()
 	{
 		if (removeAccountPanel)
+		{
 			removeAccountPanel.SetActive(false);
+			closePanelSound.GetComponent<HandleAudioButtons>().PlaySound();
+		}
 	}
 }

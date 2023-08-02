@@ -5,10 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class SceneChange : MonoBehaviour
 {
-	//[SerializeField] string sceneName;
+	private GameObject clickSound;
+
+	private void Awake()
+	{
+		clickSound = GameObject.Find("ClickButtonSound");
+	}
 	public void ChangeScene()
 	{
-		Debug.Log("Detected click to change scene");
+		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 		SceneManager.LoadScene("StartScene");
 	}
 }

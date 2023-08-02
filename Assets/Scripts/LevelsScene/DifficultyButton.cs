@@ -11,6 +11,7 @@ public class DifficultyButton : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI text;
 	private Image[] allImages;
 	private List<Image> badges;
+	private GameObject clickSound;
 	private void Awake()
 	{
 		allImages = FindObjectsOfType<Image>(true);
@@ -20,13 +21,14 @@ public class DifficultyButton : MonoBehaviour
 			if (img.CompareTag("Badges"))
 				badges.Add(img);
 		}
-		Debug.Log("badges found: " + badges.Count);
+		clickSound = GameObject.Find("ClickButtonSound");
 	}
 
 	public void SetDifficultyLevel() { PlayerData.difficultyLevel = level; }
 
 	public void OpenPanel()
 	{
+		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 		panel.SetActive(true);
 		SetDifficultyLevel();
 		Debug.Log("Level choosed: " + PlayerData.difficultyLevel);

@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.IO;
 
 public class Manager : MonoBehaviour
 {
 	private GameObject audioManager;
+	private GameObject clickSound;
+	
 	private void Awake()
 	{
 		audioManager = GameObject.Find("AudioManager");
+		clickSound = GameObject.Find("ClickButtonSound");
 		LoadPlayerData();
 		LoadLevelItems.LoadInfo();
 		LoadLevels.LoadLevelsConfig();
@@ -30,6 +32,7 @@ public class Manager : MonoBehaviour
 
 	public void Play()
 	{
+		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 		SceneManager.LoadScene("LevelsScene");
 	}
 

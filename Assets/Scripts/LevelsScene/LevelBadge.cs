@@ -10,9 +10,14 @@ public class LevelBadge : MonoBehaviour
 	[SerializeField] private Image				lockImage;
 	[SerializeField] private TextMeshProUGUI	levelText;
 	[SerializeField ]private GameObject			readyPanel;
+	private GameObject clickSound;
 	int badgeLevel;
 	int currentDifficulty;
 
+	private void Awake()
+	{
+		clickSound = GameObject.Find("ClickButtonSound");
+	}
 	private void	Start()
 	{
 		badgeLevel = int.Parse(gameObject.name);
@@ -31,7 +36,10 @@ public class LevelBadge : MonoBehaviour
 	public void OpenReadyPanel()
 	{
 		if (PlayerData.player.completedLevelsList[currentDifficulty].currentLevel == badgeLevel)
+		{
+			clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 			readyPanel.SetActive(true);
+		}
 	}
 
 	public void UpdateBadgeInfo(int choosedDifficulty)

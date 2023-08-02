@@ -10,6 +10,7 @@ public class ColourButton : MonoBehaviour
 	private GameManager				gm;
 	[SerializeField] private int	buttonId;
 	[SerializeField] private Image	selectImage;
+	private GameObject				clickSound;
 
 	private void Awake()
 	{
@@ -19,6 +20,7 @@ public class ColourButton : MonoBehaviour
 			Debug.Log("Manager found");
 			gm = manager.GetComponent<GameManager>();
 		}
+		clickSound = GameObject.Find("ClickButtonSound");
 	}
 
 	public void UnsetSelectImage() { selectImage.gameObject.SetActive(false); }
@@ -32,6 +34,7 @@ public class ColourButton : MonoBehaviour
 	{
 		if (gm)
 		{
+			clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 			if (gm.GetActiveButton() == buttonId)
 			{
 				gm.SetActiveButton(0);
