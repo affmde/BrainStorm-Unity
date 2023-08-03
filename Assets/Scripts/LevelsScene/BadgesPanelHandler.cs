@@ -6,11 +6,16 @@ using UnityEngine.UI;
 
 public class BadgesPanelHandler : MonoBehaviour
 {
-	[SerializeField] Image closeButton;
+	private GameObject closeSound;
 
-
+	private void Awake()
+	{
+		closeSound = GameObject.Find("CloseMenuButtonSound");
+	}
 	public void Close()
 	{
+		if (closeSound)
+			closeSound.GetComponent<HandleAudioButtons>().PlaySound();
 		gameObject.SetActive(false);
 	}
 }
