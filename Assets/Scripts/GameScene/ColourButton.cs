@@ -16,10 +16,7 @@ public class ColourButton : MonoBehaviour
 	{
 		manager = GameObject.FindGameObjectWithTag("Manager");
 		if (manager)
-		{
-			Debug.Log("Manager found");
 			gm = manager.GetComponent<GameManager>();
-		}
 		clickSound = GameObject.Find("ClickButtonSound");
 	}
 
@@ -30,33 +27,24 @@ public class ColourButton : MonoBehaviour
 		selectImage.gameObject.SetActive(false);
 	}
 
+	public void SetShowSelectImage()
+	{
+		if (gm.GetActiveButton() == buttonId)
+			selectImage.gameObject.SetActive(true);
+		else
+			selectImage.gameObject.SetActive(false);
+	}
+
 	public void	HandleClick()
 	{
 		if (gm)
 		{
+
 			clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 			if (gm.GetActiveButton() == buttonId)
-			{
 				gm.SetActiveButton(0);
-				selectImage.gameObject.SetActive(false);
-			}
 			else
-			{
 				gm.SetActiveButton(buttonId);
-				selectImage.gameObject.SetActive(true);
-			}
 		}
-	}
-
-	private bool IsButtonValid()
-	{
-		for(int i = 0; i < LevelsData.levelsList[gm.GetRandom()].validOptions.Count; i++)
-		{
-			if (LevelsData.levelsList[gm.GetRandom()].validOptions[i] == buttonId)
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 }

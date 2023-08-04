@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] TextMeshProUGUI taskDescription;
 	private GameObject audioManager;
 	float timer;
-	float timeLimit = 2.0f;
+	float timeLimit = 2.5f;
 	public bool gameOver = false;
 	private int random;
 	private int	activeButton;
@@ -41,7 +41,12 @@ public class GameManager : MonoBehaviour
 	}
 
 	public int GetActiveButton() { return activeButton; }
-	public void SetActiveButton(int num) { activeButton = num; }
+	public void SetActiveButton(int num)
+	{
+		activeButton = num; 
+		for(int i = 0; i < buttons.Count; i++)
+			buttons[i].GetComponent<ColourButton>().SetShowSelectImage();
+	}
 	public int GetRandom() { return random; }
 	public int GetTotal() { return total; }
 	public void SetTotal(int val) { total = val; }
@@ -54,7 +59,7 @@ public class GameManager : MonoBehaviour
 		activeButton = 0;
 		timer = 0;
 		random = Random.Range(0, LevelsData.levelsList.Count);
-		while (IsLevelAcceptableForDifficulty(random))
+		while (!IsLevelAcceptableForDifficulty(LevelsData.levelsList[random].difficulty))
 			random = Random.Range(0, LevelsData.levelsList.Count);
 		buttons[0].sprite = GetSprite(LevelsData.levelsList[random].button1);
 		buttons[1].sprite = GetSprite(LevelsData.levelsList[random].button2);
@@ -122,14 +127,14 @@ public class GameManager : MonoBehaviour
 	{
 		if (PlayerData.difficultyLevel == 0)
 		{
-			if (num <= 1)
+			if (num <= 2)
 				return true;
 			else
 				return false;
 		}
 		else if (PlayerData.difficultyLevel == 1)
 		{
-			if (num >= 1 && num <= 3)
+			if (num >= 2 && num <= 5)
 				return true;
 			else
 				return false;

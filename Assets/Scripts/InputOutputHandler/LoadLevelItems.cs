@@ -5,17 +5,10 @@ using System.IO;
 
 public static class LoadLevelItems
 {
-	public static void LoadInfo()
+	public static IEnumerator BuildLevelItem()
 	{
-		StreamReader file = new StreamReader("Assets/Data/levelSets.txt");
-		BuildLevelItem(file);
-		file.Close();
-	}
-
-	private static void BuildLevelItem(StreamReader reader)
-	{
-		List<Level> list = new List<Level>();
-		LevelsData.levelsList = list;
+		StreamReader reader = new StreamReader("Assets/Data/file.txt");
+		LevelsData.levelsList = new List<Level>();
 		int currentItem = 0;
 		while (!reader.EndOfStream)
 		{
@@ -26,7 +19,7 @@ public static class LoadLevelItems
 				l.validOptions = new List<int>();
 				LevelsData.levelsList.Add(l);
 			}
-			if (line.Contains("[Task]"))
+			else if (line.Contains("[Task]"))
 				LevelsData.levelsList[currentItem].task = ParseInputBetweenTags(line, "[Task]", "[-Task]");
 			else if (line.Contains("[Button1]"))
 				LevelsData.levelsList[currentItem].button1 = ParseInputBetweenTags(line, "[Button1]", "[-Button1]");
@@ -52,6 +45,8 @@ public static class LoadLevelItems
 			else if (line.Contains("[EndItem]"))
 				currentItem++;
 		}
+		reader.Close();
+		yield return null;
 	}
 
 	private static string	ParseInputBetweenTags(string line, string startTag, string endTag)

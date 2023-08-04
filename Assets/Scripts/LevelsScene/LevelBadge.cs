@@ -12,7 +12,6 @@ public class LevelBadge : MonoBehaviour
 	[SerializeField ]private GameObject			readyPanel;
 	private GameObject clickSound;
 	int badgeLevel;
-	int currentDifficulty;
 
 	private void Awake()
 	{
@@ -22,7 +21,7 @@ public class LevelBadge : MonoBehaviour
 	{
 		badgeLevel = int.Parse(gameObject.name);
 		readyPanel.SetActive(false);
-		UpdateBadgeInfo(0);
+		UpdateBadgeInfo(PlayerData.difficultyLevel);
 	}
 
 	private bool isLevelCompleted(int level)
@@ -35,7 +34,7 @@ public class LevelBadge : MonoBehaviour
 
 	public void OpenReadyPanel()
 	{
-		if (PlayerData.player.completedLevelsList[currentDifficulty].currentLevel == badgeLevel)
+		if (PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel == badgeLevel)
 		{
 			clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 			readyPanel.SetActive(true);
@@ -44,7 +43,6 @@ public class LevelBadge : MonoBehaviour
 
 	public void UpdateBadgeInfo(int choosedDifficulty)
 	{
-		currentDifficulty = choosedDifficulty;
 		levelText.text = gameObject.name;
 		if (PlayerData.player.completedLevelsList[choosedDifficulty].currentLevel == badgeLevel)
 		{

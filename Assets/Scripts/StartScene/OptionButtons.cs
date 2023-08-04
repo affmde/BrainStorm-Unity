@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using System.IO;
 public class OptionButtons : MonoBehaviour
 {
 	[SerializeField] string panelName;
@@ -65,7 +65,7 @@ public class OptionButtons : MonoBehaviour
 		removeAccountSoundButton.GetComponent<HandleAudioButtons>().PlaySound();
 		PlayerPrefs.SetString("username", "");
 		string path = Application.persistentDataPath + "/Data";
-		FileUtil.DeleteFileOrDirectory(path);
+		Directory.Delete(path, true);
 		Application.Quit();
 	}
 

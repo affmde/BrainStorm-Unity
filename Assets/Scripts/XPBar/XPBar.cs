@@ -8,10 +8,10 @@ public class XPBar : MonoBehaviour
 {
 	[SerializeField] private Image fillBar;
 	[SerializeField] private TextMeshProUGUI levelText;
-	bool isXpUpdated;
+	bool isXpUpdated = false;
 
 	public bool IsXPUpdated() { return isXpUpdated; }
-	public void SetXPUpdated(bool val) { isXpUpdated = val; } 
+	public void SetXPUpdated(bool val) { isXpUpdated = val; }
 	private void Start()
 	{
 		SetFillBar();

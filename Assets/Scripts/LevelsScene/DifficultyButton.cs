@@ -31,7 +31,6 @@ public class DifficultyButton : MonoBehaviour
 		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 		panel.SetActive(true);
 		SetDifficultyLevel();
-		Debug.Log("Level choosed: " + PlayerData.difficultyLevel);
 		foreach(Image img in badges)
 		{
 			img.GetComponent<LevelBadge>().UpdateBadgeInfo(level);

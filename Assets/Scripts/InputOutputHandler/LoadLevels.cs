@@ -29,12 +29,7 @@ public static class LoadLevels
 			//else if (line.Contains(StaticLevels.timeStart))
 			//	levels[currentItem].duration = float.Parse(ParseInputBetweenTags(line, StaticLevels.timeStart, StaticLevels.timeEnd));
 			else if (line.Contains(StaticLevels.end))
-			{
-				Debug.Log("Level: " + (currentItem));
-				Debug.Log("level total: " + levels[currentItem].total);
 				currentItem++;
-			}
-
 		}
 		file.Close();
 	}

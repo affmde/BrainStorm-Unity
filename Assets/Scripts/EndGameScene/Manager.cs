@@ -35,7 +35,7 @@ public class EndGameManager : MonoBehaviour
 			congratsText.gameObject.SetActive(true);
 			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels.Add(PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel);
 			PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel++;
-			int xp = 100 * (PlayerData.difficultyLevel + 1) + (PlayerData.difficultyLevel + 1) * 20;
+			xp = 100 * (PlayerData.difficultyLevel + 1) + (PlayerData.difficultyLevel + 1) * 20;
 			PlayerData.player.xp += xp;
 		}
 		else
@@ -43,7 +43,7 @@ public class EndGameManager : MonoBehaviour
 			gameOverSound.GetComponent<HandleAudioButtons>().PlaySound();
 			gameOverText.gameObject.SetActive(true);
 			congratsText.gameObject.SetActive(false);
-			int xp = 15 * (PlayerData.difficultyLevel + 1);
+			xp = 15 * (PlayerData.difficultyLevel + 1);
 			PlayerData.player.xp += xp;
 		}
 		continueButton.gameObject.SetActive(false);
@@ -52,9 +52,9 @@ public class EndGameManager : MonoBehaviour
 
 	private void Update()
 	{
-		timer += Time.deltaTime;
-		if (timer >= 1.0f && continueButton.gameObject.activeInHierarchy == false)
-			continueButton.gameObject.SetActive(true);
+		//timer += Time.deltaTime;
+		//if (timer >= 1.0f)
+		//	continueButton.gameObject.SetActive(true);
 		if (xpBar.IsXPUpdated() && !xpIsUpdated)
 		{
 			xpSound.GetComponent<HandleAudioButtons>().StopSound();

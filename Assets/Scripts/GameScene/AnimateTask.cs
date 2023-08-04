@@ -31,7 +31,7 @@ public class AnimateTask : MonoBehaviour
 				transitionSoundOn = true;
 			}
 			time += Time.deltaTime;
-			Debug.Log("rotation time: " + time);
+
 			gameObject.transform.Rotate(Vector3.up, 360f * Time.deltaTime / 1f);
 			if (time > 1)
 			{

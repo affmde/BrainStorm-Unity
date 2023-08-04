@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.IO;
 public class Manager : MonoBehaviour
 {
 	private GameObject audioManager;
@@ -13,8 +13,6 @@ public class Manager : MonoBehaviour
 		audioManager = GameObject.Find("AudioManager");
 		clickSound = GameObject.Find("ClickButtonSound");
 		LoadPlayerData();
-		LoadLevelItems.LoadInfo();
-		LoadLevels.LoadLevelsConfig();
 	}
 
 	private void Start()
