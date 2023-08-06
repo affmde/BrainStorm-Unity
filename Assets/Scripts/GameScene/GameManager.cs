@@ -55,7 +55,13 @@ public class GameManager : MonoBehaviour
 
 	public void UpdateGame()
 	{
-		total = StaticLevels.config[PlayerData.player.currentGameLevel - 1].total;
+		if (PlayerData.difficultyLevel == 0)
+			total = 10;
+		else if (PlayerData.difficultyLevel == 1)
+			total = 15;
+		else
+			total = 20;
+		//total = StaticLevels.config[PlayerData.player.currentGameLevel - 1].total;
 		activeButton = 0;
 		timer = 0;
 		random = Random.Range(0, LevelsData.levelsList.Count);

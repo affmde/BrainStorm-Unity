@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class RegisterManager : MonoBehaviour
 {
-	private bool isLoaded = false;
 	[SerializeField] GameObject loadingPanel;
 	void Start()
 	{
@@ -16,18 +15,18 @@ public class RegisterManager : MonoBehaviour
 
 	private IEnumerator LoadData()
 	{
-		LoadLevels.LoadLevelsConfig();
+		yield return StartCoroutine(LoadLevelItems.ReadTextFileAndroid());
 		yield return StartCoroutine(LoadLevelItems.BuildLevelItem());
-		string username = PlayerPrefs.GetString("username");
-		if (username.Length > 0)
+		//LoadLevels.LoadLevelsConfig();
+		//yield return StartCoroutine(LoadLevelItems.BuildLevelItem());
+		if (PlayerPrefs.HasKey("username"))
 		{
+			string username = PlayerPrefs.GetString("username");
 			PlayerData.player.username = username;
 			SceneManager.LoadScene("StartScene");
 		}
 		else
-		{
 			loadingPanel.SetActive(false);
-		}
 	}
 
 	private void AllocatePlayerData()

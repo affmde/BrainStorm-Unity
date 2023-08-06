@@ -5,13 +5,33 @@ using System.IO;
 
 public static class LoadLevelItems
 {
+	private static TextAsset	levelItemsText;
+	public static IEnumerator ReadTextFileAndroid()
+	{
+		string fileName = "file";
+		string path = "Data/" + fileName;
+		string pathToSave = Application.persistentDataPath + "/Data/levelItems.txt";
+
+		levelItemsText = Resources.Load<TextAsset>(path);
+		//byte[] fileBytes = levelItemsText.bytes;
+		//File.WriteAllBytes(pathToSave, fileBytes);
+		if (!Directory.Exists(Application.persistentDataPath + "/Data"))
+			Directory.CreateDirectory(Application.persistentDataPath + "/Data");
+		File.WriteAllText(pathToSave, levelItemsText.text);
+		yield return null;
+		
+	}
 	public static IEnumerator BuildLevelItem()
 	{
-		StreamReader reader = new StreamReader("Assets/Data/file.txt");
+		string pathToRead = Application.persistentDataPath + "/Data/levelItems.txt";
+		StreamReader reader = new StreamReader(pathToRead);
+		//string [] lines = levelItemsText.text.Split("\n");
+		//Debug.Log("total lines: " + lines.Length);
 		LevelsData.levelsList = new List<Level>();
 		int currentItem = 0;
 		while (!reader.EndOfStream)
 		{
+			//Debug.Log("line: " + line);
 			string line = reader.ReadLine();
 			if (line.Contains("[StartItem]"))
 			{
@@ -45,6 +65,7 @@ public static class LoadLevelItems
 			else if (line.Contains("[EndItem]"))
 				currentItem++;
 		}
+		Debug.Log("total levels loaded: " + LevelsData.levelsList.Count);
 		reader.Close();
 		yield return null;
 	}

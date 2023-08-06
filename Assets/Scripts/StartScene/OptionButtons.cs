@@ -63,9 +63,11 @@ public class OptionButtons : MonoBehaviour
 	public void RemoveAccount()
 	{
 		removeAccountSoundButton.GetComponent<HandleAudioButtons>().PlaySound();
-		PlayerPrefs.SetString("username", "");
+		if (PlayerPrefs.HasKey("username"))
+			PlayerPrefs.DeleteKey("username");
 		string path = Application.persistentDataPath + "/Data";
-		Directory.Delete(path, true);
+		if (Directory.Exists(path))
+			Directory.Delete(path, true);
 		Application.Quit();
 	}
 

@@ -12,7 +12,12 @@ public static class LoadLevels
 	}
 	private static void LoadLevelsData(List<LevelsConfig> levels)
 	{
-		StreamReader file = new StreamReader("Assets/Data/levels.txt");
+		//string fileName = "levels.txt";
+		//string path = "Data/" + fileName;
+
+		StreamReader file = new StreamReader("Assets/Resources/Data/levels.txt");
+		//TextAsset textAsset = Resources.Load<TextAsset>(path);
+		//string []lines = textAsset.text.Split("\n");
 		int currentItem = 0;
 		while (!file.EndOfStream)
 		{
