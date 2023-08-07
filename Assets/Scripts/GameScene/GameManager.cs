@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 	float timer;
 	float timeLimit = 2.5f;
 	public bool gameOver = false;
+	private bool gameOn;
 	private int random;
 	private int	activeButton;
 	private int totalCorrect;
@@ -38,8 +39,8 @@ public class GameManager : MonoBehaviour
 		timeLimit = GetTimeLimit();
 		total = 10;
 		animTask.SetIsActive(true);
-		StartCoroutine(TaskTransition());
-		//UpdateGame();
+		gameOn = true;
+		UpdateGame();
 	}
 
 	public int GetActiveButton() { return activeButton; }
@@ -49,14 +50,12 @@ public class GameManager : MonoBehaviour
 		for(int i = 0; i < buttons.Count; i++)
 			buttons[i].GetComponent<ColourButton>().SetShowSelectImage();
 	}
-	public int GetRandom() { return random; }
 	public int GetTotal() { return total; }
-	public void SetTotal(int val) { total = val; }
 	public int GetTotalCorrect() { return totalCorrect; }
-	public void increaseTotalCorrect() { totalCorrect++; }
 
 	public void UpdateGame()
 	{
+		gameOn = true;
 		if (PlayerData.difficultyLevel == 0)
 			total = 10;
 		else if (PlayerData.difficultyLevel == 1)
@@ -93,24 +92,26 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (!animTask.GetIsActive())
+		if (gameOn)
 		{
 			timer += Time.deltaTime;
 			timerBar.fillAmount = Mathf.Clamp01(timer / timeLimit);
 		}
 		if (timer >= timeLimit)
 		{
+			timer = 0;
+			gameOn = false;
 			if (LevelsData.levelsList[random].validOptions.Contains(activeButton))
 			{
+				animTask.PlaySound();
 				totalCorrect++;
-				animTask.SetIsActive(true);
-				StartCoroutine(TaskTransition());
+				animTask.GetComponent<Animator>().SetTrigger("Start");
 			}
 			else if (LevelsData.levelsList[random].validOptions[0] == 0 && activeButton == 0)
 			{
+				animTask.PlaySound();
 				totalCorrect++;
-				animTask.SetIsActive(true);
-				StartCoroutine(TaskTransition());
+				animTask.GetComponent<Animator>().SetTrigger("Start");
 			}
 			else
 				gameOver = true;
@@ -119,13 +120,11 @@ public class GameManager : MonoBehaviour
 		{
 			PlayerData.won = true;
 			sceneTransition.LoadNextScene("EndGameScene");
-			//SceneManager.LoadScene("EndGameScene");
 		}
 		else if (gameOver)
 		{
 			PlayerData.won = false;
 			sceneTransition.LoadNextScene("EndGameScene");
-			//SceneManager.LoadScene("EndGameScene");
 		}
 	}
 
@@ -154,22 +153,12 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	IEnumerator TaskTransition()
-	{
-		timer = 0;
-		taskDescription.text = "";
-		while (animTask.GetIsActive())
-			yield return null;
-		animTask.SetTransitionSoundOn(false);
-		UpdateGame();
-	}
-
 	private float GetTimeLimit()
 	{
 		if (PlayerData.difficultyLevel == 0)
 		{
 			if (PlayerData.player.currentGameLevel < 8)
-				return 2.2f;
+				return 2.0f;
 			else if (PlayerData.player.currentGameLevel < 16)
 				return 1.8f;
 			else

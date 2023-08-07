@@ -9,7 +9,7 @@ public class LevelBadge : MonoBehaviour
 	[SerializeField] private Image				completedImage;
 	[SerializeField] private Image				lockImage;
 	[SerializeField] private TextMeshProUGUI	levelText;
-	[SerializeField ]private GameObject			readyPanel;
+	[SerializeField]private GameObject			readyPanel;
 	private GameObject clickSound;
 	int badgeLevel;
 

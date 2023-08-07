@@ -88,4 +88,10 @@ public class OptionButtons : MonoBehaviour
 			closePanelSound.GetComponent<HandleAudioButtons>().PlaySound();
 		}
 	}
+
+	public void QuitApplication()
+	{
+		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
+		Application.Quit();
+	}
 }

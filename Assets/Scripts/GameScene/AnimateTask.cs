@@ -8,37 +8,26 @@ public class AnimateTask : MonoBehaviour
 	private float time;
 	private float rotation;
 	private GameSoundManagerScript transitionSound;
+	GameManager gm;
 	private bool transitionSoundOn;
+	[SerializeField] Animator taskAnimator;
 
 	private void Awake()
 	{
+		gm = GameObject.Find("Manager").GetComponent<GameManager>();
 		transitionSound = GameObject.Find("GameSceneAudioManager").GetComponent<GameSoundManagerScript>();
 	}
 
 	public bool IsTransitionSoundOn() { return transitionSoundOn; }
+
 	public void SetTransitionSoundOn(bool val) { transitionSoundOn = val; }
 
 	public bool GetIsActive() { return isActive; }
 	public void SetIsActive(bool val) { isActive = val; }
-
-	private void Update()
+	public void PlaySound() { transitionSound.PlayTransitionSound(); }
+	public void ResetAnimationState()
 	{
-		if (isActive)
-		{
-			if (!transitionSoundOn)
-			{
-				transitionSound.PlayTransitionSound();
-				transitionSoundOn = true;
-			}
-			time += Time.deltaTime;
-
-			gameObject.transform.Rotate(Vector3.up, 360f * Time.deltaTime / 1f);
-			if (time > 1)
-			{
-				isActive = false;
-				time = 0;
-				gameObject.transform.Rotate(new Vector3(0, 0, 0));
-			}
-		}
+		taskAnimator.SetTrigger("ResetState");
+		gm.UpdateGame();
 	}
 }
