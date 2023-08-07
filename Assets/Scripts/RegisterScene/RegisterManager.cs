@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class RegisterManager : MonoBehaviour
 {
 	[SerializeField] GameObject loadingPanel;
+	private SceneTransitionManager sceneTransition;
+
+	private void Awake()
+	{
+		sceneTransition = GameObject.Find("LevelLoader").GetComponent<SceneTransitionManager>();
+	}
 	void Start()
 	{
 		loadingPanel.SetActive(true);
@@ -23,7 +28,7 @@ public class RegisterManager : MonoBehaviour
 		{
 			string username = PlayerPrefs.GetString("username");
 			PlayerData.player.username = username;
-			SceneManager.LoadScene("StartScene");
+			sceneTransition.LoadNextScene("StartScene");
 		}
 		else
 			loadingPanel.SetActive(false);

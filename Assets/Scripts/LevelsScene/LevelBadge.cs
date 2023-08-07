@@ -36,6 +36,7 @@ public class LevelBadge : MonoBehaviour
 	{
 		if (PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].currentLevel == badgeLevel)
 		{
+			PlayerData.player.currentGameLevel = badgeLevel;
 			clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 			readyPanel.SetActive(true);
 		}
