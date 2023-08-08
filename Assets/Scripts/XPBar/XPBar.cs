@@ -8,10 +8,17 @@ public class XPBar : MonoBehaviour
 {
 	[SerializeField] private Image fillBar;
 	[SerializeField] private TextMeshProUGUI levelText;
+	private HandleAudioButtons nextLevelSound;
+
 	bool isXpUpdated = false;
 
 	public bool IsXPUpdated() { return isXpUpdated; }
 	public void SetXPUpdated(bool val) { isXpUpdated = val; }
+
+	private void Awake()
+	{
+		nextLevelSound = GameObject.Find("NextLevelSound").GetComponent<HandleAudioButtons>();
+	}
 	private void Start()
 	{
 		SetFillBar();
@@ -54,8 +61,12 @@ public class XPBar : MonoBehaviour
 			float playerLevelProgress = currXP / targetXP;
 			fillBar.fillAmount = playerLevelProgress;
 			if (playerLevelProgress >= 1)
+			{
+				nextLevelSound.PlaySound();
 				PlayerData.player.level++;
+			}
 			i += valToIncrease;
+			levelText.text = PlayerData.player.level.ToString();
 			yield return (timeToWait);
 		}
 		PlayerData.player.xp += amount;
