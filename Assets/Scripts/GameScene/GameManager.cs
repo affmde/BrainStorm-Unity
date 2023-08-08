@@ -169,27 +169,27 @@ public class GameManager : MonoBehaviour
 	{
 		if (PlayerData.difficultyLevel == 0)
 		{
-			if (PlayerData.player.currentGameLevel < 8)
+			if (PlayerData.player.currentGameLevel < 12)
 				return 2.0f;
-			else if (PlayerData.player.currentGameLevel < 16)
+			else if (PlayerData.player.currentGameLevel < 24)
 				return 1.8f;
 			else
 				return 1.5f;
 		}
 		else if (PlayerData.difficultyLevel == 1)
 		{
-			if (PlayerData.player.currentGameLevel < 8)
+			if (PlayerData.player.currentGameLevel < 12)
 				return 2.0f;
-			else if (PlayerData.player.currentGameLevel < 16)
+			else if (PlayerData.player.currentGameLevel < 24)
 				return 1.8f;
 			else
 				return 1.5f;
 		}
 		else
 		{
-			if (PlayerData.player.currentGameLevel < 8)
+			if (PlayerData.player.currentGameLevel < 12)
 				return 1.8f;
-			else if (PlayerData.player.currentGameLevel < 16)
+			else if (PlayerData.player.currentGameLevel < 24)
 				return 1.6f;
 			else
 				return 1.4f;
