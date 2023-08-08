@@ -44,9 +44,10 @@ public class GameManager : MonoBehaviour
 			audioManager.GetComponent<AudioManagerScript>().StopSound();
 		timeLimit = GetTimeLimit();
 		total = 10;
-		//animTask.SetIsActive(true);
-		gameOn = true;
-		UpdateGame();
+		gameOn = false;
+		//UpdateGame();
+		animTask.PlayAnimation();
+		taskDescription.text = "";
 	}
 
 	public int GetActiveButton() { return activeButton; }
@@ -107,17 +108,8 @@ public class GameManager : MonoBehaviour
 		{
 			timer = 0;
 			gameOn = false;
-			if (LevelsData.levelsList[random].validOptions.Contains(activeButton))
-			{
-				taskDescription.text = "";
-				correctAnswerSound.GetComponent<HandleAudioButtons>().PlaySound();
-				totalCorrect++;
-				if (totalCorrect < total)
-					animTask.PlayAnimation();
-				else
-					levelWonSound.PlaySound();
-			}
-			else if (LevelsData.levelsList[random].validOptions[0] == 0 && activeButton == 0)
+			if (LevelsData.levelsList[random].validOptions.Contains(activeButton) ||
+			(LevelsData.levelsList[random].validOptions[0] == 0 && activeButton == 0))
 			{
 				taskDescription.text = "";
 				correctAnswerSound.GetComponent<HandleAudioButtons>().PlaySound();
