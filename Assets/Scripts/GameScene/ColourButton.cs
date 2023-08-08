@@ -37,7 +37,7 @@ public class ColourButton : MonoBehaviour
 
 	public void	HandleClick()
 	{
-		if (gm)
+		if (gm && !gm.gameOver)
 		{
 
 			clickSound.GetComponent<HandleAudioButtons>().PlaySound();

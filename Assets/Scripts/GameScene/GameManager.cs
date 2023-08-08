@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 	private AnimateTask animTask;
 	[SerializeField] TextMeshProUGUI taskDescription;
 	private GameObject audioManager;
+	private GameObject gameOverSound;
 	float timer;
 	float timeLimit = 2.5f;
 	public bool gameOver = false;
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
 		animTask = taskImage.GetComponentInChildren<AnimateTask>();
 		audioManager = GameObject.Find("AudioManager");
 		sceneTransition = GameObject.Find("LevelLoader").GetComponent<SceneTransitionManager>();
+		gameOverSound = GameObject.Find("GameOverSound");
 	}
 
 	private void Start()
@@ -103,18 +105,25 @@ public class GameManager : MonoBehaviour
 			gameOn = false;
 			if (LevelsData.levelsList[random].validOptions.Contains(activeButton))
 			{
+				taskDescription.text = "";
 				animTask.PlaySound();
 				totalCorrect++;
-				animTask.GetComponent<Animator>().SetTrigger("Start");
+				if (totalCorrect < total)
+					animTask.GetComponent<Animator>().SetTrigger("Start");
 			}
 			else if (LevelsData.levelsList[random].validOptions[0] == 0 && activeButton == 0)
 			{
+				taskDescription.text = "";
 				animTask.PlaySound();
 				totalCorrect++;
-				animTask.GetComponent<Animator>().SetTrigger("Start");
+				if (totalCorrect < total)
+					animTask.GetComponent<Animator>().SetTrigger("Start");
 			}
 			else
+			{
+				gameOverSound.GetComponent<HandleAudioButtons>().PlaySound();
 				gameOver = true;
+			}
 		}
 		if (totalCorrect >= total)
 		{

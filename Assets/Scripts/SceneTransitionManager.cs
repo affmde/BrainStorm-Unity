@@ -6,10 +6,15 @@ using UnityEngine.SceneManagement;
 public class SceneTransitionManager : MonoBehaviour
 {
 	[SerializeField] Animator transitionAnimator;
-	private float transitionDuration = 2f;
+	private Animator soundAnimator;
+
+	private float transitionDuration = 1f;
 	bool isAlreadyAnimated;
 
-
+	private void Awake()
+	{
+		soundAnimator = GameObject.Find("AudioManager").GetComponent<Animator>();
+	}
 	private void Start()
 	{
 		isAlreadyAnimated = false;
@@ -23,6 +28,7 @@ public class SceneTransitionManager : MonoBehaviour
 
 	private IEnumerator LoadScene(string sceneName)
 	{
+		soundAnimator.SetTrigger("Start");
 		transitionAnimator.SetTrigger("Start");
 		yield return new WaitForSeconds(transitionDuration);
 		SceneManager.LoadScene(sceneName);
