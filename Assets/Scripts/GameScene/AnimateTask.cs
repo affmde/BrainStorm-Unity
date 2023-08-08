@@ -19,7 +19,18 @@ public class AnimateTask : MonoBehaviour
 	{
 		taskAnimator.GetComponent<HandleAudioButtons>().PlaySound();
 		ps.Play();
-		taskAnimator.SetTrigger("Start");
+		int random = Random.Range(0,2);
+		switch (random)
+		{
+			case 0:
+				taskAnimator.SetTrigger("Start");
+				break;
+			case 1:
+				taskAnimator.SetTrigger("StartVertical");
+				break;
+			default:
+				break;
+		}
 	}
 	public void ResetAnimationState()
 	{
