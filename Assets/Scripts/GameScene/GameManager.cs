@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 	private GameObject gameOverSound;
 	private GameObject correctAnswerSound;
 	private HandleAudioButtons levelWonSound;
+	private Image background;
 	float timer;
 	float timeLimit = 2.5f;
 	public bool gameOver = false;
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
 		gameOverSound = GameObject.Find("GameOverSound");
 		correctAnswerSound = GameObject.Find("CorrectAnswerSound");
 		levelWonSound = GameObject.Find("WonLevelSound").GetComponent<HandleAudioButtons>();
+		background = GameObject.Find("BackgroundPanel").GetComponent<Image>();
 	}
 
 	private void Start()
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour
 		//UpdateGame();
 		animTask.PlayAnimation();
 		taskDescription.text = "";
+		background.color = GenerateRandomColor();
 	}
 
 	public int GetActiveButton() { return activeButton; }
@@ -191,5 +194,13 @@ public class GameManager : MonoBehaviour
 			else
 				return 1.4f;
 		}
+	}
+
+	private Color GenerateRandomColor()
+	{
+		float red = Random.Range(0f, 1f);
+		float blue = Random.Range(0f, 1f);
+		float green = Random.Range(0f, 1f);
+		return new Color(red, blue, green, 1);
 	}
 }
