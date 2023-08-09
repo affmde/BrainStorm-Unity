@@ -2616,6 +2616,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: b9bb370dfab7a974e8f4fb0629d9651a, type: 2}
+    - target: {fileID: 5762474682084493702, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

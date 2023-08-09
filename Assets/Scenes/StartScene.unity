@@ -2030,7 +2030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5384950761734602535, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: m_Alpha
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5996922956832108596, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: transitionAnimator

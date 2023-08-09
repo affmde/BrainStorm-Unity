@@ -21,9 +21,12 @@ public class SceneTransitionManager : MonoBehaviour
 	{
 		isAlreadyAnimated = false;
 		currentScene = SceneManager.GetActiveScene();
+		crossfadeAnimator.gameObject.SetActive(false);
 		if (currentScene.name == "EndGameScene")
+		{
 			logoAnimator.gameObject.SetActive(false);
-		//crossfadeAnimator.gameObject.SetActive(true);
+			crossfadeAnimator.gameObject.SetActive(true);
+		}
 
 
 	}
