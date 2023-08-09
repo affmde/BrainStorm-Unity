@@ -1982,7 +1982,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 384140785060331106, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3014809806358365388, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: m_Name
@@ -2028,6 +2028,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5384950761734602535, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5996922956832108596, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: transitionAnimator
       value: 
@@ -2043,7 +2047,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
 --- !u!95 &594456241 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 5895790112126745080, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4474755420858414052, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
   m_PrefabInstance: {fileID: 594456240}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &596151040

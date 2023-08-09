@@ -1147,7 +1147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1005
+      value: -1005.00006
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1571,7 +1571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1005
+      value: -1005.00006
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2867,7 +2867,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 384140785060331106, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3014809806358365388, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: m_Name
@@ -2913,6 +2913,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5384950761734602535, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5996922956832108596, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
       propertyPath: transitionAnimator
       value: 
@@ -2927,6 +2931,11 @@ PrefabInstance:
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
 --- !u!95 &640190799 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4474755420858414052, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
+  m_PrefabInstance: {fileID: 640190798}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &640190800 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5895790112126745080, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
   m_PrefabInstance: {fileID: 640190798}
@@ -3183,6 +3192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 728509799}
   - component: {fileID: 728509800}
+  - component: {fileID: 728509801}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -3217,6 +3227,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce8eda8a0bd6ff4db872f492a96c6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &728509801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728509798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6f1b965e3efda34d9fce5d8a3206df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logoAnimator: {fileID: 640190799}
+  crossfadeAnimator: {fileID: 640190800}
 --- !u!1001 &751816593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3295,7 +3319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1005
+      value: -1005.00006
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3643,7 +3667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1005
+      value: -1005.00006
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4684,9 +4708,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1390825887}
-        m_TargetAssemblyTypeName: SceneChange, Assembly-CSharp
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: 728509800}
+        m_TargetAssemblyTypeName: LevelsManagerScript, Assembly-CSharp
+        m_MethodName: Return
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5304,7 +5328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1005
+      value: -1005.00006
       objectReference: {fileID: 0}
     - target: {fileID: 6245302788915919319, guid: 11d6051b645e66648acbc5dc23a18d5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

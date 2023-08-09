@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneTransitionManager : MonoBehaviour
 {
-	[SerializeField] Animator transitionAnimator;
+	[SerializeField] Animator logoAnimator;
+	[SerializeField] Animator crossfadeAnimator;
+	private Scene currentScene;
 	private Animator soundAnimator;
 
 	private float transitionDuration = 1f;
@@ -18,6 +20,12 @@ public class SceneTransitionManager : MonoBehaviour
 	private void Start()
 	{
 		isAlreadyAnimated = false;
+		currentScene = SceneManager.GetActiveScene();
+		if (currentScene.name == "EndGameScene")
+			logoAnimator.gameObject.SetActive(false);
+		//crossfadeAnimator.gameObject.SetActive(true);
+
+
 	}
 	public void LoadNextScene(string sceneName)
 	{
@@ -29,7 +37,20 @@ public class SceneTransitionManager : MonoBehaviour
 	private IEnumerator LoadScene(string sceneName)
 	{
 		soundAnimator.SetTrigger("Start");
-		transitionAnimator.SetTrigger("Start");
+		if (currentScene.name == "GameScene")
+		{
+			logoAnimator.gameObject.SetActive(false);
+			crossfadeAnimator.gameObject.SetActive(true);
+			crossfadeAnimator.SetTrigger("Start");
+		}
+		else if (currentScene.name == "EndGameScene")
+		{
+			logoAnimator.gameObject.SetActive(true);
+			crossfadeAnimator.gameObject.SetActive(false);
+			logoAnimator.SetTrigger("Start");
+		}
+		else
+			logoAnimator.SetTrigger("Start");
 		yield return new WaitForSeconds(transitionDuration);
 		SceneManager.LoadScene(sceneName);
 	}

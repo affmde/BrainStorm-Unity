@@ -5,10 +5,13 @@ using UnityEngine;
 public class LevelsManagerScript : MonoBehaviour
 {
 	private GameObject audioManager;
-
+	private HandleAudioButtons clickSound;
+	SceneTransitionManager changeScene;
 	private void Awake()
 	{
 		audioManager = GameObject.Find("AudioManager");
+		clickSound = GameObject.Find("ClickButtonSound").GetComponent<HandleAudioButtons>();
+		changeScene = GameObject.Find("Manager").GetComponent<SceneTransitionManager>();
 	}
 
 	private void Start()
@@ -22,5 +25,11 @@ public class LevelsManagerScript : MonoBehaviour
 					audio.PlaySound();
 			}
 		}
+	}
+
+	public void Return()
+	{
+		changeScene.LoadNextScene("StartScene");
+		clickSound.PlaySound();
 	}
 }

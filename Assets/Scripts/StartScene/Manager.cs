@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.IO;
+
 public class Manager : MonoBehaviour
 {
 	private GameObject audioManager;
 	private GameObject clickSound;
-	
+	private SceneTransitionManager sceneTransition;
 	private void Awake()
 	{
 		audioManager = GameObject.Find("AudioManager");
 		clickSound = GameObject.Find("ClickButtonSound");
+		sceneTransition = GameObject.Find("LevelLoader").GetComponent<SceneTransitionManager>();
 		LoadPlayerData();
 	}
 
@@ -31,7 +31,7 @@ public class Manager : MonoBehaviour
 	public void Play()
 	{
 		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
-		SceneManager.LoadScene("LevelsScene");
+		sceneTransition.LoadNextScene("LevelsScene");
 	}
 
 	
