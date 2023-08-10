@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
 	private GameObject gameOverSound;
 	private GameObject correctAnswerSound;
 	private HandleAudioButtons levelWonSound;
+	private HandleAudioButtons fireworkSound;
+	private HandleAudioButtons explosionSound;
+	[SerializeField] private GameObject fireworksParticles;
+	[SerializeField] private GameObject explosionParticles;
 	private Image background;
 	float timer;
 	float timeLimit = 2.5f;
@@ -37,6 +41,8 @@ public class GameManager : MonoBehaviour
 		correctAnswerSound = GameObject.Find("CorrectAnswerSound");
 		levelWonSound = GameObject.Find("WonLevelSound").GetComponent<HandleAudioButtons>();
 		background = GameObject.Find("BackgroundPanel").GetComponent<Image>();
+		fireworkSound = GameObject.Find("FireworksSound").GetComponent<HandleAudioButtons>();
+		explosionSound = GameObject.Find("ExplosionSound").GetComponent<HandleAudioButtons>();
 	}
 
 	private void Start()
@@ -120,21 +126,35 @@ public class GameManager : MonoBehaviour
 				if (totalCorrect < total)
 					animTask.PlayAnimation();
 				else
+				{
 					levelWonSound.PlaySound();
+					fireworkSound.PlaySound();
+				}
 			}
 			else
 			{
 				gameOverSound.GetComponent<HandleAudioButtons>().PlaySound();
+				explosionSound.PlaySound();
 				gameOver = true;
 			}
 		}
 		if (totalCorrect >= total)
 		{
 			PlayerData.won = true;
+			ParticleSystem ps = fireworksParticles.GetComponent<ParticleSystem>();
+			ParticleSystem p_s = Instantiate(ps, gameObject.transform.position, gameObject.transform.rotation);
+			p_s.transform.localScale = new Vector3(0.05f,0.05f,0.05f);
+			if (!p_s.isPlaying)
+				p_s.Play();
 			sceneTransition.LoadNextScene("EndGameScene");
 		}
 		else if (gameOver)
 		{
+			ParticleSystem ps = explosionParticles.GetComponent<ParticleSystem>();
+			ParticleSystem p_s = Instantiate(ps, gameObject.transform.position, gameObject.transform.rotation);
+			p_s.transform.localScale = new Vector3(5,5,5);
+			if (!p_s.isPlaying)
+				p_s.Play();
 			PlayerData.won = false;
 			sceneTransition.LoadNextScene("EndGameScene");
 		}

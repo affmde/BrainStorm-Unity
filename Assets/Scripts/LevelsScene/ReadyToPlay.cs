@@ -4,6 +4,7 @@ public class ReadyToPlay : MonoBehaviour
 {
 	private GameObject playSound;
 	private GameObject cancelSound;
+	private Animator audioManagerAnimator;
 	private SceneTransitionManager sceneTransition;
 
 	private void Awake()
@@ -11,6 +12,7 @@ public class ReadyToPlay : MonoBehaviour
 		playSound = GameObject.Find("PlayButtonSound");
 		cancelSound = GameObject.Find("CloseMenuButtonSound");
 		sceneTransition = GameObject.Find("LevelLoader").GetComponent<SceneTransitionManager>();
+		audioManagerAnimator = GameObject.Find("AudioManager").GetComponent<Animator>();
 	}
 	private void Start()
 	{
@@ -20,6 +22,7 @@ public class ReadyToPlay : MonoBehaviour
 	public void Play()
 	{
 		playSound.GetComponent<HandleAudioButtons>().PlaySound();
+		audioManagerAnimator.SetTrigger("FadeOut");
 		sceneTransition.LoadNextScene("GameScene");
 	}
 

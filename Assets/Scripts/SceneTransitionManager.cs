@@ -39,7 +39,6 @@ public class SceneTransitionManager : MonoBehaviour
 
 	private IEnumerator LoadScene(string sceneName)
 	{
-		soundAnimator.SetTrigger("Start");
 		if (currentScene.name == "GameScene")
 		{
 			logoAnimator.gameObject.SetActive(false);

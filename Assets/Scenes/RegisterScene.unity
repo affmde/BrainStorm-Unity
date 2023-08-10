@@ -694,7 +694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -162}
+  m_AnchoredPosition: {x: 0, y: -162.00003}
   m_SizeDelta: {x: 0, y: -729.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &554502289
@@ -2612,14 +2612,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4474755420858414052, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: b9bb370dfab7a974e8f4fb0629d9651a, type: 2}
-    - target: {fileID: 5762474682084493702, guid: 300827864232a024fbdaa4963ecaa828, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3934,7 +3926,7 @@ Animator:
   m_GameObject: {fileID: 2093569042}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: d399b74d6b649184c8fad7471eb71f39, type: 2}
+  m_Controller: {fileID: 9100000, guid: 79e4e00ff7bf5c945be74304cb77f3b1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
