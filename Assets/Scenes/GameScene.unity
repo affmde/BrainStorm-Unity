@@ -749,6 +749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 472742787}
   - component: {fileID: 472742788}
+  - component: {fileID: 472742789}
   m_Layer: 0
   m_Name: GameSceneAudioManager
   m_TagString: Untagged
@@ -789,6 +790,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d76a4ec856a60042b14e9013b9fb7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &472742789
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472742786}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 79e4e00ff7bf5c945be74304cb77f3b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &575922028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,6 +2071,7 @@ GameObject:
   - component: {fileID: 1407958457}
   - component: {fileID: 1407958458}
   - component: {fileID: 1407958459}
+  - component: {fileID: 1407958460}
   m_Layer: 0
   m_Name: GameSound
   m_TagString: Untagged
@@ -2179,6 +2202,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fce5d8bd37a13f478bb18313888b3fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1407958460
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407958456}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 79e4e00ff7bf5c945be74304cb77f3b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1606573320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2324,6 +2368,7 @@ GameObject:
   - component: {fileID: 1642088259}
   - component: {fileID: 1642088261}
   - component: {fileID: 1642088260}
+  - component: {fileID: 1642088262}
   m_Layer: 0
   m_Name: ExplosionSound
   m_TagString: Untagged
@@ -2454,6 +2499,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &1642088262
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642088258}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 79e4e00ff7bf5c945be74304cb77f3b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1863693608
 GameObject:
   m_ObjectHideFlags: 0
@@ -2465,6 +2531,7 @@ GameObject:
   - component: {fileID: 1863693609}
   - component: {fileID: 1863693611}
   - component: {fileID: 1863693610}
+  - component: {fileID: 1863693612}
   m_Layer: 0
   m_Name: FireworksSound
   m_TagString: Untagged
@@ -2595,6 +2662,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &1863693612
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863693608}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 79e4e00ff7bf5c945be74304cb77f3b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1935371061
 GameObject:
   m_ObjectHideFlags: 0

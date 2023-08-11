@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	private GameObject audioManager;
 	private GameObject gameOverSound;
 	private GameObject correctAnswerSound;
+	private GameObject gameSound;
 	private HandleAudioButtons levelWonSound;
 	private HandleAudioButtons fireworkSound;
 	private HandleAudioButtons explosionSound;
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
 		background = GameObject.Find("BackgroundPanel").GetComponent<Image>();
 		fireworkSound = GameObject.Find("FireworksSound").GetComponent<HandleAudioButtons>();
 		explosionSound = GameObject.Find("ExplosionSound").GetComponent<HandleAudioButtons>();
+		gameSound = GameObject.Find("GameSound");
 	}
 
 	private void Start()
@@ -72,12 +74,10 @@ public class GameManager : MonoBehaviour
 	public void UpdateGame()
 	{
 		gameOn = true;
-		if (PlayerData.difficultyLevel == 0)
-			total = 10;
-		else if (PlayerData.difficultyLevel == 1)
+		if (PlayerData.difficultyLevel == 1)
 			total = 15;
 		else
-			total = 20;
+			total = 10;
 		activeButton = 0;
 		timer = 0;
 		random = Random.Range(0, LevelsData.levelsList.Count);
@@ -146,16 +146,20 @@ public class GameManager : MonoBehaviour
 			p_s.transform.localScale = new Vector3(0.05f,0.05f,0.05f);
 			if (!p_s.isPlaying)
 				p_s.Play();
+			SetTrigger(true);
 			sceneTransition.LoadNextScene("EndGameScene");
 		}
 		else if (gameOver)
 		{
 			ParticleSystem ps = explosionParticles.GetComponent<ParticleSystem>();
-			ParticleSystem p_s = Instantiate(ps, gameObject.transform.position, gameObject.transform.rotation);
+			var screenBottomCenter = new Vector3(Screen.width/2, 0, 0);
+			var inWorld = Camera.main.ScreenToWorldPoint(screenBottomCenter);
+			ParticleSystem p_s = Instantiate(ps, inWorld, gameObject.transform.rotation);
 			p_s.transform.localScale = new Vector3(5,5,5);
 			if (!p_s.isPlaying)
 				p_s.Play();
 			PlayerData.won = false;
+			SetTrigger(false);
 			sceneTransition.LoadNextScene("EndGameScene");
 		}
 	}
@@ -222,5 +226,14 @@ public class GameManager : MonoBehaviour
 		float blue = Random.Range(0f, 1f);
 		float green = Random.Range(0f, 1f);
 		return new Color(red, blue, green, 1);
+	}
+
+	private void SetTrigger(bool won)
+	{
+		if (won)
+			fireworkSound.GetComponent<Animator>().SetTrigger("FadeOut");
+		else
+			explosionSound.GetComponent<Animator>().SetTrigger("FadeOut");
+		gameSound.GetComponent<Animator>().SetTrigger("FadeOut");
 	}
 }

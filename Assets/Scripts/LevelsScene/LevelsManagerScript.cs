@@ -20,7 +20,6 @@ public class LevelsManagerScript : MonoBehaviour
 	private void Start()
 	{
 		currentClipInfo = audioManagerAnimator.GetCurrentAnimatorClipInfo(0);
-		Debug.Log("CurrentCLipInfo name: " + currentClipInfo[0].clip.name);
 		if (PlayerData.player.isSoundOn)
 		{
 			if (audioManager)
@@ -32,14 +31,7 @@ public class LevelsManagerScript : MonoBehaviour
 					audioManagerAnimator.SetTrigger("FadeIn");
 				}
 				else if (currentClipInfo[0].clip.name == "Audio_out")
-				{
-					Debug.Log("HERE! CORRECT ANIMATOR STATE NAME");
 					audioManagerAnimator.SetTrigger("FadeIn");
-				}
-				else
-				{
-					Debug.Log("Current name: " + currentClipInfo[0].clip.name);
-				}
 			}
 		}
 	}

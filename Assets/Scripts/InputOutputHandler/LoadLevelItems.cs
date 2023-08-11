@@ -25,13 +25,10 @@ public static class LoadLevelItems
 	{
 		string pathToRead = Application.persistentDataPath + "/Data/levelItems.txt";
 		StreamReader reader = new StreamReader(pathToRead);
-		//string [] lines = levelItemsText.text.Split("\n");
-		//Debug.Log("total lines: " + lines.Length);
 		LevelsData.levelsList = new List<Level>();
 		int currentItem = 0;
 		while (!reader.EndOfStream)
 		{
-			//Debug.Log("line: " + line);
 			string line = reader.ReadLine();
 			if (line.Contains("[StartItem]"))
 			{
@@ -56,8 +53,6 @@ public static class LoadLevelItems
 				for(int i = 0; i < arr.Length; i++)
 					LevelsData.levelsList[currentItem].validOptions.Add(int.Parse(arr[i]));
 			}
-			//else if (line.Contains("[TimeLimit]"))
-			//	LevelsData.levelsList[currentItem].time = float.Parse(ParseInputBetweenTags(line, "[TimeLimit]", "[-TimeLimit]"));
 			else if (line.Contains("[Difficulty]"))
 				LevelsData.levelsList[currentItem].difficulty = int.Parse(ParseInputBetweenTags(line, "[Difficulty]", "[-Difficulty]"));
 			else if (line.Contains("[ID]"))
@@ -65,7 +60,6 @@ public static class LoadLevelItems
 			else if (line.Contains("[EndItem]"))
 				currentItem++;
 		}
-		Debug.Log("total levels loaded: " + LevelsData.levelsList.Count);
 		reader.Close();
 		yield return null;
 	}

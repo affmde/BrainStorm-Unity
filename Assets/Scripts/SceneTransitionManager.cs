@@ -56,4 +56,9 @@ public class SceneTransitionManager : MonoBehaviour
 		yield return new WaitForSeconds(transitionDuration);
 		SceneManager.LoadScene(sceneName);
 	}
+
+	public void ChangeSceneWithoutTransition(string sceneName)
+	{
+		SceneManager.LoadScene(sceneName);
+	}
 }

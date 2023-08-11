@@ -38,10 +38,8 @@ public class OptionButtons : MonoBehaviour
 
 	public void OpenPanel()
 	{
-		Debug.Log("OPen panel called");
 		if (panel)
 		{
-			Debug.Log("Panel detected. Now will open it");
 			panel.SetActive(true);
 			optionsMenuSound.GetComponent<HandleAudioButtons>().PlaySound();
 		}
