@@ -20,6 +20,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndGameScene.unity
     guid: dd0cd8ac0358ff6419bfc8a69c29583d
+  - enabled: 1
+    path: Assets/Scenes/MultiplayerMenu.unity
+    guid: f1c31fdee84efeb4dba5e9add792ae85
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 4d728bd96f3813e47862b63be614b793
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 9438424da0da05f48b1dd8c8ab8d853a, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 32aa62fdf872feb49a877ba4806369e3, type: 2}

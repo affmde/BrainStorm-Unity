@@ -34,7 +34,11 @@ public class Manager : MonoBehaviour
 		sceneTransition.LoadNextScene("LevelsScene");
 	}
 
-	
+	public void PlayMultiplayer()
+	{
+		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
+		sceneTransition.LoadNextScene("MultiplayerMenu");
+	}
 	void LoadPlayerData()
 	{
 		LoadData.Load(PlayerData.player);

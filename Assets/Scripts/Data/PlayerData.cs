@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public static class PlayerData
 {
-	public static Player player;
+	public static PlayerDataInfo player;
 	public static bool won;
 	public static int difficultyLevel;
 	public static void Reset()
@@ -11,7 +11,7 @@ public static class PlayerData
 	}
 }
 
-public class Player
+public class PlayerDataInfo
 {
 	public string		username;
 	public int			level;

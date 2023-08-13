@@ -36,7 +36,7 @@ public class RegisterManager : MonoBehaviour
 
 	private void AllocatePlayerData()
 	{
-		PlayerData.player = new Player();
+		PlayerData.player = new PlayerDataInfo();
 		PlayerData.player.completedLevelsList = new List<Lvl>();
 		for(int i = 0; i < 3; i++)
 		{

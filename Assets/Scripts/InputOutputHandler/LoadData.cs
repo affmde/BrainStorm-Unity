@@ -5,7 +5,7 @@ using System.IO;
 
 public static class LoadData
 {
-	public static void Load(Player player)
+	public static void Load(PlayerDataInfo player)
 	{
 		string path = Application.persistentDataPath + "/Data";
 		string fileName = "save.txt";
@@ -20,7 +20,7 @@ public static class LoadData
 		return input;
 	}
 
-	private static void ReadFile(string path, string filename, Player player)
+	private static void ReadFile(string path, string filename, PlayerDataInfo player)
 	{
 		StreamReader file = new StreamReader(path + "/" + filename);
 		while (!file.EndOfStream)
