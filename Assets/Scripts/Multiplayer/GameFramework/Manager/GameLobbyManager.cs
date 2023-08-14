@@ -17,6 +17,10 @@ namespace Game
 
 		private List<LobbyPlayerData> lobbyPlayersData = new List<LobbyPlayerData>();
 		private LobbyPlayerData localLobbyPlayerData;
+		private LobbyData lobbyData;
+
+
+		public bool IsHost => localLobbyPlayerData.Id == LobbyManager.Instance.GetHostId();
 		private void OnEnable()
 		{
 			GameFramework.Events.LobbyEvents.OnLobbyUpdated += OnLobbyUpdated;
@@ -30,19 +34,20 @@ namespace Game
 
 		public async Task<bool> CreateLobby()
 		{
-			LobbyPlayerData data = new LobbyPlayerData();
-			data.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer", PlayerData.player.username, PlayerData.player.level);
-			bool succeeded = await LobbyManager.Instance.CreatLobby(4, true, data.Serialize());
+			localLobbyPlayerData = new LobbyPlayerData();
+			localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer", PlayerData.player.username, PlayerData.player.level);
+			lobbyData = new LobbyData();
+			lobbyData.Initialize(0);
+			bool succeeded = await LobbyManager.Instance.CreatLobby(4, true, localLobbyPlayerData.Serialize(), lobbyData.Serialize());
 			Debug.Log("Lobby created successfuly");
 			return succeeded;
 		}
 
 		public async Task<bool> JoinLobby(string joinCode)
 		{
-			LobbyPlayerData data = new LobbyPlayerData();
-			data.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer", PlayerData.player.username, PlayerData.player.level);
-
-			bool succeeded = await LobbyManager.Instance.JoinLobby(joinCode, data.Serialize());
+			localLobbyPlayerData = new LobbyPlayerData();
+			localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer", PlayerData.player.username, PlayerData.player.level);
+			bool succeeded = await LobbyManager.Instance.JoinLobby(joinCode, localLobbyPlayerData.Serialize());
 			Debug.Log("Joined successfuly to lobby");
 			return succeeded;
 		}
@@ -51,22 +56,42 @@ namespace Game
 		{
 			List<Dictionary<string, PlayerDataObject>> playerData = LobbyManager.Instance.GetPlayersData();
 			lobbyPlayersData.Clear();
+			int numberOfPlayersReady = 0;
 			foreach (Dictionary<string, PlayerDataObject> data in playerData)
 			{
 				LobbyPlayerData lobbyPlayerData= new LobbyPlayerData();
 				lobbyPlayerData.Initialize(data);
+				if (lobbyPlayerData.IsReady)
+					numberOfPlayersReady++;
 				if (lobbyPlayerData.Id == AuthenticationService.Instance.PlayerId)
 					localLobbyPlayerData = lobbyPlayerData;
 
 				lobbyPlayersData.Add(lobbyPlayerData);
 			}
-
+			lobbyData = new LobbyData();
+			lobbyData.Initialize(lobby.Data);
 			Events.LobbyEvents.OnLobbyUpdated?.Invoke();
+			if (numberOfPlayersReady == lobby.Players.Count)
+				Events.LobbyEvents.OnLobbyReady?.Invoke();
 		}
 
 		public List<LobbyPlayerData> GetPlayers()
 		{
 			return lobbyPlayersData;
+		}
+
+		public async Task<bool> SetPlayerReady()
+		{
+			localLobbyPlayerData.IsReady = true;
+			return await LobbyManager.Instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize());
+		}
+
+		public int GetDifficultyIndex() { return lobbyData.DifficultyIndex; }
+
+		public async Task<bool> SetSelectedDifficulty(int currentDifficultyIndex)
+		{
+			lobbyData.DifficultyIndex = currentDifficultyIndex;
+			return await LobbyManager.Instance.UpdateLobbyData(lobbyData.Serialize());
 		}
 
 	}

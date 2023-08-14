@@ -17,13 +17,15 @@ namespace GameFramework_Core.GameFramework_Manager
 		private Coroutine refreshLobbyCoroutine;
 
 		public string GetJoinCode() { return lobby?.LobbyCode; }
+		public string GetHostId() { return lobby.HostId; }
 
-		public async Task<bool> CreatLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data)
+		public async Task<bool> CreatLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data, Dictionary<string, string> lobbyData)
 		{
 			Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
 			Player player = new Player(AuthenticationService.Instance.PlayerId, null, playerData);
 			CreateLobbyOptions options = new CreateLobbyOptions()
 			{
+				Data = SerializeLobbyData(lobbyData),
 				IsPrivate = isPrivate,
 				Player = player
 			};
@@ -94,6 +96,20 @@ namespace GameFramework_Core.GameFramework_Manager
 			}
 			return playerData;
 		}
+
+		private Dictionary<string, DataObject> SerializeLobbyData(Dictionary<string, string> data)
+		{
+			Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>();
+			foreach(var (key, value) in data)
+			{
+				lobbyData.Add(key, new DataObject(
+					visibility: DataObject.VisibilityOptions.Member,
+					value: value
+				));
+			}
+			return lobbyData;
+		}
+
 		public void OnApplicationQuit()
 		{
 			if (lobby != null && lobby.HostId == AuthenticationService.Instance.PlayerId)
@@ -109,6 +125,40 @@ namespace GameFramework_Core.GameFramework_Manager
 			foreach (Player player in lobby.Players)
 				data.Add(player.Data);
 			return data;
+		}
+
+		public async Task<bool> UpdatePlayerData(string id, Dictionary<string, string> data)
+		{
+			Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
+			UpdatePlayerOptions options = new UpdatePlayerOptions()
+			{
+				Data = playerData
+			};
+			try {
+				await LobbyService.Instance.UpdatePlayerAsync(lobby.Id, id, options);
+			} catch (System.Exception e) {
+				Debug.Log(e);
+				return false;
+			}
+			GameFramework.Events.LobbyEvents.OnLobbyUpdated(lobby);
+			return true;
+		}
+
+		public async Task<bool> UpdateLobbyData(Dictionary<string, string> data)
+		{
+			Dictionary<string, DataObject> lobbyData = SerializeLobbyData(data);
+			UpdateLobbyOptions options = new UpdateLobbyOptions()
+			{
+				Data = lobbyData
+			};
+			try {
+				lobby = await LobbyService.Instance.UpdateLobbyAsync(lobby.Id, options);
+			} catch (System.Exception e) {
+				Debug.Log(e);
+				return false;
+			}
+			GameFramework.Events.LobbyEvents.OnLobbyUpdated(lobby);
+			return true;
 		}
 
 	}

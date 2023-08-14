@@ -13,6 +13,8 @@ namespace GameFramework_Core.Data
 
 		public string Id => id;
 		public string GamerTag => gamerTag;
+		public string Name => name;
+		public int Level => level;
 		public bool IsReady
 		{
 			get => isReady;
