@@ -26,7 +26,7 @@ namespace Game
 			{
 				leftButton.onClick.AddListener(OnLeftButtonClicked);
 				rightButton.onClick.AddListener(OnRightButtonClicked);
-
+				startButton.onClick.AddListener(OnStartButtonClicked);
 				Events.LobbyEvents.OnLobbyReady += OnLobbyReady;
 			}
 			readyButton.onClick.AddListener(OnReadyPressed);
@@ -39,6 +39,7 @@ namespace Game
 			//{
 				leftButton.onClick.RemoveListener(OnLeftButtonClicked);
 				rightButton.onClick.RemoveListener(OnRightButtonClicked);
+				startButton.onClick.RemoveListener(OnStartButtonClicked);
 			//}
 			readyButton.onClick.RemoveListener(OnReadyPressed);
 			LobbyEvents.OnLobbyUpdated -= OnLobbyUpdated;
@@ -96,6 +97,11 @@ namespace Game
 		private void OnLobbyReady()
 		{
 			startButton.gameObject.SetActive(true);
+		}
+
+		private async void OnStartButtonClicked()
+		{
+			await GameLobbyManager.Instance.StartGame(difficultySelectionData.difficulties[currentDifficultyIndex].levelName);
 		}
 		
 	}

@@ -94,6 +94,11 @@ namespace Game
 			return await LobbyManager.Instance.UpdateLobbyData(lobbyData.Serialize());
 		}
 
+		public async Task StartGame(string levelName)
+		{
+			
+		}
+
 	}
 
 }
