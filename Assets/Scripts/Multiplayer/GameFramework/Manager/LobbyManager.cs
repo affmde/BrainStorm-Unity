@@ -36,7 +36,7 @@ namespace GameFramework_Core.GameFramework_Manager
 				return false;
 			}
 			Debug.Log("Lobby created with lobby ID: " + lobby.Id);
-			hearBeatCoroutine = StartCoroutine(HeartBeatLobbyCoroutine(lobby.Id, 10f));
+			hearBeatCoroutine = StartCoroutine(HeartBeatLobbyCoroutine(lobby.Id, 6f));
 			refreshLobbyCoroutine = StartCoroutine(RefreshLobbyLobbyCoroutine(lobby.Id, 1f));
 			return true;
 		}
@@ -127,12 +127,14 @@ namespace GameFramework_Core.GameFramework_Manager
 			return data;
 		}
 
-		public async Task<bool> UpdatePlayerData(string id, Dictionary<string, string> data)
+		public async Task<bool> UpdatePlayerData(string id, Dictionary<string, string> data, string allocationId = default, string connectionData = default)
 		{
 			Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
 			UpdatePlayerOptions options = new UpdatePlayerOptions()
 			{
-				Data = playerData
+				Data = playerData,
+				AllocationId = allocationId,
+				ConnectionInfo = connectionData
 			};
 			try {
 				await LobbyService.Instance.UpdatePlayerAsync(lobby.Id, id, options);

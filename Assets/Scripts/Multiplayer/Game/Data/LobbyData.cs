@@ -7,12 +7,19 @@ namespace GameFramework_Core.Data
 	public class LobbyData
 	{
 		private int difficultyIndex;
+		private string relayJoinCode;
 
 		public int DifficultyIndex { get => difficultyIndex; set => difficultyIndex = value; }
 
 		public void Initialize(int index)
 		{
 			difficultyIndex = index;
+		}
+
+		public string RelayJoinCode
+		{
+			get => relayJoinCode;
+			set => relayJoinCode = value;
 		}
 
 		public void Initialize(Dictionary<string, DataObject> lobbyData)
@@ -22,15 +29,18 @@ namespace GameFramework_Core.Data
 
 		public void UpdateState(Dictionary<string, DataObject> lobbyData)
 		{
-			if (lobbyData.ContainsKey("difficultyIndex"))
-				difficultyIndex = int.Parse(lobbyData["difficultyIndex"].Value);
+			if (lobbyData.ContainsKey("DifficultyIndex"))
+				difficultyIndex = int.Parse(lobbyData["DifficultyIndex"].Value);
+			if (lobbyData.ContainsKey("RelayJoinCode"))
+				relayJoinCode = lobbyData["RelayJoinCode"].Value;
 		}
 
 		public Dictionary<string, string> Serialize()
 		{
 			return new Dictionary<string, string>()
 			{
-				{"difficultyIndex", difficultyIndex.ToString()}
+				{"DifficultyIndex", difficultyIndex.ToString()},
+				{"RelayJoinCode", relayJoinCode}
 			};
 		}
 	}

@@ -9,6 +9,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using Game.Events;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
@@ -18,7 +19,8 @@ namespace Game
 		private List<LobbyPlayerData> lobbyPlayersData = new List<LobbyPlayerData>();
 		private LobbyPlayerData localLobbyPlayerData;
 		private LobbyData lobbyData;
-
+		private int maxNumberOfPlayers = 4;
+		private bool inGame = false;
 
 		public bool IsHost => localLobbyPlayerData.Id == LobbyManager.Instance.GetHostId();
 		private void OnEnable()
@@ -38,7 +40,7 @@ namespace Game
 			localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer", PlayerData.player.username, PlayerData.player.level);
 			lobbyData = new LobbyData();
 			lobbyData.Initialize(0);
-			bool succeeded = await LobbyManager.Instance.CreatLobby(4, true, localLobbyPlayerData.Serialize(), lobbyData.Serialize());
+			bool succeeded = await LobbyManager.Instance.CreatLobby(maxNumberOfPlayers, true, localLobbyPlayerData.Serialize(), lobbyData.Serialize());
 			Debug.Log("Lobby created successfuly");
 			return succeeded;
 		}
@@ -52,7 +54,7 @@ namespace Game
 			return succeeded;
 		}
 
-		private void OnLobbyUpdated(Lobby lobby)
+		private async void OnLobbyUpdated(Lobby lobby)
 		{
 			List<Dictionary<string, PlayerDataObject>> playerData = LobbyManager.Instance.GetPlayersData();
 			lobbyPlayersData.Clear();
@@ -73,6 +75,15 @@ namespace Game
 			Events.LobbyEvents.OnLobbyUpdated?.Invoke();
 			if (numberOfPlayersReady == lobby.Players.Count)
 				Events.LobbyEvents.OnLobbyReady?.Invoke();
+
+			if (lobbyData.RelayJoinCode != default && !inGame)
+			{
+				Debug.Log("Code on if statement before call Join Relay Server: " + lobbyData.RelayJoinCode);
+				await JoinRelayServer(lobbyData.RelayJoinCode);
+				Debug.Log("Host will join Relay and change to MultiplayerGameScene now");
+				Debug.Log("Player is: " + localLobbyPlayerData.Id);
+				SceneManager.LoadSceneAsync("MultiplayerGameScene");
+			}
 		}
 
 		public List<LobbyPlayerData> GetPlayers()
@@ -96,9 +107,30 @@ namespace Game
 
 		public async Task StartGame(string levelName)
 		{
-			
+			string joinRelayCode = await RelayManager.Instance.CreateRelay(maxNumberOfPlayers);
+			inGame = true;
+			lobbyData.RelayJoinCode = joinRelayCode;
+			await LobbyManager.Instance.UpdateLobbyData(lobbyData.Serialize());
+
+			string allocationId = RelayManager.Instance.GetAllocationId();
+			string connectionData = RelayManager.Instance.GetConnectionData();
+
+			await LobbyManager.Instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize(), allocationId, connectionData);
+			Debug.Log("Game will no move to MultiplayerGameScene from STartGame function");
+			SceneManager.LoadSceneAsync("MultiplayerGameScene");
 		}
 
+		private async Task<bool> JoinRelayServer(string relayJoinCode)
+		{
+			Debug.Log("id: " + localLobbyPlayerData.Id + "  - code: " + relayJoinCode);
+			inGame = true;
+			await RelayManager.Instance.JoinRelay(relayJoinCode);
+			string allocationId = RelayManager.Instance.GetAllocationId();
+			string connectionData = RelayManager.Instance.GetConnectionData();
+
+			await LobbyManager.Instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize(), allocationId, connectionData);
+			return true;
+		}
 	}
 
 }
