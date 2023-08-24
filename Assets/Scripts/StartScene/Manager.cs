@@ -37,7 +37,7 @@ public class Manager : MonoBehaviour
 	public void PlayMultiplayer()
 	{
 		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
-		sceneTransition.LoadNextScene("MultiplayerMenu");
+		sceneTransition.LoadNextScene("MultiplayerRegisterScene");
 	}
 	void LoadPlayerData()
 	{

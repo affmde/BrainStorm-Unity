@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 39661db2802ebee439f1193b8c3dbb9b, type: 2}
+  m_Motion: {fileID: 7400000, guid: accd7fa82a2a8b3489f1f7847bb064f2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -86,7 +86,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TaskController
+  m_Name: MultiplayerTaskController
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Start
@@ -244,7 +244,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: beeb7ec8392fb404f802d22495209e5f, type: 2}
+  m_Motion: {fileID: 7400000, guid: b3f259073e9855f418689e5410fd0132, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

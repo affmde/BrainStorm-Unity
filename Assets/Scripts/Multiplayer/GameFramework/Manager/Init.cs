@@ -13,10 +13,13 @@ namespace Game
 {
 	public class Init : MonoBehaviour
 	{
-		[SerializeField] GameObject loadingPanel;
-		private async void Start()
+
+		private void Start()
 		{
-			loadingPanel.SetActive(true);
+			SceneManager.LoadScene("MultiplayerMenu");
+		}
+		/*private async void Start()
+		{
 			try {
 				await UnityServices.InitializeAsync();
 				#if UNITY_EDITOR
@@ -25,6 +28,7 @@ namespace Game
 					// When using a ParrelSync clone, switch to a different authentication profile to force the clone
 					// to sign in as a different anonymous user account.
 					string customArgument = ParrelSync.ClonesManager.GetArgument();
+					Debug.Log("ParrelSync: Switching profile");
 					AuthenticationService.Instance.SwitchProfile($"Clone_{customArgument}_Profile");
 				}
 				#endif
@@ -38,14 +42,21 @@ namespace Game
 						{
 							string username = "" + PlayerData.player.username;
 						}
-						loadingPanel.SetActive(false);
+						Debug.Log("Going to change scene to MultiplayerMenu");
+						SceneManager.LoadScene("MultiplayerMenu");
 					} catch (System.Exception e) {
 						Debug.Log(e);
+						GameObject networkManager = GameObject.Find("NetworkManager");
+						if (networkManager)
+							Destroy(networkManager);
 						SceneManager.LoadScene("StartScene");
 					}
 				}
 			} catch (System.Exception e) {
 				Debug.Log(e);
+				GameObject networkManager = GameObject.Find("NetworkManager");
+				if (networkManager)
+					Destroy(networkManager);
 				SceneManager.LoadScene("StartScene");
 			}
 			
@@ -54,7 +65,7 @@ namespace Game
 		private void OnSignedIn()
 		{
 			Debug.Log("Signed in. Id: " + AuthenticationService.Instance.PlayerId);
-		}
+		}*/
 	}
 
 }
