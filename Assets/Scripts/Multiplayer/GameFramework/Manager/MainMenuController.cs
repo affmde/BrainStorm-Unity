@@ -140,7 +140,8 @@ namespace Game
 			MenuManager.onResetGame?.Invoke();
 			MultiplayerActions.onMultiplayerGameReset?.Invoke();
 			NetworkManager.Singleton.Shutdown();
-			ShowMenu();
+			//ShowMenu();
+			SceneManager.LoadScene("MultiplayerMenu");
 		}
 
 		private void CancelGameCreation()

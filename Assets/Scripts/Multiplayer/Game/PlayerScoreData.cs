@@ -34,7 +34,7 @@ public class PlayerScoreData : NetworkBehaviour
 	private void NetworkManager_OnServerStopped(bool unused)
 	{
 		NetworkManager.OnServerStarted -= NetworkManager_OnServerStarted;
-		MenuManager.onGameUpdate -= onUpdatePlayersNameCallback;
+		MenuManager.onStartSetPlayerData -= onUpdatePlayersNameCallback;
 		MenuManager.onUpdatePlayerScore -= OnUpdatePlayerScore;
 	}
 
