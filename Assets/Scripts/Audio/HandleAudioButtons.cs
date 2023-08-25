@@ -22,4 +22,9 @@ public class HandleAudioButtons : MonoBehaviour
 	{
 		audioSource.Stop();
 	}
+
+	public bool IsPlaying()
+	{
+		return audioSource.isPlaying;
+	}
 }

@@ -15,6 +15,9 @@ public class EndGameUIManager : NetworkBehaviour
 	[SerializeField] private GameObject continueButton;
 	[SerializeField] private XPBar xpBar;
 	[SerializeField] private Image fillBar;
+	
+	[SerializeField] private GameObject winMusic;
+	[SerializeField] private GameObject looseMusic;
 
 	public bool Winner
 	{
@@ -53,13 +56,12 @@ public class EndGameUIManager : NetworkBehaviour
 			case false:
 				LooserScene();
 				break;
-			default:
-				break;
 		}
 	}
 
 	private void WinnerScene()
 	{
+		winMusic.GetComponent<HandleAudioButtons>().PlaySound();
 		NetworkObject no = NetworkManager.LocalClient.PlayerObject;
 		PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
 
@@ -70,6 +72,7 @@ public class EndGameUIManager : NetworkBehaviour
 
 	private void LooserScene()
 	{
+		looseMusic.GetComponent<HandleAudioButtons>().PlaySound();
 		NetworkObject no = NetworkManager.LocalClient.PlayerObject;
 		PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
 

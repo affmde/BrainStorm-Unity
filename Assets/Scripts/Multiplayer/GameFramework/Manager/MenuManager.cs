@@ -22,10 +22,14 @@ public class MenuManager : NetworkBehaviour
 	public static Action<int, int> onUpdatePlayerScore;
 	public static Action onResetTask;
 	public static Action onResetGame;
+	public static Action<int> onUpdateTotalPlayersConnected;
+	public static Action onClickSound;
+	public static Action onCancelSound;
 
 	[SerializeField] private static int playersToPlay;
 	[SerializeField] private Button startGameButton;
 	[SerializeField] private TextMeshProUGUI totalConnectedPlayersText;
+	
 
 	public static int PlayersToPlay
 	{
@@ -70,12 +74,14 @@ public class MenuManager : NetworkBehaviour
 		if (!IsServer) return;
 		NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
 		NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectedCallback;
+		onUpdateTotalPlayersConnected += UpdateTotalPlayersConnectedCallback;
 	}
 
 	private void NetworkManager_OnServerStopped(bool unused)
 	{
 		NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
 		NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectedCallback;
+		onUpdateTotalPlayersConnected -= UpdateTotalPlayersConnectedCallback;
 	}
 
 	public override void OnDestroy()
@@ -92,6 +98,7 @@ public class MenuManager : NetworkBehaviour
 		Debug.Log("Player connected: " + obj);
 		Debug.Log("Players on connected List: " + NetworkManager.Singleton.ConnectedClientsList.Count);
 		totalConnectedPlayersText.text = "" + NetworkManager.Singleton.ConnectedClientsList.Count;
+		onUpdateTotalPlayersConnected?.Invoke(NetworkManager.Singleton.ConnectedClientsList.Count);
 		if (NetworkManager.Singleton.ConnectedClientsList.Count >= playersToPlay && IsServer) //Change this back to 2
 			startGameButton.gameObject.SetActive(true);
 	}
@@ -100,6 +107,7 @@ public class MenuManager : NetworkBehaviour
 	{
 		Debug.Log("Client " + obj + " has disconnected");
 		Debug.Log("Now there are " + NetworkManager.Singleton.ConnectedClientsList.Count + " in the ConnectedClientsList");
+		onUpdateTotalPlayersConnected?.Invoke(NetworkManager.Singleton.ConnectedClientsList.Count - 1);
 	}
 
 	private void StartGame()
@@ -123,8 +131,18 @@ public class MenuManager : NetworkBehaviour
 
 	public void OnCancelGameConnection()
 	{
-		NetworkManager.Singleton.Shutdown();
-		CancelGameClientRpc();
+		SaveData.Save();
+		if (IsServer)
+		{
+			NetworkManager.Singleton.Shutdown();
+			CancelGameClientRpc();
+		}
+		else
+		{
+			NetworkManager.Singleton.Shutdown();
+			gameState = State.Menu;
+			onGameStateChanged?.Invoke(gameState);
+		}
 	}
 
 	[ClientRpc]
@@ -134,4 +152,14 @@ public class MenuManager : NetworkBehaviour
 		onGameStateChanged?.Invoke(gameState);
 	}
 
+	private void UpdateTotalPlayersConnectedCallback(int currentAmountOfPlayersConnected)
+	{
+		UpdateTotalPlayersConnectedClientRpc(currentAmountOfPlayersConnected);
+	}
+
+	[ClientRpc]
+	private void UpdateTotalPlayersConnectedClientRpc(int currentAmountOfPlayersConnected)
+	{
+		totalConnectedPlayersText.text = "" + currentAmountOfPlayersConnected;
+	}
 }

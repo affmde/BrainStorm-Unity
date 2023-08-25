@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using Unity.Services.Core;
-using Unity.Services.Authentication;
 using UnityEngine.UI;
 using TMPro;
 
@@ -25,6 +23,17 @@ namespace Game
 		[SerializeField] GameObject gamePanel;
 		[SerializeField] GameObject endGamePanel;
 		[SerializeField] int playersToPlay;
+		[Header("Sounds")]
+		HandleAudioButtons clickSound;
+		HandleAudioButtons cancelSound;
+
+		private float transitionTimer;
+
+		private void Awake()
+		{
+			clickSound = GameObject.Find("ClickButtonSound").GetComponent<HandleAudioButtons>();
+			cancelSound = GameObject.Find("CloseMenuButtonSound").GetComponent<HandleAudioButtons>();
+		}
 
 		private void Start()
 		{
@@ -32,6 +41,8 @@ namespace Game
 			MenuManager.PlayersToPlay = playersToPlay;
 			MenuManager.onGameStateChanged += GameStateChangedCallback;
 			MultiplayerActions.onContinueFromEndGame += QuitGameServer;
+			MenuManager.onClickSound += clickSound.PlaySound;
+			MenuManager.onCancelSound += cancelSound.PlaySound;
 		}
 		private void OnEnable()
 		{
@@ -55,30 +66,34 @@ namespace Game
 		{
 			MenuManager.onGameStateChanged -= GameStateChangedCallback;
 			MultiplayerActions.onContinueFromEndGame -= QuitGameServer;
+			MenuManager.onClickSound -= clickSound.PlaySound;
+			MenuManager.onCancelSound -= cancelSound.PlaySound;
 		}
 
 		private void OnReturnButtonClicked()
 		{
+			MenuManager.onClickSound?.Invoke();
 			GameObject networkManager = GameObject.Find("NetworkManager");
 			if (networkManager)
 				Destroy(networkManager);
-			if (UnityServices.State == ServicesInitializationState.Initialized)
-				AuthenticationService.Instance.SignOut();
 			SceneManager.LoadScene("StartScene");
 		}
 
 		public void OnHostButtonClicked()
 		{
+			MenuManager.onClickSound?.Invoke();
 			MenuManager.instance.OnHostButtonClicked();
 		}
 
 		private void OnJoinButtonClicked()
 		{
+			MenuManager.onClickSound?.Invoke();
 			ShowJoinPanel();
 		}
 
-		private async void OnSubmitCodeClicked()
+		private void OnSubmitCodeClicked()
 		{
+			MenuManager.onClickSound?.Invoke();
 			string ipAdress = IpManager.instance.GetInputIp();
 			ipAdress = ipAdress.Substring(0, ipAdress.Length - 1);
 			UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
@@ -137,15 +152,16 @@ namespace Game
 
 		public void QuitGameServer()
 		{
+			MenuManager.onClickSound?.Invoke();
 			MenuManager.onResetGame?.Invoke();
 			MultiplayerActions.onMultiplayerGameReset?.Invoke();
 			NetworkManager.Singleton.Shutdown();
-			//ShowMenu();
 			SceneManager.LoadScene("MultiplayerMenu");
 		}
 
 		private void CancelGameCreation()
 		{
+			MenuManager.onCancelSound?.Invoke();
 			MenuManager.instance.OnCancelGameConnection();
 		}
 

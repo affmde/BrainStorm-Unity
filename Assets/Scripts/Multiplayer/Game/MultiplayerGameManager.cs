@@ -12,18 +12,11 @@ public class MultiplayerGameManager : NetworkBehaviour
 	[SerializeField] List<Sprite> images;
 	[SerializeField] List<Image> buttons;
 	[SerializeField] Image timerBar;
-	[SerializeField] private Image taskImage;
 	[SerializeField] private MultiplayerTaskAnimator animTask;
 	[SerializeField] TextMeshProUGUI taskDescription;
 	private GameObject audioManager;
-	private GameObject gameOverSound;
-	private GameObject correctAnswerSound;
-	private GameObject gameSound;
-	private HandleAudioButtons levelWonSound;
-	private HandleAudioButtons fireworkSound;
-	private HandleAudioButtons explosionSound;
-	[SerializeField] private GameObject fireworksParticles;
-	[SerializeField] private GameObject explosionParticles;
+	[SerializeField] private GameObject gameSound;
+
 	[SerializeField] private Image background;
 	[SerializeField] ScoreManager scoreManager;
 	[SerializeField] MainMenuController menuController;
@@ -37,6 +30,8 @@ public class MultiplayerGameManager : NetworkBehaviour
 	private int total;
 	[SerializeField] private int pointsToWin;
 	[SerializeField] GameAnswersManager gameAnswersManager;
+	float transitionTimer;
+	private bool isParticleActive;
 
 	public List<Sprite> GetImages() { return images; }
 	public List<Image> GetButtons() { return buttons; }
@@ -76,11 +71,17 @@ public class MultiplayerGameManager : NetworkBehaviour
 		set => timer = value;
 	}
 
+	private void Awake()
+	{
+		audioManager = GameObject.Find("AudioManager");
+	}
+
 	private void Start()
 	{
 		totalCorrect = 0;
-		if (audioManager)
-			audioManager.GetComponent<AudioManagerScript>().StopSound();
+		gameSound.GetComponent<HandleAudioButtons>().StopSound();
+		if (!audioManager.GetComponent<HandleAudioButtons>().IsPlaying())
+			audioManager.GetComponent<HandleAudioButtons>().PlaySound();
 		timeLimit = 1.8f;
 		total = 10;
 		scoreManager.MaxPoints = total;
@@ -100,6 +101,10 @@ public class MultiplayerGameManager : NetworkBehaviour
 	[ClientRpc]
 	private void ResetGameDataClientRpc()
 	{
+		gameSound.GetComponent<HandleAudioButtons>().PlaySound();
+		audioManager.GetComponent<HandleAudioButtons>().StopSound();
+		if (audioManager)
+			audioManager.GetComponent<AudioManagerScript>().StopSound();
 		MenuManager.onResetGame?.Invoke();
 	}
 
@@ -128,7 +133,6 @@ public class MultiplayerGameManager : NetworkBehaviour
 	{
 		if (!IsServer) return;
 		if (gameOver) return;
-
 		UpdateClientRpc();
 		CheckWinner();
 	}
@@ -163,15 +167,6 @@ public class MultiplayerGameManager : NetworkBehaviour
 		return new Color(red, blue, green, 1);
 	}
 
-	private void SetTrigger(bool won)
-	{
-		/*if (won)
-			fireworkSound.GetComponent<Animator>().SetTrigger("FadeOut");
-		else
-			explosionSound.GetComponent<Animator>().SetTrigger("FadeOut");*/
-		//gameSound.GetComponent<Animator>().SetTrigger("FadeOut");
-	}
-
 	[ClientRpc]
 	private void HandleEndGameClientRpc()
 	{
@@ -200,6 +195,7 @@ public class MultiplayerGameManager : NetworkBehaviour
 			gameOver = true;
 			UpdateWinningInfoClientRpc(hostWinner);
 			HandleEndGameClientRpc();
+			gameSound.GetComponent<Animator>().SetTrigger("FadeOut");
 		}
 	}
 
@@ -229,8 +225,6 @@ public class MultiplayerGameManager : NetworkBehaviour
 	{
 		timer = 0;
 	}
-
-
 }
 
 public static class MultiplayerActions

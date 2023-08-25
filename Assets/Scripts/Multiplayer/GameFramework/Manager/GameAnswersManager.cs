@@ -12,6 +12,8 @@ public class GameAnswersManager : NetworkBehaviour
 	[SerializeField] Image clientFillBar;
 	[SerializeField] float hostFillAmount;
 	[SerializeField] float clientFillAmount;
+	[SerializeField] private HandleAudioButtons getPointSound;
+	[SerializeField] private HandleAudioButtons dontGetPointSound;
 	private void Start()
 	{
 		playersAnswer = new List<PlayerAnswer>();
@@ -73,14 +75,6 @@ public class GameAnswersManager : NetworkBehaviour
 		MenuManager.onUpdatePlayerScore?.Invoke(scoreManager.Player1Score, scoreManager.Player2Score);
 	}
 
-	private bool IsAnwerCorrect(int number, int playerButton)
-	{
-		if (LevelsData.levelsList[number].validOptions.Contains(playerButton) ||
-		(LevelsData.levelsList[number].validOptions[0] == 0 && playerButton == 0))
-			return true;
-		return false;
-	}
-
 	private int CheckWinner(List<int> validOptions, PlayerAnswer host, PlayerAnswer client)
 	{
 		if (validOptions[0] == 0 && host.ActiveButton == 0 && client.ActiveButton != 0)
@@ -130,10 +124,8 @@ public class GameAnswersManager : NetworkBehaviour
 	private void HostPlayerAddPointClientRpc()
 	{
 		scoreManager.Player1Score++;
-		Debug.Log("ScoreManager max points: " + scoreManager.MaxPoints);
 		hostFillAmount = (float)scoreManager.Player1Score / (float)scoreManager.MaxPoints;
 		hostFillBar.fillAmount = hostFillAmount;
-		Debug.Log("Host Player fill amount: " + hostFillAmount);
 		clientFillAmount = (float)scoreManager.Player2Score / (float)scoreManager.MaxPoints;
 		clientFillBar.fillAmount = clientFillAmount;
 		if (IsServer)
@@ -141,6 +133,11 @@ public class GameAnswersManager : NetworkBehaviour
 			NetworkObject no = NetworkManager.Singleton.LocalClient.PlayerObject;
 			PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
 			pl.TotalCorrectAnswers = scoreManager.Player1Score;
+			getPointSound.PlaySound();
+		}
+		else
+		{
+			dontGetPointSound.PlaySound();
 		}
 
 	}
@@ -153,10 +150,8 @@ public class GameAnswersManager : NetworkBehaviour
 	private void ClientPlayerAddPointClientRpc()
 	{
 		scoreManager.Player2Score++;
-		Debug.Log("ScoreManager max points: " + scoreManager.MaxPoints);
 		hostFillAmount = (float)scoreManager.Player1Score / (float)scoreManager.MaxPoints;
 		hostFillBar.fillAmount = hostFillAmount;
-		Debug.Log("Host Player fill amount: " + hostFillAmount);
 		clientFillAmount = (float)scoreManager.Player2Score / (float)scoreManager.MaxPoints;
 		clientFillBar.fillAmount = clientFillAmount;
 		if (!IsServer)
@@ -164,7 +159,10 @@ public class GameAnswersManager : NetworkBehaviour
 			NetworkObject no = NetworkManager.Singleton.LocalClient.PlayerObject;
 			PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
 			pl.TotalCorrectAnswers = scoreManager.Player2Score;
+			getPointSound.PlaySound();
 		}
+		else
+			dontGetPointSound.PlaySound();
 	}
 }
 
