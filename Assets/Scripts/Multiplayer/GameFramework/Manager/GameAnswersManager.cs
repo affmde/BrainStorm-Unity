@@ -14,6 +14,7 @@ public class GameAnswersManager : NetworkBehaviour
 	[SerializeField] float clientFillAmount;
 	[SerializeField] private HandleAudioButtons getPointSound;
 	[SerializeField] private HandleAudioButtons dontGetPointSound;
+	[SerializeField] private PlayerScoreObjectData playerScoreData;
 	private void Start()
 	{
 		playersAnswer = new List<PlayerAnswer>();
@@ -63,50 +64,44 @@ public class GameAnswersManager : NetworkBehaviour
 			PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
 			playersAnswer.Add(pl);
 		}
-		int winner = 0;
-		if (playersAnswer.Count > 1 )
-			winner = CheckWinner(LevelsData.levelsList[number].validOptions, playersAnswer[0], playersAnswer[1]);
-		else
-			winner = CheckOnePlayerWinner(LevelsData.levelsList[number].validOptions, playersAnswer[0]); // This is for debuggin with only one player;
-		if (winner == 1)
-			HostPlayerAddPoint();
-		else if (winner == 2)
-			ClientPlayerAddPoint();
-		MenuManager.onUpdatePlayerScore?.Invoke(scoreManager.Player1Score, scoreManager.Player2Score);
+		string winner = CheckWinner(LevelsData.levelsList[number].validOptions, playersAnswer[0], playersAnswer[1]);
+		if (winner == "-1")
+			return;
+		AddPointToPlayer(winner);
 	}
 
-	private int CheckWinner(List<int> validOptions, PlayerAnswer host, PlayerAnswer client)
+	private string CheckWinner(List<int> validOptions, PlayerAnswer host, PlayerAnswer client)
 	{
-		if (validOptions[0] == 0 && host.ActiveButton == 0 && client.ActiveButton != 0)
-			return 1;
-		else if (validOptions[0] == 0 && host.ActiveButton != 0 && client.ActiveButton == 0)
-			return 2;
-		else if (validOptions[0] == 0 && host.ActiveButton != 0 && client.ActiveButton != 0)
-			return 0;
-		else if (validOptions[0] == 0 && host.ActiveButton == 0 && client.ActiveButton == 0)
+
+		List<NetworkClient> playersWithCorrectAnswer = new List<NetworkClient>();
+		
+		foreach(var clientObject in NetworkManager.Singleton.ConnectedClientsList)
 		{
-			if (host.Timestamp == client.Timestamp)
-				return 0;
-			else if (host.Timestamp < client.Timestamp)
-				return 1;
-			else
-				return 2;
+			PlayerAnswer pl = clientObject.PlayerObject.GetComponent<PlayerAnswer>();
+			if (validOptions.Contains(pl.ActiveButton))
+				playersWithCorrectAnswer.Add(clientObject);
 		}
-		if (validOptions.Contains(host.ActiveButton) && !validOptions.Contains(client.ActiveButton))
-			return 1;
-		else if (!validOptions.Contains(host.ActiveButton) && validOptions.Contains(client.ActiveButton))
-			return 2;
-		else if (!validOptions.Contains(host.ActiveButton) && !validOptions.Contains(client.ActiveButton))
-			return 0;
-		else
+		if (playersWithCorrectAnswer.Count <= 0)
+			return "-1";
+
+		List<int> fasterClients = new List<int>();
+		long fasterTime;
+
+		fasterTime = playersWithCorrectAnswer[0].PlayerObject.GetComponent<PlayerAnswer>().Timestamp;
+		fasterClients.Add(playersWithCorrectAnswer[0].PlayerObject.GetComponent<PlayerAnswer>().Id);
+		for (int i = 1; i < playersWithCorrectAnswer.Count; i++)
 		{
-			if (host.Timestamp == client.Timestamp)
-				return 0;
-			else if (host.Timestamp < client.Timestamp)
-				return 1;
-			else
-				return 2;
+			PlayerAnswer pl = playersWithCorrectAnswer[i].PlayerObject.GetComponent<PlayerAnswer>();
+			if (pl.Timestamp == fasterTime)
+				fasterClients.Add(pl.Id);
+			else if (pl.Timestamp < fasterTime)
+			{
+				fasterTime = pl.Timestamp;
+				fasterClients.Clear();
+				fasterClients.Add(pl.Id);
+			}
 		}
+		return UtilsClass.instance.SerializeInt(fasterClients);
 	}
 
 	private int CheckOnePlayerWinner(List<int> validOptions, PlayerAnswer host)
@@ -116,53 +111,29 @@ public class GameAnswersManager : NetworkBehaviour
 		return 0;
 	}
 
-	private void HostPlayerAddPoint()
+	private void AddPointToPlayer(string ids)
 	{
-		HostPlayerAddPointClientRpc();
-	}
-	[ClientRpc]
-	private void HostPlayerAddPointClientRpc()
-	{
-		scoreManager.Player1Score++;
-		hostFillAmount = (float)scoreManager.Player1Score / (float)scoreManager.MaxPoints;
-		hostFillBar.fillAmount = hostFillAmount;
-		clientFillAmount = (float)scoreManager.Player2Score / (float)scoreManager.MaxPoints;
-		clientFillBar.fillAmount = clientFillAmount;
-		if (IsServer)
+		List<int> winningIds = UtilsClass.instance.DeserializeInt(ids);
+		foreach (var winnerID in winningIds)
 		{
-			NetworkObject no = NetworkManager.Singleton.LocalClient.PlayerObject;
-			PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
-			pl.TotalCorrectAnswers = scoreManager.Player1Score;
-			getPointSound.PlaySound();
+			PlayerAnswer pl = NetworkManager.Singleton.ConnectedClients[(ulong)winnerID].PlayerObject.GetComponent<PlayerAnswer>();
+			pl.TotalCorrectAnswers++;
 		}
-		else
-		{
-			dontGetPointSound.PlaySound();
-		}
-
+		AddPointToPlayerClientRpc(ids);
 	}
 
-	private void ClientPlayerAddPoint()
-	{
-		ClientPlayerAddPointClientRpc();
-	}
 	[ClientRpc]
-	private void ClientPlayerAddPointClientRpc()
+	private void AddPointToPlayerClientRpc(string ids)
 	{
-		scoreManager.Player2Score++;
-		hostFillAmount = (float)scoreManager.Player1Score / (float)scoreManager.MaxPoints;
-		hostFillBar.fillAmount = hostFillAmount;
-		clientFillAmount = (float)scoreManager.Player2Score / (float)scoreManager.MaxPoints;
-		clientFillBar.fillAmount = clientFillAmount;
-		if (!IsServer)
-		{
-			NetworkObject no = NetworkManager.Singleton.LocalClient.PlayerObject;
-			PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
-			pl.TotalCorrectAnswers = scoreManager.Player2Score;
-			getPointSound.PlaySound();
-		}
-		else
-			dontGetPointSound.PlaySound();
+		List<int> winningIds = UtilsClass.instance.DeserializeInt(ids);
+		int localPlayerId = (int)NetworkManager.LocalClientId;
+		if (!winningIds.Contains(localPlayerId))
+			return;
+		MultiplayerActions.onIncreasePlayerScore?.Invoke();
+		NetworkObject no = NetworkManager.Singleton.LocalClient.PlayerObject;
+		PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
+		pl.TotalCorrectAnswers = pl.TotalCorrectAnswers;
 	}
+	
 }
 

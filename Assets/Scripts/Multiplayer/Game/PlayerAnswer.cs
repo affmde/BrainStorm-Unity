@@ -13,6 +13,8 @@ public class PlayerAnswer : NetworkBehaviour
 	[SerializeField] bool winner;
 	MultiplayerGameManager mgm;
 	[SerializeField] private string username;
+	[SerializeField] private int level;
+	[SerializeField] private int id;
 
 	public override void OnNetworkSpawn()
 	{
@@ -23,6 +25,8 @@ public class PlayerAnswer : NetworkBehaviour
 			username = "Player";
 		else
 			username = name;
+		level = PlayerData.player.level;
+		//id = (int)NetworkManager.Singleton.LocalClientId;
 	}
 
 	public void OnEnable()
@@ -39,10 +43,22 @@ public class PlayerAnswer : NetworkBehaviour
 		get => username;
 	}
 
+	public int Id
+	{
+		get => id;
+		set => id = value;
+	}
+
 	public int TotalCorrectAnswers
 	{
 		get => totalCorrectAnswers;
 		set => totalCorrectAnswers = value;
+	}
+
+	public int Level
+	{
+		get => level;
+		set => level = value;
 	}
 
 	public void IncreaseTotalCorrectAnswers() { totalCorrectAnswers++; }

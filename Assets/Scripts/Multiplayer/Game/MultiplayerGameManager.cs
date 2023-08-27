@@ -30,8 +30,6 @@ public class MultiplayerGameManager : NetworkBehaviour
 	private int total;
 	[SerializeField] private int pointsToWin;
 	[SerializeField] GameAnswersManager gameAnswersManager;
-	float transitionTimer;
-	private bool isParticleActive;
 
 	public List<Sprite> GetImages() { return images; }
 	public List<Image> GetButtons() { return buttons; }
@@ -178,48 +176,20 @@ public class MultiplayerGameManager : NetworkBehaviour
 	private void CheckWinner()
 	{
 		if (!IsServer) return;
-
-		if (scoreManager.Player1Score >= pointsToWin || scoreManager.Player2Score >= pointsToWin)
+		foreach(var client in NetworkManager.Singleton.ConnectedClientsList)
 		{
-			bool hostWinner = false;
-			if (scoreManager.Player1Score >= pointsToWin)
+			PlayerAnswer pl = client.PlayerObject.GetComponent<PlayerAnswer>();
+			Debug.Log("On check Winner. client "+ pl.Id + " has " + pl.TotalCorrectAnswers + " points");
+			if (pl.TotalCorrectAnswers >= total)
 			{
-				hostWinner = true;
-				Debug.Log("Player 1 won!");
+				pl.Winner = true;
+				gameOver = true;
+				gameSound.GetComponent<Animator>().SetTrigger("FadeOut");
+				HandleEndGameClientRpc();
 			}
-			else
-			{
-				hostWinner = false;
-				Debug.Log("Player 2 won!");
-			}
-			gameOver = true;
-			UpdateWinningInfoClientRpc(hostWinner);
-			HandleEndGameClientRpc();
-			gameSound.GetComponent<Animator>().SetTrigger("FadeOut");
 		}
 	}
 
-	[ClientRpc]
-	private void UpdateWinningInfoClientRpc(bool hostWinner)
-	{
-		NetworkObject no = NetworkManager.LocalClient.PlayerObject;
-		PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
-		if (IsHost)
-		{
-			if (hostWinner)
-				pl.Winner = true;
-			else
-				pl.Winner = false;
-		}
-		else
-		{
-			if (hostWinner)
-				pl.Winner = false;
-			else
-				pl.Winner = true;
-		}
-		gameOver = true;
-	}
 
 	private void ResetGameStatsCallback()
 	{
@@ -231,4 +201,5 @@ public static class MultiplayerActions
 {
 	public static System.Action onMultiplayerGameReset;
 	public static System.Action onContinueFromEndGame;
+	public static System.Action onIncreasePlayerScore;
 }

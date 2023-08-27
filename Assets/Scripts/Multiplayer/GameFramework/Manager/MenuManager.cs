@@ -99,8 +99,10 @@ public class MenuManager : NetworkBehaviour
 		Debug.Log("Players on connected List: " + NetworkManager.Singleton.ConnectedClientsList.Count);
 		totalConnectedPlayersText.text = "" + NetworkManager.Singleton.ConnectedClientsList.Count;
 		onUpdateTotalPlayersConnected?.Invoke(NetworkManager.Singleton.ConnectedClientsList.Count);
-		if (NetworkManager.Singleton.ConnectedClientsList.Count >= playersToPlay && IsServer) //Change this back to 2
+		if (NetworkManager.Singleton.ConnectedClientsList.Count >= playersToPlay && IsServer)
 			startGameButton.gameObject.SetActive(true);
+		PlayerAnswer pl = NetworkManager.Singleton.ConnectedClients[obj].PlayerObject.GetComponent<PlayerAnswer>();
+		pl.Id = (int)obj;
 	}
 
 	private void Singleton_OnClientDisconnectedCallback(ulong obj)
