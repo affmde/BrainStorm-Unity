@@ -104,13 +104,6 @@ public class GameAnswersManager : NetworkBehaviour
 		return UtilsClass.instance.SerializeInt(fasterClients);
 	}
 
-	private int CheckOnePlayerWinner(List<int> validOptions, PlayerAnswer host)
-	{
-		if (validOptions.Contains(host.ActiveButton) || (validOptions[0] == 0 && host.ActiveButton == 0))
-			return 1;
-		return 0;
-	}
-
 	private void AddPointToPlayer(string ids)
 	{
 		List<int> winningIds = UtilsClass.instance.DeserializeInt(ids);
@@ -128,7 +121,11 @@ public class GameAnswersManager : NetworkBehaviour
 		List<int> winningIds = UtilsClass.instance.DeserializeInt(ids);
 		int localPlayerId = (int)NetworkManager.LocalClientId;
 		if (!winningIds.Contains(localPlayerId))
+		{
+			dontGetPointSound.PlaySound();
 			return;
+		}
+		getPointSound.PlaySound();
 		MultiplayerActions.onIncreasePlayerScore?.Invoke();
 		NetworkObject no = NetworkManager.Singleton.LocalClient.PlayerObject;
 		PlayerAnswer pl = no.GetComponent<PlayerAnswer>();

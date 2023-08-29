@@ -13,8 +13,17 @@ public class PlayerScoreObjectData : MonoBehaviour
 	[SerializeField] private Image fillCircle;
 	[SerializeField] private float fillAmount;
 	[SerializeField] private int id;
-	[SerializeField] private MultiplayerGameManager mgm;
+	private MultiplayerGameManager mgm;
+	private float timer;
+	[SerializeField] bool isAnimated;
 
+
+	private void Awake()
+	{
+		mgm = GameObject.Find("GamePanelManager").GetComponent<MultiplayerGameManager>();
+		if (mgm)
+			Debug.Log("mgm found");
+	}
 	private void OnEnable()
 	{
 		MultiplayerActions.onIncreasePlayerScore += IncreaseScore;
@@ -55,11 +64,31 @@ public class PlayerScoreObjectData : MonoBehaviour
 		set => id = value;
 	}
 
+	public bool IsAnimated
+	{
+		get => isAnimated;
+		set => isAnimated = value;
+	}
 	private void IncreaseScore()
 	{
 		score++;
 		playerPoints.text = "" + score;
 		fillAmount = (float)score / (float)mgm.Total;
 		fillCircle.fillAmount = fillAmount;
+	}
+
+	public IEnumerator AnimatePointsBar(float duration, int totalPoints)
+	{
+		Debug.Log("StartedAnimating the PlayerScoreObject");
+		float currentFill = 0;
+		float maxFill = (float)totalPoints / (float)mgm.Total;
+		while (timer < duration)
+		{
+			timer += Time.deltaTime;
+			currentFill = timer * maxFill;
+			fillCircle.fillAmount = currentFill;
+			yield return null;
+		}
+		isAnimated = true;
 	}
 }

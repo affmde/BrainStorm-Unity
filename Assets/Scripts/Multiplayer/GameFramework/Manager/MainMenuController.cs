@@ -23,6 +23,7 @@ namespace Game
 		[SerializeField] GameObject gamePanel;
 		[SerializeField] GameObject endGamePanel;
 		[SerializeField] int playersToPlay;
+		[SerializeField] GameObject messagePanel;
 		[Header("Sounds")]
 		HandleAudioButtons clickSound;
 		HandleAudioButtons cancelSound;
@@ -98,8 +99,14 @@ namespace Game
 			ipAdress = ipAdress.Substring(0, ipAdress.Length - 1);
 			UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
 			utp.SetConnectionData(ipAdress, 7777);
-			NetworkManager.Singleton.StartClient();
-			MenuManager.onGameStateChanged(MenuManager.State.Waiting);
+			if (NetworkManager.Singleton.StartClient())
+				MenuManager.onGameStateChanged(MenuManager.State.Waiting);
+			else
+			{
+				ErrorMessageHandler error = messagePanel.GetComponent<ErrorMessageHandler>();
+				error.Message = "Couldn't connect to server.";
+				StartCoroutine(error.ShowMessage(1.5f));
+			}
 		}
 
 		public void ShowMenu()
@@ -140,14 +147,13 @@ namespace Game
 			mgm.StartGame();
 		}
 
-		public void ShowEndGamePanel(bool winner)
+		public void ShowEndGamePanel()
 		{
 			menuScreen.SetActive(false);
 			waitingPanel.SetActive(false);
 			joinPanel.SetActive(false);
 			gamePanel.SetActive(false);
 			endGamePanel.SetActive(true);
-			EndGameUIManagerActions.onEndSceneEnter?.Invoke(winner);
 		}
 
 		public void QuitGameServer()

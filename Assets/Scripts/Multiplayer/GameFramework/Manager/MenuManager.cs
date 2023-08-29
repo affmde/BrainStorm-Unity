@@ -142,16 +142,14 @@ public class MenuManager : NetworkBehaviour
 		else
 		{
 			NetworkManager.Singleton.Shutdown();
-			gameState = State.Menu;
-			onGameStateChanged?.Invoke(gameState);
+			SceneManager.LoadScene("MultiplayerMenu");
 		}
 	}
 
 	[ClientRpc]
 	private void CancelGameClientRpc()
 	{
-		gameState = State.Menu;
-		onGameStateChanged?.Invoke(gameState);
+		SceneManager.LoadScene("MultiplayerMenu");
 	}
 
 	private void UpdateTotalPlayersConnectedCallback(int currentAmountOfPlayersConnected)

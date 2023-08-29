@@ -30,6 +30,7 @@ public class MultiplayerGameManager : NetworkBehaviour
 	private int total;
 	[SerializeField] private int pointsToWin;
 	[SerializeField] GameAnswersManager gameAnswersManager;
+	[SerializeField] EndGameUIManager endGameManager;
 
 	public List<Sprite> GetImages() { return images; }
 	public List<Image> GetButtons() { return buttons; }
@@ -131,16 +132,16 @@ public class MultiplayerGameManager : NetworkBehaviour
 	{
 		if (!IsServer) return;
 		if (gameOver) return;
-		UpdateClientRpc();
+		UpdateClientRpc(Time.deltaTime);
 		CheckWinner();
 	}
 	[ClientRpc]
-	private void UpdateClientRpc()
+	private void UpdateClientRpc(float deltaTime)
 	{
 		if (gameOver) return;
 		if (gameOn)
 		{
-			timer += Time.deltaTime;
+			timer += deltaTime;
 			timerBar.fillAmount = Mathf.Clamp01(timer / timeLimit);
 		}
 		if (timer > timeLimit)
@@ -168,9 +169,12 @@ public class MultiplayerGameManager : NetworkBehaviour
 	[ClientRpc]
 	private void HandleEndGameClientRpc()
 	{
+		gameSound.GetComponent<Animator>().SetTrigger("FadeOut");
+		gameOver = true;
 		NetworkObject no = NetworkManager.LocalClient.PlayerObject;
 		PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
-		menuController.ShowEndGamePanel(pl.Winner);
+		menuController.ShowEndGamePanel();
+		//EndGameUIManagerActions.onEndSceneEnter?.Invoke();
 	}
 
 	private void CheckWinner()
@@ -179,13 +183,13 @@ public class MultiplayerGameManager : NetworkBehaviour
 		foreach(var client in NetworkManager.Singleton.ConnectedClientsList)
 		{
 			PlayerAnswer pl = client.PlayerObject.GetComponent<PlayerAnswer>();
-			Debug.Log("On check Winner. client "+ pl.Id + " has " + pl.TotalCorrectAnswers + " points");
 			if (pl.TotalCorrectAnswers >= total)
 			{
 				pl.Winner = true;
 				gameOver = true;
-				gameSound.GetComponent<Animator>().SetTrigger("FadeOut");
 				HandleEndGameClientRpc();
+				Debug.Log("Going to call now EndGameUIManagerActions.onEndSceneEnter");
+				EndGameUIManagerActions.onEndSceneEnter?.Invoke();
 			}
 		}
 	}
