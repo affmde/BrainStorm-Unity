@@ -23,7 +23,7 @@ public class DifficultSettingsUIManager : MonoBehaviour
 			maxPointsToWinText.text = "" + maxPointsToWin;
 		});
 		maxPointsToWin = DiffcultyOptionsManager.instance.MaxPointsToWin;
-		maxPointsSlider.value = (float)maxTimeToAnswer;
+		maxPointsSlider.value = (float)maxPointsToWin;
 
 		timeToAnswerSlider.onValueChanged.AddListener(v => {
 			maxTimeToAnswer = v;

@@ -54,6 +54,10 @@ public class MenuManager : NetworkBehaviour
 		startGameButton.gameObject.SetActive(false);
 		gameState = State.Menu;
 		startHostErrorPanel.SetActive(false);
+		cancelGameButton.gameObject.SetActive(false);
+		settingsButton.gameObject.SetActive(false);
+		startGameButton.gameObject.SetActive(false);
+
 	}
 
 	private void OnEnable()
@@ -107,11 +111,10 @@ public class MenuManager : NetworkBehaviour
 		Debug.Log("Players on connected List: " + NetworkManager.Singleton.ConnectedClientsList.Count);
 		totalConnectedPlayersText.text = "" + NetworkManager.Singleton.ConnectedClientsList.Count;
 		onUpdateTotalPlayersConnected?.Invoke(NetworkManager.Singleton.ConnectedClientsList.Count);
+		cancelGameButton.gameObject.SetActive(true);
+		settingsButton.gameObject.SetActive(true);
 		if (NetworkManager.Singleton.ConnectedClientsList.Count >= playersToPlay && IsServer)
-		{
 			ToggleStartButtonToServerShow(true);
-			settingsButton.gameObject.SetActive(true);
-		}
 		PlayerAnswer pl = NetworkManager.Singleton.ConnectedClients[obj].PlayerObject.GetComponent<PlayerAnswer>();
 		pl.Id = (int)obj;
 		SetButtonsPositionForClientsClientRpc();
@@ -123,6 +126,7 @@ public class MenuManager : NetworkBehaviour
 		if (IsServer) return;
 		startGameButton.gameObject.SetActive(false);
 		settingsButton.gameObject.SetActive(false);
+		cancelGameButton.gameObject.SetActive(true);
 		RectTransform buttonRectTransform = cancelGameButton.GetComponent<RectTransform>();
 		
 
