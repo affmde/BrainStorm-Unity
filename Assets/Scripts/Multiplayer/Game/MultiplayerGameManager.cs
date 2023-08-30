@@ -26,9 +26,7 @@ public class MultiplayerGameManager : NetworkBehaviour
 	private bool gameOn;
 	private int index;
 	private int	activeButton;
-	private int totalCorrect;
 	[SerializeField] private int total;
-	[SerializeField] private int pointsToWin;
 
 	public List<Sprite> GetImages() { return images; }
 	public List<Image> GetButtons() { return buttons; }
@@ -84,7 +82,6 @@ public class MultiplayerGameManager : NetworkBehaviour
 
 	private void Start()
 	{
-		totalCorrect = 0;
 		gameSound.GetComponent<HandleAudioButtons>().StopSound();
 		if (!audioManager.GetComponent<HandleAudioButtons>().IsPlaying())
 			audioManager.GetComponent<HandleAudioButtons>().PlaySound();
@@ -122,7 +119,6 @@ public class MultiplayerGameManager : NetworkBehaviour
 		get => total;
 		set => total = value;
 	}
-	public int GetTotalCorrect() { return totalCorrect; }
 
 	private Sprite GetSprite(string color)
 	{

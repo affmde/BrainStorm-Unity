@@ -9,7 +9,6 @@ public class PlayersScoreObjectsUI : NetworkBehaviour
 	[SerializeField] private GameObject playerScorePrefab;
 	[SerializeField] private RectTransform contentTransform;
 	private GridLayoutGroup gridLayout;
-	private int rows = 1;
 
 	private void Start()
 	{

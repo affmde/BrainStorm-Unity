@@ -7,14 +7,8 @@ using Unity.Netcode;
 public class GameAnswersManager : NetworkBehaviour
 {
 	private List<PlayerAnswer> playersAnswer;
-	[SerializeField] ScoreManager scoreManager;
-	[SerializeField] Image hostFillBar;
-	[SerializeField] Image clientFillBar;
-	[SerializeField] float hostFillAmount;
-	[SerializeField] float clientFillAmount;
 	[SerializeField] private HandleAudioButtons getPointSound;
 	[SerializeField] private HandleAudioButtons dontGetPointSound;
-	[SerializeField] private PlayerScoreObjectData playerScoreData;
 	private void Start()
 	{
 		playersAnswer = new List<PlayerAnswer>();

@@ -10,7 +10,6 @@ public class GameUpdater : NetworkBehaviour
 	[SerializeField] private MultiplayerGameManager mgm;
 	private List<Sprite> images;
 	private List<Image> buttons;
-	private int activeButton;
 	private float timer;
 	private TextMeshProUGUI taskDescription;
 	[SerializeField] TextMeshProUGUI roundText;

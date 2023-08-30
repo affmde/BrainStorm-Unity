@@ -11,7 +11,6 @@ public class PlayerAnswer : NetworkBehaviour
 	[SerializeField] long timestamp;
 	[SerializeField] int totalCorrectAnswers = 0;
 	[SerializeField] bool winner;
-	MultiplayerGameManager mgm;
 	[SerializeField] private string username;
 	[SerializeField] private int level;
 	[SerializeField] private int id;

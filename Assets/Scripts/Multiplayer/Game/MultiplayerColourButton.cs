@@ -7,7 +7,6 @@ using Unity.Netcode;
 
 public class MultiplayerColourButton : NetworkBehaviour
 {
-	[SerializeField] private GameObject	manager;
 	[SerializeField] private MultiplayerGameManager mgm;
 	[SerializeField] private int		buttonId;
 	[SerializeField] private Image		selectImage;

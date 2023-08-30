@@ -13,9 +13,7 @@ public class PlayerScoreData : NetworkBehaviour
 	[SerializeField] private TextMeshProUGUI hostCorrectAnswersText;
 	[SerializeField] private TextMeshProUGUI clientCorrectAnswersText;
 	[SerializeField] private ScoreManager scoreManager;
-	[SerializeField] private List<PlayerAnswer> players;
-	
-	
+
 	public override void OnNetworkSpawn()
 	{
 		base.OnNetworkSpawn();
