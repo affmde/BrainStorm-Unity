@@ -72,6 +72,11 @@ public class MultiplayerGameManager : NetworkBehaviour
 		set => timer = value;
 	}
 
+	public bool GameOver
+	{
+		get => gameOver;
+		set => gameOver = value;
+	}
 	private void Awake()
 	{
 		audioManager = GameObject.Find("AudioManager");

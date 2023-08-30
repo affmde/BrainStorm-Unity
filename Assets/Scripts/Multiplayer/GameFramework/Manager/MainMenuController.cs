@@ -38,11 +38,13 @@ namespace Game
 		private void Start()
 		{
 			ShowMenu();
+			messagePanel.SetActive(false);
 			MenuManager.PlayersToPlay = playersToPlay;
 			MenuManager.onGameStateChanged += GameStateChangedCallback;
 			MultiplayerActions.onContinueFromEndGame += QuitGameServer;
 			MenuManager.onClickSound += clickSound.PlaySound;
 			MenuManager.onCancelSound += cancelSound.PlaySound;
+			MenuManager.onRefuseClientConnectionMessage += RefuseClientConnectionMessage;
 		}
 		private void OnEnable()
 		{
@@ -70,6 +72,7 @@ namespace Game
 			MultiplayerActions.onContinueFromEndGame -= QuitGameServer;
 			MenuManager.onClickSound -= clickSound.PlaySound;
 			MenuManager.onCancelSound -= cancelSound.PlaySound;
+			MenuManager.onRefuseClientConnectionMessage -= RefuseClientConnectionMessage;
 		}
 
 		private void OnReturnButtonClicked()
@@ -103,11 +106,8 @@ namespace Game
 			if (NetworkManager.Singleton.StartClient())
 				MenuManager.onGameStateChanged(MenuManager.State.Waiting);
 			else
-			{
-				ErrorMessageHandler error = messagePanel.GetComponent<ErrorMessageHandler>();
-				error.Message = "Couldn't connect to server.";
-				StartCoroutine(error.ShowMessage(1.5f));
-			}
+				MenuManager.onRefuseClientConnectionMessage?.Invoke(1.5f, "Couldn't connect to server.");
+			
 		}
 
 		public void ShowMenu()
@@ -176,6 +176,13 @@ namespace Game
 		private void SettingsButtonClicked()
 		{
 			DiffcultyOptionsManager.SetShowSettingsPanel?.Invoke(true);
+		}
+
+		private void RefuseClientConnectionMessage(float duration, string message)
+		{
+			ErrorMessageHandler error = messagePanel.GetComponent<ErrorMessageHandler>();
+			error.Message = message;
+			StartCoroutine(error.ShowMessage(duration));
 		}
 
 		private void GameStateChangedCallback(MenuManager.State gameState)

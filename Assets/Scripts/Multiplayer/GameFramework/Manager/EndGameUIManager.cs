@@ -38,7 +38,7 @@ public class EndGameUIManager : NetworkBehaviour
 	private void Start()
 	{
 		continueButton.SetActive(false);
-		winnerUsername.gameObject.SetActive(false);
+		winnerUsername.enabled = false;
 	}
 
 	public override void OnNetworkSpawn()
@@ -127,12 +127,12 @@ public class EndGameUIManager : NetworkBehaviour
 
 	private IEnumerator WaitForSummary(int winnerId)
 	{
-		winnerUsername.gameObject.SetActive(true);
 		while (timer < 2.5f)
 		{
 			timer += Time.deltaTime;
 			yield return null;
 		}
+		winnerUsername.enabled = true;
 		if ((int)NetworkManager.LocalClientId == winnerId)
 		{
 			congratsSound.PlaySound();

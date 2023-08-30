@@ -43,8 +43,7 @@ public class DiffcultyOptionsManager : MonoBehaviour
 		get => maxLimitTime;
 		set => maxLimitTime = value;
 	}
-
-
+	
 	private void Awake()
 	{
 		if (instance == null)
