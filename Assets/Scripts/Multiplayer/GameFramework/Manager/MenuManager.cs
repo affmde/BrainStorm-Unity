@@ -28,6 +28,8 @@ public class MenuManager : NetworkBehaviour
 
 	[SerializeField] private static int playersToPlay;
 	[SerializeField] private Button startGameButton;
+	[SerializeField] private Button cancelGameButton;
+	[SerializeField] private Button settingsButton;
 	[SerializeField] private TextMeshProUGUI totalConnectedPlayersText;
 	
 
@@ -100,9 +102,35 @@ public class MenuManager : NetworkBehaviour
 		totalConnectedPlayersText.text = "" + NetworkManager.Singleton.ConnectedClientsList.Count;
 		onUpdateTotalPlayersConnected?.Invoke(NetworkManager.Singleton.ConnectedClientsList.Count);
 		if (NetworkManager.Singleton.ConnectedClientsList.Count >= playersToPlay && IsServer)
+		{
 			startGameButton.gameObject.SetActive(true);
+			settingsButton.gameObject.SetActive(true);
+		}
 		PlayerAnswer pl = NetworkManager.Singleton.ConnectedClients[obj].PlayerObject.GetComponent<PlayerAnswer>();
 		pl.Id = (int)obj;
+		SetButtonsPositionForClientsClientRpc();
+	}
+
+	[ClientRpc]
+	private void SetButtonsPositionForClientsClientRpc()
+	{
+		if (IsServer) return;
+		startGameButton.gameObject.SetActive(false);
+		settingsButton.gameObject.SetActive(false);
+		RectTransform buttonRectTransform = cancelGameButton.GetComponent<RectTransform>();
+		
+
+		Vector2 currentAnchorMin = buttonRectTransform.anchorMin;
+		Vector2 currentAnchorMax = buttonRectTransform.anchorMax;
+		
+		var anchorPoint = new Vector2(0.5f, 0);
+		buttonRectTransform.anchorMax = anchorPoint;
+		buttonRectTransform.anchorMin = anchorPoint;
+		
+		Vector2 newPosition = new Vector2(buttonRectTransform.anchoredPosition.x, 
+			buttonRectTransform.anchoredPosition.y + currentAnchorMin.y - 0f * buttonRectTransform.sizeDelta.y);
+		newPosition.x = 0f;
+		buttonRectTransform.anchoredPosition = newPosition;
 	}
 
 	private void Singleton_OnClientDisconnectedCallback(ulong obj)

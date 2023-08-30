@@ -16,7 +16,7 @@ namespace Game
 		[SerializeField] private Button joinButton;
 		[SerializeField] private Button submitCodeButton;
 		[SerializeField] private Button returnButton;
-		[SerializeField] private TextMeshProUGUI codeText;
+		[SerializeField] private Button settingsButton;
 		[SerializeField] private Button cancelServerCreationButton;
 		[SerializeField] GameObject waitingPanel;
 		[SerializeField] GameObject joinPanel;
@@ -28,7 +28,6 @@ namespace Game
 		HandleAudioButtons clickSound;
 		HandleAudioButtons cancelSound;
 
-		private float transitionTimer;
 
 		private void Awake()
 		{
@@ -52,6 +51,7 @@ namespace Game
 			submitCodeButton.onClick.AddListener(OnSubmitCodeClicked);
 			returnButton.onClick.AddListener(OnReturnButtonClicked);
 			cancelServerCreationButton.onClick.AddListener(CancelGameCreation);
+			settingsButton.onClick.AddListener(SettingsButtonClicked);
 		}
 
 
@@ -62,6 +62,7 @@ namespace Game
 			submitCodeButton.onClick.RemoveListener(OnSubmitCodeClicked);
 			returnButton.onClick.RemoveListener(OnReturnButtonClicked);
 			cancelServerCreationButton.onClick.RemoveListener(CancelGameCreation);
+			settingsButton.onClick.RemoveListener(SettingsButtonClicked);
 		}
 		private void OnDestroy()
 		{
@@ -120,6 +121,7 @@ namespace Game
 
 		public void ShowWaiting()
 		{
+			DiffcultyOptionsManager.SetShowSettingsPanel?.Invoke(false);
 			menuScreen.SetActive(false);
 			waitingPanel.SetActive(true);
 			joinPanel.SetActive(false);
@@ -169,6 +171,11 @@ namespace Game
 		{
 			MenuManager.onCancelSound?.Invoke();
 			MenuManager.instance.OnCancelGameConnection();
+		}
+
+		private void SettingsButtonClicked()
+		{
+			DiffcultyOptionsManager.SetShowSettingsPanel?.Invoke(true);
 		}
 
 		private void GameStateChangedCallback(MenuManager.State gameState)

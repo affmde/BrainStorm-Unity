@@ -20,17 +20,15 @@ public class MultiplayerGameManager : NetworkBehaviour
 	[SerializeField] private Image background;
 	[SerializeField] ScoreManager scoreManager;
 	[SerializeField] MainMenuController menuController;
-	float timer;
-	float timeLimit = 2.5f;
+	[SerializeField] float timer;
+	[SerializeField] float timeLimit;
 	public bool gameOver = false;
 	private bool gameOn;
 	private int index;
 	private int	activeButton;
 	private int totalCorrect;
-	private int total;
+	[SerializeField] private int total;
 	[SerializeField] private int pointsToWin;
-	[SerializeField] GameAnswersManager gameAnswersManager;
-	[SerializeField] EndGameUIManager endGameManager;
 
 	public List<Sprite> GetImages() { return images; }
 	public List<Image> GetButtons() { return buttons; }
@@ -40,11 +38,15 @@ public class MultiplayerGameManager : NetworkBehaviour
 	public void OnEnable()
 	{
 		MultiplayerActions.onMultiplayerGameReset += ResetGameStatsCallback;
+		if (IsServer)
+			MultiplayerActions.onUpdateMultiplayerGameData += UpdateMultiplayerGameData;
 	}
 
 	public void OnDisable()
 	{
 		MultiplayerActions.onMultiplayerGameReset -= ResetGameStatsCallback;
+		if (IsServer)
+			MultiplayerActions.onUpdateMultiplayerGameData -= UpdateMultiplayerGameData;
 	}
 	public bool GameOn
 	{
@@ -81,8 +83,8 @@ public class MultiplayerGameManager : NetworkBehaviour
 		gameSound.GetComponent<HandleAudioButtons>().StopSound();
 		if (!audioManager.GetComponent<HandleAudioButtons>().IsPlaying())
 			audioManager.GetComponent<HandleAudioButtons>().PlaySound();
-		timeLimit = 1.8f;
-		total = 10;
+		total = DiffcultyOptionsManager.instance.MaxPointsToWin;
+		timeLimit = DiffcultyOptionsManager.instance.MaxTimeToAnswer;
 		scoreManager.MaxPoints = total;
 		gameOn = false;
 		taskDescription.text = "";
@@ -94,6 +96,9 @@ public class MultiplayerGameManager : NetworkBehaviour
 		gameOver = false;
 		background.color = GenerateRandomColor();
 		ResetGameDataClientRpc();
+		total = DiffcultyOptionsManager.instance.MaxPointsToWin;
+		timeLimit = DiffcultyOptionsManager.instance.MaxTimeToAnswer;
+		MultiplayerActions.onUpdateMultiplayerGameData?.Invoke();
 		MenuManager.onStartSetPlayerData?.Invoke();
 		animTask.PlayAnimation();
 	}
@@ -199,6 +204,20 @@ public class MultiplayerGameManager : NetworkBehaviour
 	{
 		timer = 0;
 	}
+
+	private void UpdateMultiplayerGameData()
+	{
+		UpdateMultiplayerGameDataClientRpc();
+	}
+
+	[ClientRpc]
+	private void UpdateMultiplayerGameDataClientRpc()
+	{
+		DiffcultyOptionsManager.instance.MaxPointsToWin = DiffcultyOptionsManager.instance.MaxPointsToWin;
+		DiffcultyOptionsManager.instance.MaxLimitTime = DiffcultyOptionsManager.instance.MaxLimitTime;
+		total = DiffcultyOptionsManager.instance.MaxPointsToWin;
+		timeLimit = DiffcultyOptionsManager.instance.MaxTimeToAnswer;
+	}
 }
 
 public static class MultiplayerActions
@@ -206,4 +225,5 @@ public static class MultiplayerActions
 	public static System.Action onMultiplayerGameReset;
 	public static System.Action onContinueFromEndGame;
 	public static System.Action onIncreasePlayerScore;
+	public static System.Action onUpdateMultiplayerGameData;
 }

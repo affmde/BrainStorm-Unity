@@ -73,7 +73,7 @@ public class PlayerScoreObjectData : MonoBehaviour
 	{
 		score++;
 		playerPoints.text = "" + score;
-		fillAmount = (float)score / (float)mgm.Total;
+		fillAmount = (float)score / (float)DiffcultyOptionsManager.instance.MaxPointsToWin;
 		fillCircle.fillAmount = fillAmount;
 	}
 
@@ -81,7 +81,7 @@ public class PlayerScoreObjectData : MonoBehaviour
 	{
 		Debug.Log("StartedAnimating the PlayerScoreObject");
 		float currentFill = 0;
-		float maxFill = (float)totalPoints / (float)mgm.Total;
+		float maxFill = (float)totalPoints / (float)DiffcultyOptionsManager.instance.MaxPointsToWin;
 		while (timer < duration)
 		{
 			timer += Time.deltaTime;
