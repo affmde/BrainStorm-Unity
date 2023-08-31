@@ -6,6 +6,7 @@ using UnityEngine;
 public class DiffcultyOptionsManager : MonoBehaviour
 {
 	public static DiffcultyOptionsManager instance;
+	public static Action onUpdateDifficultySettings;
 	public enum TypeOfGame {BestOf, TimeBase, LimitOfQuestions}
 	public static Action<bool> SetShowSettingsPanel;
 	[SerializeField] private TypeOfGame gameType;

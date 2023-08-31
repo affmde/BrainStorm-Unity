@@ -17,24 +17,20 @@ public class DifficultSettingsUIManager : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI maxTimeToAnswerText;
 	private void Start()
 	{
+		DiffcultyOptionsManager.onUpdateDifficultySettings += UpdateDifficultySettings;
+		DiffcultyOptionsManager.SetShowSettingsPanel += SetShowSettingsPanel;
 
 		maxPointsSlider.onValueChanged.AddListener(v => {
 			maxPointsToWin = (int)v;
 			maxPointsToWinText.text = "" + maxPointsToWin;
 		});
-		maxPointsToWin = DiffcultyOptionsManager.instance.MaxPointsToWin;
-		maxPointsSlider.value = (float)maxPointsToWin;
-
 		timeToAnswerSlider.onValueChanged.AddListener(v => {
 			maxTimeToAnswer = v;
 			maxTimeToAnswerText.text = maxTimeToAnswer.ToString("F1") + " sec";
 		});
-		maxTimeToAnswer = DiffcultyOptionsManager.instance.MaxTimeToAnswer;
-		timeToAnswerSlider.value = maxTimeToAnswer;
 
 		cancelButton.onClick.AddListener(Cancel);
 		confirmButton.onClick.AddListener(Confirm);
-		DiffcultyOptionsManager.SetShowSettingsPanel += SetShowSettingsPanel;
 	}
 
 	private void OnDestroy()
@@ -42,6 +38,7 @@ public class DifficultSettingsUIManager : MonoBehaviour
 		cancelButton.onClick.RemoveListener(Cancel);
 		confirmButton.onClick.RemoveListener(Confirm);
 		DiffcultyOptionsManager.SetShowSettingsPanel -= SetShowSettingsPanel;
+		DiffcultyOptionsManager.onUpdateDifficultySettings -= UpdateDifficultySettings;
 	}
 
 	private void Cancel()
@@ -58,6 +55,18 @@ public class DifficultSettingsUIManager : MonoBehaviour
 
 	private void SetShowSettingsPanel(bool val)
 	{
+		if (val)
+			DiffcultyOptionsManager.onUpdateDifficultySettings?.Invoke();
 		settingsPanel.SetActive(val);
+	}
+
+	private void UpdateDifficultySettings()
+	{
+		maxPointsToWin = DiffcultyOptionsManager.instance.MaxPointsToWin;
+		maxPointsSlider.value = maxPointsToWin;
+		maxPointsToWinText.text = "" + maxPointsToWin;
+		maxTimeToAnswer = DiffcultyOptionsManager.instance.MaxTimeToAnswer;
+		timeToAnswerSlider.value = maxTimeToAnswer;
+		maxTimeToAnswerText.text = maxTimeToAnswer.ToString("F1") + " sec";
 	}
 }

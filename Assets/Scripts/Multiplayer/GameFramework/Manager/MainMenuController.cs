@@ -98,16 +98,11 @@ namespace Game
 
 		private void OnSubmitCodeClicked()
 		{
+			MenuManager.onLoading?.Invoke(true);
 			MenuManager.onClickSound?.Invoke();
-			string ipAdress = IpManager.instance.GetInputIp();
-			ipAdress = ipAdress.Substring(0, ipAdress.Length - 1);
-			UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
-			utp.SetConnectionData(ipAdress, 7777);
-			if (NetworkManager.Singleton.StartClient())
-				MenuManager.onGameStateChanged(MenuManager.State.Waiting);
-			else
-				MenuManager.onRefuseClientConnectionMessage?.Invoke(1.5f, "Couldn't connect to server.");
-			
+			RelayManager.instance.StartCoroutine(
+				RelayManager.instance.ConfigureTransportAndStartNgoAsConnectingPlayer()
+			);
 		}
 
 		public void ShowMenu()

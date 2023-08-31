@@ -27,6 +27,7 @@ public class MenuManager : NetworkBehaviour
 	public static Action onCancelSound;
 	public static Action<float, string> onRefuseClientConnectionMessage;
 	public static Action<int> onUpdateLobbyAfterDisconnect;
+	public static Action<bool> onLoading;
 
 	[SerializeField] private static int playersToPlay;
 	[SerializeField] private Button startGameButton;
@@ -40,6 +41,12 @@ public class MenuManager : NetworkBehaviour
 	{
 		get => playersToPlay;
 		set => playersToPlay = value;
+	}
+
+	public State GameState
+	{
+		get => gameState;
+		set => gameState = value;
 	}
 	private void Awake()
 	{
@@ -57,7 +64,6 @@ public class MenuManager : NetworkBehaviour
 		cancelGameButton.gameObject.SetActive(false);
 		settingsButton.gameObject.SetActive(false);
 		startGameButton.gameObject.SetActive(false);
-
 	}
 
 	private void OnEnable()
@@ -172,13 +178,13 @@ public class MenuManager : NetworkBehaviour
 
 	public void OnHostButtonClicked()
 	{
-		if (NetworkManager.Singleton.StartHost())
-		{
-			gameState = State.Waiting;
-			onGameStateChanged?.Invoke(gameState);
-		}
-		else
-		{
+		try {
+			MenuManager.onLoading?.Invoke(true);
+			RelayManager.instance.StartCoroutine(
+				RelayManager.instance.ConfigureTransportAndStartNgoAsHost()
+			);
+		} catch (RelayManager.RelayException e) {
+			Debug.Log("Error: " + e);
 			ErrorMessageHandler error = startHostErrorPanel.GetComponent<ErrorMessageHandler>();
 			error.Message = "Cant create game now.";
 			StartCoroutine(error.ShowMessage(2f));
