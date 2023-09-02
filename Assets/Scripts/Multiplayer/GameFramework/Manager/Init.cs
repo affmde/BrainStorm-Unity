@@ -11,7 +11,6 @@ namespace Game
 {
 	public class Init : MonoBehaviour
 	{
-
 		private void Start()
 		{
 			SceneManager.LoadScene("MultiplayerMenu");

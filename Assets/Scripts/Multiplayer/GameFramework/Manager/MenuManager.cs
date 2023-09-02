@@ -124,6 +124,7 @@ public class MenuManager : NetworkBehaviour
 		PlayerAnswer pl = NetworkManager.Singleton.ConnectedClients[obj].PlayerObject.GetComponent<PlayerAnswer>();
 		pl.Id = (int)obj;
 		SetButtonsPositionForClientsClientRpc();
+		UpdateDataOnConnection(obj);
 	}
 
 	[ClientRpc]
@@ -221,6 +222,29 @@ public class MenuManager : NetworkBehaviour
 	private void UpdateTotalPlayersConnectedClientRpc(int currentAmountOfPlayersConnected)
 	{
 		totalConnectedPlayersText.text = "" + currentAmountOfPlayersConnected;
+	}
+
+	private void UpdateDataOnConnection(ulong id)
+	{
+		if (!IsServer) return;
+		ClientRpcParams clientRpcParams = new ClientRpcParams
+		{
+			Send = new ClientRpcSendParams{
+				TargetClientIds = new ulong[] {id}
+			}
+		};
+		int maxPoints = DiffcultyOptionsManager.instance.MaxPointsToWin;
+		float timeToAnswer = DiffcultyOptionsManager.instance.MaxTimeToAnswer;
+		UpdateDataOnConnectionClientRpc(maxPoints, timeToAnswer, clientRpcParams);
+	}
+	[ClientRpc]
+	private void UpdateDataOnConnectionClientRpc(int maxPoints, float timeToAnswer, ClientRpcParams clientRpcParams = default)
+	{
+		if (IsOwner) return;
+		DiffcultyOptionsManager.instance.MaxPointsToWin = maxPoints;
+		DiffcultyOptionsManager.instance.MaxTimeToAnswer = timeToAnswer;
+		mgm.Total = maxPoints;
+		mgm.TimeLimit = timeToAnswer;
 	}
 
 	private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)

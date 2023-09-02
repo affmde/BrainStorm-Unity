@@ -17,9 +17,7 @@ public class UtilsClass : MonoBehaviour
 	public string SerializeString(List<string> list)
 	{
 		string str = new string("");
-
 		str = string.Join(",", list);
-		Debug.Log("Serialized string for names: " + str);
 		return str;
 	}
 
@@ -33,12 +31,8 @@ public class UtilsClass : MonoBehaviour
 	public string SerializeInt(List<int> list)
 	{
 		string str = new string("");
-
 		List<string> stringList = list.ConvertAll(number => number.ToString());
 		str = string.Join(",", stringList);
-		Debug.Log("Serialized string for ids: " + str);
-		//foreach(int num in list)
-		//	str += num + ",";
 		return str;
 	}
 

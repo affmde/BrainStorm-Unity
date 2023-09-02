@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class DifficultSettingsUIManager : MonoBehaviour
+public class DifficultSettingsUIManager : NetworkBehaviour
 {
 	[SerializeField] private Button cancelButton;
 	[SerializeField] private Button confirmButton;
@@ -15,11 +16,30 @@ public class DifficultSettingsUIManager : MonoBehaviour
 	[SerializeField] private float maxTimeToAnswer;
 	[SerializeField] private TextMeshProUGUI maxPointsToWinText;
 	[SerializeField] private TextMeshProUGUI maxTimeToAnswerText;
-	private void Start()
+
+	public override void OnNetworkSpawn()
 	{
+		base.OnNetworkSpawn();
+
+		NetworkManager.OnServerStarted += NetworkManager_OnServerStarted;
+		NetworkManager.OnServerStopped += NetworkManager_OnServerStopped;
+	}
+
+	private void NetworkManager_OnServerStarted()
+	{
+		if (!IsServer) return;
 		DiffcultyOptionsManager.onUpdateDifficultySettings += UpdateDifficultySettings;
 		DiffcultyOptionsManager.SetShowSettingsPanel += SetShowSettingsPanel;
+	}
 
+	private void NetworkManager_OnServerStopped(bool unused)
+	{
+		DiffcultyOptionsManager.SetShowSettingsPanel -= SetShowSettingsPanel;
+		DiffcultyOptionsManager.onUpdateDifficultySettings -= UpdateDifficultySettings;
+	}
+
+	private void Start()
+	{
 		maxPointsSlider.onValueChanged.AddListener(v => {
 			maxPointsToWin = (int)v;
 			maxPointsToWinText.text = "" + maxPointsToWin;
@@ -33,12 +53,17 @@ public class DifficultSettingsUIManager : MonoBehaviour
 		confirmButton.onClick.AddListener(Confirm);
 	}
 
-	private void OnDestroy()
+	public override void OnDestroy()
 	{
+		if (NetworkManager)
+		{
+			NetworkManager.OnServerStarted -= NetworkManager_OnServerStarted;
+			NetworkManager.OnServerStopped -= NetworkManager_OnServerStopped;
+		}
 		cancelButton.onClick.RemoveListener(Cancel);
 		confirmButton.onClick.RemoveListener(Confirm);
-		DiffcultyOptionsManager.SetShowSettingsPanel -= SetShowSettingsPanel;
-		DiffcultyOptionsManager.onUpdateDifficultySettings -= UpdateDifficultySettings;
+
+		base.OnDestroy();
 	}
 
 	private void Cancel()
@@ -48,8 +73,14 @@ public class DifficultSettingsUIManager : MonoBehaviour
 
 	private void Confirm()
 	{
-		DiffcultyOptionsManager.instance.MaxPointsToWin = maxPointsToWin;
-		DiffcultyOptionsManager.instance.MaxTimeToAnswer = maxTimeToAnswer;
+		if (!IsServer) return;
+		ConfirmClientRpc(maxPointsToWin, maxTimeToAnswer);
+	}
+	[ClientRpc]
+	private void ConfirmClientRpc(int maxPoints, float timeAnswer)
+	{
+		DiffcultyOptionsManager.instance.MaxPointsToWin = maxPoints;
+		DiffcultyOptionsManager.instance.MaxTimeToAnswer = timeAnswer;
 		DiffcultyOptionsManager.SetShowSettingsPanel?.Invoke(false);
 	}
 

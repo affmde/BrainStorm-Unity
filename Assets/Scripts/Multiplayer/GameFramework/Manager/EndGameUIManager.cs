@@ -63,7 +63,6 @@ public class EndGameUIManager : NetworkBehaviour
 	{
 		if (!IsServer) return;
 		EndGameUIManagerActions.onEndSceneEnter += EndSceneHandler;
-		Debug.Log("EndSceneHandler registered");
 	}
 
 	private void NetworkManager_OnServerStopped(bool unused)

@@ -38,7 +38,6 @@ public class GameUpdater : NetworkBehaviour
 	}
 	private void NetworkManager_OnServerStopped(bool unused)
 	{
-		Debug.Log("Running OnServerStopped from GameUpdater script");
 		MenuManager.onGameUpdate -= GameUpdateCallback;
 		MenuManager.onResetTask -= ResetTaskCallback;
 		MenuManager.onResetGame -= ResetFullGameStatsCallback;
@@ -57,7 +56,6 @@ public class GameUpdater : NetworkBehaviour
 
 	private void GameUpdateCallback()
 	{
-		Debug.Log("GameUpdateCallback on client: " + NetworkManager.Singleton.LocalClientId);
 		int random = Random.Range(0, LevelsData.levelsList.Count);
 		mgm.Index = random;
 		UpdateGameClientRpc(random);
@@ -66,7 +64,6 @@ public class GameUpdater : NetworkBehaviour
 	[ClientRpc]
 	private void UpdateGameClientRpc(int random)
 	{
-		Debug.Log("Running updateGameRPC on client: " + NetworkManager.Singleton.LocalClientId);
 		mgm.GameOn = true;
 		
 		buttons[0].sprite = GetSprite(LevelsData.levelsList[random].button1);
@@ -83,7 +80,6 @@ public class GameUpdater : NetworkBehaviour
 
 	private void ResetTaskCallback()
 	{
-		Debug.Log("ResetTaskCallback called");
 		foreach(var client in NetworkManager.Singleton.ConnectedClientsList)
 		{
 			NetworkObject no = client.PlayerObject;
@@ -97,7 +93,6 @@ public class GameUpdater : NetworkBehaviour
 	[ClientRpc]
 	private void ResetPlayerOptionClientRpc()
 	{
-		Debug.Log("ResetPlayerOptionClientRpc on Client " + NetworkManager.Singleton.LocalClientId);
 		NetworkObject no = NetworkManager.LocalClient.PlayerObject;
 		PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
 		pl.ActiveButton = 0;

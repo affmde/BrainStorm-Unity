@@ -17,17 +17,29 @@ public class PlayerAnswer : NetworkBehaviour
 
 	public override void OnNetworkSpawn()
 	{
+		if (!IsOwner) return ;
 		base.OnNetworkSpawn();
 
 		string name = PlayerData.player.username;
-		if (name.Length < 1)
-			username = "Player";
-		else
-			username = name;
+		username = name;
 		level = PlayerData.player.level;
-		//id = (int)NetworkManager.Singleton.LocalClientId;
+		id = (int)NetworkManager.Singleton.LocalClientId;
+		UpdateNewPlayerDataServerRpc(name, level);
 	}
 
+	[ServerRpc(RequireOwnership = false)]
+	private void UpdateNewPlayerDataServerRpc(string name, int lvl, ServerRpcParams serverRpcParams = default)
+	{
+		var clientId = serverRpcParams.Receive.SenderClientId;
+		if (NetworkManager.ConnectedClients.ContainsKey(clientId))
+		{
+			var client = NetworkManager.Singleton.ConnectedClients[clientId];
+			PlayerAnswer pl = client.PlayerObject.GetComponent<PlayerAnswer>();
+			pl.username = name;
+			pl.level = lvl;
+			pl.Id = (int)clientId;
+		}
+	}
 	public void OnEnable()
 	{
 		MultiplayerActions.onMultiplayerGameReset += ResetGameStatsCallback;

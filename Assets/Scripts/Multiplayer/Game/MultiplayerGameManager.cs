@@ -120,6 +120,12 @@ public class MultiplayerGameManager : NetworkBehaviour
 		set => total = value;
 	}
 
+	public float TimeLimit
+	{
+		get => timeLimit;
+		set => timeLimit = value;
+	}
+
 	private Sprite GetSprite(string color)
 	{
 		if (color == "Blue")
@@ -194,7 +200,6 @@ public class MultiplayerGameManager : NetworkBehaviour
 				pl.Winner = true;
 				gameOver = true;
 				HandleEndGameClientRpc();
-				Debug.Log("Going to call now EndGameUIManagerActions.onEndSceneEnter");
 				EndGameUIManagerActions.onEndSceneEnter?.Invoke();
 			}
 		}
@@ -208,16 +213,17 @@ public class MultiplayerGameManager : NetworkBehaviour
 
 	private void UpdateMultiplayerGameData()
 	{
-		UpdateMultiplayerGameDataClientRpc();
+		UpdateMultiplayerGameDataClientRpc(DiffcultyOptionsManager.instance.MaxPointsToWin, 
+			DiffcultyOptionsManager.instance.MaxLimitTime);
 	}
 
 	[ClientRpc]
-	private void UpdateMultiplayerGameDataClientRpc()
+	private void UpdateMultiplayerGameDataClientRpc(int maxPoints, float limit)
 	{
-		DiffcultyOptionsManager.instance.MaxPointsToWin = DiffcultyOptionsManager.instance.MaxPointsToWin;
-		DiffcultyOptionsManager.instance.MaxLimitTime = DiffcultyOptionsManager.instance.MaxLimitTime;
-		total = DiffcultyOptionsManager.instance.MaxPointsToWin;
-		timeLimit = DiffcultyOptionsManager.instance.MaxTimeToAnswer;
+		DiffcultyOptionsManager.instance.MaxPointsToWin = maxPoints;
+		DiffcultyOptionsManager.instance.MaxTimeToAnswer = limit;
+		total = maxPoints;
+		timeLimit = limit;
 	}
 }
 

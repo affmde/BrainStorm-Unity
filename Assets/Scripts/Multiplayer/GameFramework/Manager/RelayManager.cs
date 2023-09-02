@@ -59,6 +59,7 @@ public class RelayManager : MonoBehaviour
 			AuthenticationService.Instance.IsSignedIn &&
 				AuthenticationService.Instance.IsAuthorized)
 		{
+			Debug.Log("Already Signed in and Authenticated");
 			MenuManager.onLoading?.Invoke(false);
 			return;
 		}
@@ -69,6 +70,8 @@ public class RelayManager : MonoBehaviour
 			if (ParrelSync.ClonesManager.IsClone())
 			{
 				Debug.Log("Changing profile");
+				PlayerData.player.username = "Testing player";
+				PlayerData.player.level = 3;
 				// When using a ParrelSync clone, switch to a different authentication profile to force the clone
 				// to sign in as a different anonymous user account.
 				string customArgument = ParrelSync.ClonesManager.GetArgument();

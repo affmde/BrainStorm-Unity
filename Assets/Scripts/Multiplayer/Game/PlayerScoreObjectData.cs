@@ -21,8 +21,6 @@ public class PlayerScoreObjectData : MonoBehaviour
 	private void Awake()
 	{
 		mgm = GameObject.Find("GamePanelManager").GetComponent<MultiplayerGameManager>();
-		if (mgm)
-			Debug.Log("mgm found");
 	}
 	private void OnEnable()
 	{
@@ -79,7 +77,6 @@ public class PlayerScoreObjectData : MonoBehaviour
 
 	public IEnumerator AnimatePointsBar(float duration, int totalPoints)
 	{
-		Debug.Log("StartedAnimating the PlayerScoreObject");
 		float currentFill = 0;
 		float maxFill = (float)totalPoints / (float)DiffcultyOptionsManager.instance.MaxPointsToWin;
 		while (timer < duration)
