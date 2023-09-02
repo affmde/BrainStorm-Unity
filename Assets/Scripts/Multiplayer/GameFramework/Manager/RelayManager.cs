@@ -50,19 +50,19 @@ public class RelayManager : MonoBehaviour
 	private void Start()
 	{
 		MenuManager.onLoading?.Invoke(true);
-		AuthenticatingAPlayer();
-	}
-
-	async void AuthenticatingAPlayer()
-	{
 		if (UnityServices.State == ServicesInitializationState.Initialized && 
 			AuthenticationService.Instance.IsSignedIn &&
 				AuthenticationService.Instance.IsAuthorized)
 		{
 			Debug.Log("Already Signed in and Authenticated");
 			MenuManager.onLoading?.Invoke(false);
-			return;
 		}
+		else
+			AuthenticatingAPlayer();
+	}
+
+	async void AuthenticatingAPlayer()
+	{
 		try
 		{
 			await UnityServices.InitializeAsync();
@@ -93,6 +93,7 @@ public class RelayManager : MonoBehaviour
 			GameObject networkManager = GameObject.Find("NetworkManager");
 			if (networkManager)
 				Destroy(networkManager);
+			MenuManager.onLoading?.Invoke(false);
 			SceneManager.LoadScene("StartScene");
 		}
 	}

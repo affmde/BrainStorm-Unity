@@ -180,7 +180,7 @@ public class MenuManager : NetworkBehaviour
 	public void OnHostButtonClicked()
 	{
 		try {
-			MenuManager.onLoading?.Invoke(true);
+			onLoading?.Invoke(true);
 			RelayManager.instance.StartCoroutine(
 				RelayManager.instance.ConfigureTransportAndStartNgoAsHost()
 			);
@@ -196,10 +196,7 @@ public class MenuManager : NetworkBehaviour
 	{
 		SaveData.Save();
 		if (IsServer)
-		{
-			NetworkManager.Singleton.Shutdown();
 			CancelGameClientRpc();
-		}
 		else
 		{
 			NetworkManager.Singleton.Shutdown();
@@ -210,6 +207,7 @@ public class MenuManager : NetworkBehaviour
 	[ClientRpc]
 	private void CancelGameClientRpc()
 	{
+		NetworkManager.Singleton.Shutdown();
 		SceneManager.LoadScene("MultiplayerMenu");
 	}
 

@@ -45,7 +45,6 @@ namespace Game
 			MenuManager.onClickSound += clickSound.PlaySound;
 			MenuManager.onCancelSound += cancelSound.PlaySound;
 			MenuManager.onRefuseClientConnectionMessage += RefuseClientConnectionMessage;
-			MenuManager.onLoading?.Invoke(true);
 		}
 		private void OnEnable()
 		{
