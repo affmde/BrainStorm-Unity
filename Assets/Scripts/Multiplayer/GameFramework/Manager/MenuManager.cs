@@ -36,6 +36,7 @@ public class MenuManager : NetworkBehaviour
 	[SerializeField] private TextMeshProUGUI totalConnectedPlayersText;
 	[SerializeField] private MultiplayerGameManager mgm;
 	[SerializeField] GameObject startHostErrorPanel;
+	[SerializeField] GameObject loadingPanel;
 
 	public static int PlayersToPlay
 	{
@@ -64,6 +65,7 @@ public class MenuManager : NetworkBehaviour
 		cancelGameButton.gameObject.SetActive(false);
 		settingsButton.gameObject.SetActive(false);
 		startGameButton.gameObject.SetActive(false);
+		loadingPanel.SetActive(false);
 	}
 
 	private void OnEnable()
@@ -180,7 +182,7 @@ public class MenuManager : NetworkBehaviour
 	public void OnHostButtonClicked()
 	{
 		try {
-			onLoading?.Invoke(true);
+			loadingPanel.SetActive(true);
 			RelayManager.instance.StartCoroutine(
 				RelayManager.instance.ConfigureTransportAndStartNgoAsHost()
 			);

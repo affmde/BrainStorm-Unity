@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Services.Authentication;
 
 namespace Game
 {
@@ -24,6 +25,7 @@ namespace Game
 		[SerializeField] GameObject endGamePanel;
 		[SerializeField] int playersToPlay;
 		[SerializeField] GameObject messagePanel;
+		[SerializeField] GameObject loadingPanel;
 		[Header("Sounds")]
 		HandleAudioButtons clickSound;
 		HandleAudioButtons cancelSound;
@@ -81,6 +83,7 @@ namespace Game
 			GameObject networkManager = GameObject.Find("NetworkManager");
 			if (networkManager)
 				Destroy(networkManager);
+			AuthenticationService.Instance.SignOut(true);
 			SceneManager.LoadScene("StartScene");
 		}
 
@@ -98,7 +101,7 @@ namespace Game
 
 		private void OnSubmitCodeClicked()
 		{
-			MenuManager.onLoading?.Invoke(true);
+			loadingPanel.SetActive(false);
 			MenuManager.onClickSound?.Invoke();
 			RelayManager.instance.StartCoroutine(
 				RelayManager.instance.ConfigureTransportAndStartNgoAsConnectingPlayer()

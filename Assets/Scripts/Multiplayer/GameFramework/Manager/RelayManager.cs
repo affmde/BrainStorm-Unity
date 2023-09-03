@@ -21,6 +21,7 @@ public class RelayManager : MonoBehaviour
 {
 	public static RelayManager instance;
 	const int m_MaxConnections = 50;
+	[SerializeField] private GameObject loadingPanel;
 
 	public string RelayJoinCode;
 	[SerializeField] TextMeshProUGUI joinCodeText;
@@ -45,57 +46,6 @@ public class RelayManager : MonoBehaviour
 			instance = this;
 		else
 			Destroy(gameObject);
-	}
-
-	private void Start()
-	{
-		MenuManager.onLoading?.Invoke(true);
-		if (UnityServices.State == ServicesInitializationState.Initialized && 
-			AuthenticationService.Instance.IsSignedIn &&
-				AuthenticationService.Instance.IsAuthorized)
-		{
-			Debug.Log("Already Signed in and Authenticated");
-			MenuManager.onLoading?.Invoke(false);
-		}
-		else
-			AuthenticatingAPlayer();
-	}
-
-	async void AuthenticatingAPlayer()
-	{
-		try
-		{
-			await UnityServices.InitializeAsync();
-			#if UNITY_EDITOR
-			if (ParrelSync.ClonesManager.IsClone())
-			{
-				Debug.Log("Changing profile");
-				PlayerData.player.username = "Testing player";
-				PlayerData.player.level = 3;
-				// When using a ParrelSync clone, switch to a different authentication profile to force the clone
-				// to sign in as a different anonymous user account.
-				string customArgument = ParrelSync.ClonesManager.GetArgument();
-				AuthenticationService.Instance.SwitchProfile($"Clone_{customArgument}_Profile");
-			}
-			#endif
-			await AuthenticationService.Instance.SignInAnonymouslyAsync();
-			var playerID = AuthenticationService.Instance.PlayerId;
-			Debug.Log("Authenticated with id: " + playerID);
-			Debug.Log($"Is SignedIn: {AuthenticationService.Instance.IsSignedIn}");
-			Debug.Log($"Is Authorized: {AuthenticationService.Instance.IsAuthorized}");
-			Debug.Log($"Is Expired: {AuthenticationService.Instance.IsExpired}");
-			MenuManager.onLoading?.Invoke(false);
-		}
-		catch (Exception e)
-		{
-			Debug.Log(e);
-			MenuManager.onClickSound?.Invoke();
-			GameObject networkManager = GameObject.Find("NetworkManager");
-			if (networkManager)
-				Destroy(networkManager);
-			MenuManager.onLoading?.Invoke(false);
-			SceneManager.LoadScene("StartScene");
-		}
 	}
 
 	public async Task<RelayServerData> AllocateRelayServerAndGetJoinCode(int maxConnections, string region = null)
@@ -139,7 +89,7 @@ public class RelayManager : MonoBehaviour
 		if (serverRelayUtilityTask.IsFaulted)
 		{
 			Debug.LogError("Exception thrown when attempting to start Relay Server. Server not started. Exception: " + serverRelayUtilityTask.Exception.Message);
-			MenuManager.onLoading?.Invoke(false);
+			loadingPanel.SetActive(false);
 			//yield break;
 			throw new RelayException("Exception thrown when attempting to start Relay Server. Server not started. Exception: " + serverRelayUtilityTask.Exception.Message);
 		}
@@ -150,7 +100,7 @@ public class RelayManager : MonoBehaviour
 
 		NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 		NetworkManager.Singleton.StartHost();
-		MenuManager.onLoading?.Invoke(false);
+		loadingPanel.SetActive(false);
 		MenuManager.instance.GameState = MenuManager.State.Waiting;
 		MenuManager.onGameStateChanged?.Invoke(MenuManager.instance.GameState);
 		yield return null;
@@ -166,7 +116,7 @@ public class RelayManager : MonoBehaviour
 		catch
 		{
 			Debug.LogError("Relay create join code request failed");
-			MenuManager.onLoading?.Invoke(false);
+			loadingPanel.SetActive(false);
 			throw;
 		}
 
@@ -190,7 +140,7 @@ public class RelayManager : MonoBehaviour
 		if (clientRelayUtilityTask.IsFaulted)
 		{
 			Debug.LogError("Exception thrown when attempting to connect to Relay Server. Exception: " + clientRelayUtilityTask.Exception.Message);
-			MenuManager.onLoading?.Invoke(false);
+			loadingPanel.SetActive(false);
 			MenuManager.onRefuseClientConnectionMessage?.Invoke(3.5f, clientRelayUtilityTask.Exception.Message);
 			yield break;
 		}
@@ -200,7 +150,7 @@ public class RelayManager : MonoBehaviour
 		NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
 		NetworkManager.Singleton.StartClient();
-		MenuManager.onLoading?.Invoke(false);
+		loadingPanel.SetActive(false);
 		MenuManager.onGameStateChanged(MenuManager.State.Waiting);
 		yield return null;
 	}

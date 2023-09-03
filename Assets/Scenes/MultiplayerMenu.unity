@@ -866,6 +866,7 @@ MonoBehaviour:
   endGamePanel: {fileID: 1430099739}
   playersToPlay: 2
   messagePanel: {fileID: 8718751173963504895}
+  loadingPanel: {fileID: 325531906}
 --- !u!114 &167943521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2413,7 +2414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8063263722431161877, guid: 0a1119d7b0be14a47bce878a0c17e8b2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2423,6 +2424,11 @@ PrefabInstance:
 --- !u!224 &325531905 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4329470975205827908, guid: 0a1119d7b0be14a47bce878a0c17e8b2, type: 3}
+  m_PrefabInstance: {fileID: 325531904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &325531906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8063263722431161877, guid: 0a1119d7b0be14a47bce878a0c17e8b2, type: 3}
   m_PrefabInstance: {fileID: 325531904}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &391257586
@@ -5047,7 +5053,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a01bfe1ac4b65914c89513b91df740c5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f385e5fe7c4b5994fb60b03d598f8098, type: 2}
   m_sharedMaterial: {fileID: -3199730552352588110, guid: a01bfe1ac4b65914c89513b91df740c5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5111,7 +5117,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &859724504
@@ -7782,6 +7788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdcdc873c59d9a94ebe6d249547a61a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingPanel: {fileID: 325531906}
   RelayJoinCode: 
   joinCodeText: {fileID: 1454967133}
   joinCodeInputField: {fileID: 218599339}
@@ -9379,7 +9386,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a01bfe1ac4b65914c89513b91df740c5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f385e5fe7c4b5994fb60b03d598f8098, type: 2}
   m_sharedMaterial: {fileID: -3199730552352588110, guid: a01bfe1ac4b65914c89513b91df740c5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -9443,7 +9450,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1701805941
@@ -10801,6 +10808,7 @@ MonoBehaviour:
   totalConnectedPlayersText: {fileID: 1064310348}
   mgm: {fileID: 1016129452}
   startHostErrorPanel: {fileID: 1662122381}
+  loadingPanel: {fileID: 325531906}
 --- !u!4 &1968095401
 Transform:
   m_ObjectHideFlags: 0
