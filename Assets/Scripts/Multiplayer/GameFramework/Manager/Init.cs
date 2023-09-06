@@ -17,7 +17,6 @@ namespace Game
 	{
 		private void Start()
 		{
-			//MenuManager.onLoading?.Invoke(true);
 			AuthenticatingAPlayer();
 		}
 
@@ -26,7 +25,6 @@ namespace Game
 			try
 			{
 				await UnityServices.InitializeAsync();
-				//await AuthenticationService.Instance.SignInAnonymouslyAsync();
 				bool succeeded = await SignInAnonymouslyAsync();
 				if (!succeeded)
 					SceneManager.LoadScene("StartScene");
@@ -54,31 +52,24 @@ namespace Game
 				await AuthenticationService.Instance.SignInAnonymouslyAsync();
 				Debug.Log("Sign in anonymously succeeded!");
 				
-				// Shows how to get the playerID
 				Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
 				return true;
 
 			}
 			catch (AuthenticationException ex)
 			{
-				// Compare error code to AuthenticationErrorCodes
-				// Notify the player with the proper error message
 				Debug.Log("AuthenticationException");
 				Debug.LogException(ex);
 				return false;
 			}
 			catch (RequestFailedException ex)
 			{
-				// Compare error code to CommonErrorCodes
-				// Notify the player with the proper error message
 				Debug.Log("RequestFailedException");
 				Debug.LogException(ex);
 				return false;
 			}
 			catch (Exception ex)
 			{
-				// Compare error code to CommonErrorCodes
-				// Notify the player with the proper error message
 				Debug.Log("Exception");
 				Debug.LogException(ex);
 				return false;
