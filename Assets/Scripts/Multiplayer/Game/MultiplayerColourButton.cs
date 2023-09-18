@@ -51,7 +51,7 @@ public class MultiplayerColourButton : NetworkBehaviour
 		if (!mgm.GameOn) return;
 		playersAnswer = FindObjectsOfType<PlayerAnswer>();
 		foreach(var pl in playersAnswer)
-			pl.ButtonClickedHandler(this);
+			pl.ButtonClickedHandler(this, mgm.Timer);
 		clickSound.GetComponent<HandleAudioButtons>().PlaySound();
 	}
 }

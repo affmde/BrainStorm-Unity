@@ -8,7 +8,7 @@ using Unity.Netcode;
 public class PlayerAnswer : NetworkBehaviour
 {
 	[SerializeField] int activeButton;
-	[SerializeField] long timestamp;
+	[SerializeField] float timestamp;
 	[SerializeField] int totalCorrectAnswers = 0;
 	[SerializeField] bool winner;
 	[SerializeField] private string username;
@@ -74,7 +74,7 @@ public class PlayerAnswer : NetworkBehaviour
 
 	public void IncreaseTotalCorrectAnswers() { totalCorrectAnswers++; }
 
-	public long Timestamp
+	public float Timestamp
 	{
 		get => timestamp;
 		set => timestamp = value;
@@ -101,7 +101,7 @@ public class PlayerAnswer : NetworkBehaviour
 		activeButton = button;
 	}
 
-	public void ButtonClickedHandler(MultiplayerColourButton button)
+	public void ButtonClickedHandler(MultiplayerColourButton button, float clickTime)
 	{
 		if (!IsOwner) return;
 
@@ -109,28 +109,17 @@ public class PlayerAnswer : NetworkBehaviour
 			activeButton = 0;
 		else
 			activeButton = button.ButtonId;
-		timestamp = GetMicrosecondsTimestamp();
+		//timestamp = GetMicrosecondsTimestamp();
+		timestamp = clickTime;
 		button.SetShowSelectImage(activeButton);
 		UpdatePlayerOptionServerRpc(activeButton, timestamp);
 	}
 
 	[ServerRpc]
-	private void UpdatePlayerOptionServerRpc(int button, long time)
+	private void UpdatePlayerOptionServerRpc(int button, float time)
 	{
 		activeButton = button;
 		timestamp = time;
-	}
-
-	private long ToUnixTimestamp()
-	{
-		return (long)(DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
-	}
-
-	private long GetMicrosecondsTimestamp()
-	{
-		DateTime now = DateTime.UtcNow;
-		long microseconds = now.Ticks / (TimeSpan.TicksPerMillisecond / 1000);
-		return microseconds;
 	}
 
 	private void ResetGameStatsCallback()

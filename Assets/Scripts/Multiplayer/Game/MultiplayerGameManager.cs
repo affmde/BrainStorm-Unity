@@ -46,6 +46,7 @@ public class MultiplayerGameManager : NetworkBehaviour
 		if (IsServer)
 			MultiplayerActions.onUpdateMultiplayerGameData -= UpdateMultiplayerGameData;
 	}
+
 	public bool GameOn
 	{
 		get => gameOn;
@@ -107,6 +108,7 @@ public class MultiplayerGameManager : NetworkBehaviour
 	[ClientRpc]
 	private void ResetGameDataClientRpc()
 	{
+		timer = 0;
 		gameSound.GetComponent<HandleAudioButtons>().PlaySound();
 		audioManager.GetComponent<HandleAudioButtons>().StopSound();
 		if (audioManager)

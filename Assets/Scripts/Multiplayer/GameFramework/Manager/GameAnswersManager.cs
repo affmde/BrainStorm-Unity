@@ -6,13 +6,8 @@ using Unity.Netcode;
 
 public class GameAnswersManager : NetworkBehaviour
 {
-	private List<PlayerAnswer> playersAnswer;
 	[SerializeField] private HandleAudioButtons getPointSound;
 	[SerializeField] private HandleAudioButtons dontGetPointSound;
-	private void Start()
-	{
-		playersAnswer = new List<PlayerAnswer>();
-	}
 
 	public override void OnNetworkSpawn()
 	{
@@ -51,20 +46,13 @@ public class GameAnswersManager : NetworkBehaviour
 	}
 	public void CheckAnswers(int number)
 	{
-		playersAnswer.Clear();
-		foreach(var client in NetworkManager.Singleton.ConnectedClientsList)
-		{
-			NetworkObject no = client.PlayerObject;
-			PlayerAnswer pl = no.GetComponent<PlayerAnswer>();
-			playersAnswer.Add(pl);
-		}
-		string winner = CheckWinner(LevelsData.levelsList[number].validOptions, playersAnswer[0], playersAnswer[1]);
+		string winner = CheckWinner(LevelsData.levelsList[number].validOptions);
 		if (winner == "-1")
 			return;
 		AddPointToPlayer(winner);
 	}
 
-	private string CheckWinner(List<int> validOptions, PlayerAnswer host, PlayerAnswer client)
+	private string CheckWinner(List<int> validOptions)
 	{
 
 		List<NetworkClient> playersWithCorrectAnswer = new List<NetworkClient>();
@@ -73,26 +61,38 @@ public class GameAnswersManager : NetworkBehaviour
 		{
 			PlayerAnswer pl = clientObject.PlayerObject.GetComponent<PlayerAnswer>();
 			if (validOptions.Contains(pl.ActiveButton))
+			{
+				Debug.Log("Client " + pl.Id + " has correct answer. Added to list.");
 				playersWithCorrectAnswer.Add(clientObject);
+			}
 		}
 		if (playersWithCorrectAnswer.Count <= 0)
 			return "-1";
 
 		List<int> fasterClients = new List<int>();
-		long fasterTime;
+		float fasterTime;
 
 		fasterTime = playersWithCorrectAnswer[0].PlayerObject.GetComponent<PlayerAnswer>().Timestamp;
 		fasterClients.Add(playersWithCorrectAnswer[0].PlayerObject.GetComponent<PlayerAnswer>().Id);
+		Debug.Log("Faster time: " + fasterTime);
+		Debug.Log("Client " + playersWithCorrectAnswer[0].PlayerObject.GetComponent<PlayerAnswer>().Id + " has time: " + playersWithCorrectAnswer[0].PlayerObject.GetComponent<PlayerAnswer>().Timestamp);
 		for (int i = 1; i < playersWithCorrectAnswer.Count; i++)
 		{
 			PlayerAnswer pl = playersWithCorrectAnswer[i].PlayerObject.GetComponent<PlayerAnswer>();
+			Debug.Log("Client " + pl.Id + " has time: " + pl.Timestamp);
 			if (pl.Timestamp == fasterTime)
+			{
+				Debug.Log("CLient " + pl.Id + " has also faster time: " + pl.Timestamp + " Added to List");
 				fasterClients.Add(pl.Id);
+			}
 			else if (pl.Timestamp < fasterTime)
 			{
+				Debug.Log("CLient " + pl.Id + " has faster time: " + pl.Timestamp);
 				fasterTime = pl.Timestamp;
 				fasterClients.Clear();
+				Debug.Log("fasterClients list was cliered. Now has " + fasterClients.Count + " clients on.");
 				fasterClients.Add(pl.Id);
+				Debug.Log("Client " + pl.Id + " added to fasterClients list. List has now " + fasterClients.Count + " clients");
 			}
 		}
 		return UtilsClass.instance.SerializeInt(fasterClients);
@@ -100,11 +100,14 @@ public class GameAnswersManager : NetworkBehaviour
 
 	private void AddPointToPlayer(string ids)
 	{
+		Debug.Log("winnersID string: " + ids);
 		List<int> winningIds = UtilsClass.instance.DeserializeInt(ids);
 		foreach (var winnerID in winningIds)
 		{
+			Debug.Log("Client " + winnerID + " is winner");
 			PlayerAnswer pl = NetworkManager.Singleton.ConnectedClients[(ulong)winnerID].PlayerObject.GetComponent<PlayerAnswer>();
 			pl.TotalCorrectAnswers++;
+			Debug.Log("Point added to client " + pl.Id + ". Now that client has " + pl.TotalCorrectAnswers + " points.");
 		}
 		AddPointToPlayerClientRpc(ids);
 	}
@@ -113,7 +116,7 @@ public class GameAnswersManager : NetworkBehaviour
 	private void AddPointToPlayerClientRpc(string ids)
 	{
 		List<int> winningIds = UtilsClass.instance.DeserializeInt(ids);
-		int localPlayerId = (int)NetworkManager.LocalClientId;
+		int localPlayerId = (int)NetworkManager.Singleton.LocalClientId;
 		if (!winningIds.Contains(localPlayerId))
 		{
 			dontGetPointSound.PlaySound();

@@ -25,6 +25,7 @@ public class PlayerScoreObjectData : MonoBehaviour
 	private void OnEnable()
 	{
 		MultiplayerActions.onIncreasePlayerScore += IncreaseScore;
+		playerName.text = PlayerData.player.username;
 	}
 
 	private void OnDisable()
