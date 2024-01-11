@@ -24,7 +24,7 @@ public class LevelBadge : MonoBehaviour
 		UpdateBadgeInfo(PlayerData.difficultyLevel);
 	}
 
-	private bool isLevelCompleted(int level)
+	private bool IsLevelCompleted(int level)
 	{
 		for (int i = 0; i < PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels.Count; i++)
 			if (PlayerData.player.completedLevelsList[PlayerData.difficultyLevel].completedLevels[i] == level)
@@ -52,7 +52,7 @@ public class LevelBadge : MonoBehaviour
 		}
 		else
 		{
-			if (isLevelCompleted(badgeLevel))
+			if (IsLevelCompleted(badgeLevel))
 			{
 				lockImage.gameObject.SetActive(false);
 				completedImage.gameObject.SetActive(true);

@@ -197,8 +197,16 @@ public class GameManager : MonoBehaviour
 				return 2.0f;
 			else if (PlayerData.player.currentGameLevel < 24)
 				return 1.8f;
-			else
+			else if (PlayerData.player.currentGameLevel < 40)
 				return 1.5f;
+			else if (PlayerData.player.currentGameLevel < 50)
+				return 1.4f;
+			else if (PlayerData.player.currentGameLevel < 60)
+				return 1.3f;
+			else if (PlayerData.player.currentGameLevel < 70)
+				return 1.2f;
+			else
+				return 1.1f;
 		}
 		else if (PlayerData.difficultyLevel == 1)
 		{
@@ -206,8 +214,16 @@ public class GameManager : MonoBehaviour
 				return 2.0f;
 			else if (PlayerData.player.currentGameLevel < 24)
 				return 1.8f;
-			else
+			else if (PlayerData.player.currentGameLevel < 40)
+				return 1.7f;
+			else if (PlayerData.player.currentGameLevel < 50)
+				return 1.6f;
+			else if (PlayerData.player.currentGameLevel < 60)
 				return 1.5f;
+			else if (PlayerData.player.currentGameLevel < 70)
+				return 1.4f;
+			else
+				return 1.3f;
 		}
 		else
 		{
@@ -215,8 +231,16 @@ public class GameManager : MonoBehaviour
 				return 1.8f;
 			else if (PlayerData.player.currentGameLevel < 24)
 				return 1.6f;
-			else
+			else if (PlayerData.player.currentGameLevel < 40)
+				return 1.5f;
+			else if (PlayerData.player.currentGameLevel < 50)
 				return 1.4f;
+			else if (PlayerData.player.currentGameLevel < 60)
+				return 1.3f;
+			else if (PlayerData.player.currentGameLevel < 70)
+				return 1.2f;
+			else
+				return 1.1f;
 		}
 	}
 
